@@ -5,7 +5,7 @@ import tkinter as tk
 from currencyFunc import checkingCurrency, checkingBase
 from ctypes import windll
 from classes import ThemeSection, InitializationFrame
-from funcBehaviorFrames import appearance, clearView, loadFrame, confirmButton, createPlotButton, createPlotButtonAll, createPlotButtonLastMonth, submitDepartureDate
+from funcBehaviorFrames import appearance, confirmCountry, clearView, loadFrame, confirmButton, createPlotButton, createPlotButtonAll, createPlotButtonLastMonth, submitDepartureDate
 import config as c
 from PIL import ImageTk
 
@@ -181,13 +181,34 @@ def loadFrame2():
 
 def loadFrame3():
     frame3.tkraise()
+    
+    labelTitle = tk.Label(master=frame3, text="Find a flight",
+                        font=c.titleFont, bg=c.bgColor, fg='white')
+    labelTitle.pack()
+
+    labelDepartureCountry = tk.Label(master=frame3, text="What is your departure country?",
+                                 width=30, font=c.questionFont, bg=c.bgColor, fg='white', anchor="w")
+    labelDepartureCountry.pack()
+    departureCountry = tk.StringVar(value='country')
+
+    entryDepartureCountry = tk.Entry(master=frame3, textvariable=departureCountry)
+    entryDepartureCountry.pack()
+
+    buttonConfirmCountry = tk.Button(master=frame3, text='CONFIRM COUNTRY', command=lambda : confirmCountry(departureCountry))
+    buttonConfirmCountry.pack()
+    
     calDateOfDeparture = Calendar(
         master=frame3, selectmode='day', date_pattern='YYYYMMDD')
     calDateOfDeparture.pack()
+    dateFlight = tk.StringVar(value='YYYYMMDD')
+    labelSelectedDate = tk.Label(master=frame3, text=f'Selected date of departure: ',bg=c.bgColor, fg='white')
     buttonDateOfDeparture = tk.Button(master=frame3, text='SUBMIT DATE', command=lambda: submitDepartureDate(
-        dateFlight, calDateOfDeparture, frame3))
+        dateFlight, calDateOfDeparture, labelSelectedDate))
     buttonDateOfDeparture.pack()
+    
 
+    labelSelectedDate.pack()
+    
     backButton = tk.Button(master=frame3, text='BACK',
                            command=lambda: loadFrame(frame3, loadFrame1))
     backButton.pack(pady=20)
@@ -231,6 +252,7 @@ c.countryName = tk.StringVar(value='your country')
 c.baseCurrency = tk.StringVar(value='your base currency')
 c.dateStart = tk.StringVar()
 c.dateEnd = tk.StringVar()
+
 dateFlight = tk.StringVar(value='YYYYMMDD')
 iata = tk.StringVar()
 

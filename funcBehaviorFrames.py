@@ -1,3 +1,4 @@
+from ast import Dict, List
 import config as c
 import requests
 import json
@@ -9,44 +10,66 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from datetime import date, timedelta
 import csv
 
-def searchAirport(iata):
+def checkingCountry(country):
+    with open('countries.csv', encoding='utf8') as csvFile:
+        csvRead = csv.reader(csvFile, delimiter=',')
+        for row in csvRead:
+            if row[2] == country:
+                foundCountry = row[2]
+                
+        if 'foundCountry' not in locals():
+            return 'CountryError'
+        else:
+            return foundCountry
+
+
+                           
+
+def searchInfo():
     country = c.countryName.get().capitalize()
-    with open('worldcities.csv') as csvFile:
+    fiveCitiesExamples = Dict()
+    cnt = 0
+    dictInfo = dict()
+    print(country)
+    with open('worldcities.csv', encoding='utf8') as csvFile:
         csvRead = csv.reader(csvFile, delimiter=',')
         for row in csvRead:
             if row[4] == country:
-                iso = row[5]
+                dictInfo['iso'] = row[5]
+                if cnt < 5:
+                    fiveCitiesExamples[row[1]]=row[9]
+                    cnt += 1
+                if row[8]=='primary':
+                    dictInfo['capital']=row[1]
+                    dictInfo['lat']=row[2]
+                    dictInfo['lng']=row[3]
+        dictInfo['citiesPopulation']=fiveCitiesExamples
+    return dictInfo
+                    
+def confirmCountry(strVarCountry):
+    baseCountry = strVarCountry.get().capitalize()
+    baseCountry = checkingCountry(baseCountry)
+
+    with open('worldcities.csv', encoding='utf8') as csvFile:
+        csvRead = csv.reader(csvFile, delimiter=',')
+        for row in csvRead:
+            if row[4] == baseCountry:
+                isoBase = row[5]
+                latBase = row[2]
+                lngBase = row[3]
                 break
-    with open('airports.csv') as csvFile1:
-        csvRead1 = csv.reader(csvFile1, delimiter=',')
-        for row in csvRead1:
-            if row[8] == iso:
-                iata = row[13]
-                break
+        destinationGeoInfo = searchInfo()              
+                
 
 
-def searchingFlights(date, airport1, airport2):
 
-    url = f"https://timetable-lookup.p.rapidapi.com/TimeTable/{airport1}/{airport2}/{date}/"
-
-    querystring = {"Sort": "Departure", "Results": "20", "7Day": "Y"}
-
-    headers = {
-        "X-RapidAPI-Key": "25d7923676msh76e2082c55923c2p1744a9jsn5eb37ae457be",
-        "X-RapidAPI-Host": "timetable-lookup.p.rapidapi.com"
-    }
-
-    response = requests.get(url, headers=headers, params=querystring)
-
-    print(response.json())
-
-
-def submitDepartureDate(dateFlight, cal, frame3):
+def submitDepartureDate(dateFlight, cal, labelSelectedDate):
     dateFlight = cal.get_date()
     print(dateFlight)
-    labelSelectedDate = tk.Label(
-        master=frame3, text=f'Selected date of departure: {str(dateFlight)[0:4]}-{str(dateFlight)[4:6]}-{str(dateFlight)[6:]}')
-    labelSelectedDate.pack()
+    labelSelectedDate['text'] = f'Selected date of departure: {str(dateFlight)[0:4]}-{str(dateFlight)[4:6]}-{str(dateFlight)[6:]}'
+    
+
+    
 
 
 def clearView(frame):
