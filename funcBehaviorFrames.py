@@ -9,6 +9,8 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from datetime import date, timedelta
 import csv
+from geoFunc import getDistanceBetweenPoints, searchAttractions
+
 
 def checkingCountry(country):
     with open('countries.csv', encoding='utf8') as csvFile:
@@ -16,14 +18,12 @@ def checkingCountry(country):
         for row in csvRead:
             if row[2] == country:
                 foundCountry = row[2]
-                
+
         if 'foundCountry' not in locals():
             return 'CountryError'
         else:
             return foundCountry
 
-
-                           
 
 def searchInfoAboutDestination():
     country = c.countryName.get().capitalize()
@@ -37,15 +37,16 @@ def searchInfoAboutDestination():
             if row[4] == country:
                 dictInfo['iso'] = row[5]
                 if cnt < 5:
-                    fiveCitiesExamples[row[1]]=row[9]
+                    fiveCitiesExamples[row[1]] = row[9]
                     cnt += 1
-                if row[8]=='primary':
-                    dictInfo['capital']=row[1]
-                    dictInfo['lat']=row[2]
-                    dictInfo['lng']=row[3]
-        dictInfo['citiesPopulation']=fiveCitiesExamples
+                if row[8] == 'primary':
+                    dictInfo['capital'] = row[1]
+                    dictInfo['lat'] = row[2]
+                    dictInfo['lng'] = row[3]
+        dictInfo['citiesPopulation'] = fiveCitiesExamples
     return dictInfo
-                    
+
+
 def confirmCountry(strVarCountry):
     baseCountry = strVarCountry.get().capitalize()
     baseCountry = checkingCountry(baseCountry)
@@ -58,22 +59,27 @@ def confirmCountry(strVarCountry):
                 latBase = row[2]
                 lngBase = row[3]
                 break
-        departureGeoInfo = {'iso':isoBase, 'lat':latBase, 'lng':lngBase}
-        print(departureGeoInfo)
-        destinationGeoInfo = searchInfoAboutDestination()              
-        print(destinationGeoInfo)  
-'''def 
-'''
+
+        destinationGeoInfo = searchInfoAboutDestination()
+        print(destinationGeoInfo)
+        distance = getDistanceBetweenPoints(
+            latBase, lngBase, destinationGeoInfo['lat'], destinationGeoInfo['lng'])
+        print(distance)
+
+        attractions = searchAttractions(
+            destinationGeoInfo['lng'], destinationGeoInfo['lat'])
+
 
 def submitDepartureDate(dateFlight, cal, labelSelectedDate):
     dateFlight = cal.get_date()
     print(dateFlight)
     labelSelectedDate['text'] = f'Selected date of departure: {str(dateFlight)[0:4]}-{str(dateFlight)[4:6]}-{str(dateFlight)[6:]}'
-    
+
 
 def clearView(frame):
     for widget in frame.winfo_children():
         widget.destroy()
+
 
 def loadFrame(frameToClear, funcRaisingFrame):
     clearView(frameToClear)
