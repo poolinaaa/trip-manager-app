@@ -1,4 +1,4 @@
-# TRIP MANAGER APP
+# Trip manager app 
 ## Purpose of creating trip manager
 Trip manager was created to help with the organization of a journey. Fields of currency, flights and weather are three sectors on which I focused the most. This is simple, modern desktop app.
 
@@ -10,7 +10,7 @@ Trip manager was created to help with the organization of a journey. Fields of c
 
 ### Currency section
 
-### Flights section
+### Localization section
 
 ### Weather section
 
