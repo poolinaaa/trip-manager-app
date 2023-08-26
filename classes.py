@@ -6,12 +6,12 @@ import config as c
 appearance()
 
 
-class Flight:
+class Landmark:
 
     def __init__(self) -> None:
         pass
 
-    def saveFlight(self):
+    def saveLandmark(self):
         pass
 
     def addToDatabase(self):

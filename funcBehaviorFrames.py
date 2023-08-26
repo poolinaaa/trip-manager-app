@@ -25,9 +25,9 @@ def checkingCountry(country):
 
                            
 
-def searchInfo():
+def searchInfoAboutDestination():
     country = c.countryName.get().capitalize()
-    fiveCitiesExamples = Dict()
+    fiveCitiesExamples = dict()
     cnt = 0
     dictInfo = dict()
     print(country)
@@ -58,10 +58,12 @@ def confirmCountry(strVarCountry):
                 latBase = row[2]
                 lngBase = row[3]
                 break
-        destinationGeoInfo = searchInfo()              
-                
-
-
+        departureGeoInfo = {'iso':isoBase, 'lat':latBase, 'lng':lngBase}
+        print(departureGeoInfo)
+        destinationGeoInfo = searchInfoAboutDestination()              
+        print(destinationGeoInfo)  
+'''def 
+'''
 
 def submitDepartureDate(dateFlight, cal, labelSelectedDate):
     dateFlight = cal.get_date()
@@ -69,13 +71,9 @@ def submitDepartureDate(dateFlight, cal, labelSelectedDate):
     labelSelectedDate['text'] = f'Selected date of departure: {str(dateFlight)[0:4]}-{str(dateFlight)[4:6]}-{str(dateFlight)[6:]}'
     
 
-    
-
-
 def clearView(frame):
     for widget in frame.winfo_children():
         widget.destroy()
-
 
 def loadFrame(frameToClear, funcRaisingFrame):
     clearView(frameToClear)

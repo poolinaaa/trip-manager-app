@@ -197,17 +197,7 @@ def loadFrame3():
     buttonConfirmCountry = tk.Button(master=frame3, text='CONFIRM COUNTRY', command=lambda : confirmCountry(departureCountry))
     buttonConfirmCountry.pack()
     
-    calDateOfDeparture = Calendar(
-        master=frame3, selectmode='day', date_pattern='YYYYMMDD')
-    calDateOfDeparture.pack()
-    dateFlight = tk.StringVar(value='YYYYMMDD')
-    labelSelectedDate = tk.Label(master=frame3, text=f'Selected date of departure: ',bg=c.bgColor, fg='white')
-    buttonDateOfDeparture = tk.Button(master=frame3, text='SUBMIT DATE', command=lambda: submitDepartureDate(
-        dateFlight, calDateOfDeparture, labelSelectedDate))
-    buttonDateOfDeparture.pack()
-    
 
-    labelSelectedDate.pack()
     
     backButton = tk.Button(master=frame3, text='BACK',
                            command=lambda: loadFrame(frame3, loadFrame1))
@@ -218,6 +208,18 @@ def loadFrame3():
 
 def loadFrame4():
     frame4.tkraise()
+
+    calDateOfDeparture = Calendar(
+        master=frame4, selectmode='day', date_pattern='YYYYMMDD')
+    calDateOfDeparture.pack()
+    dateDeparture = tk.StringVar(value='YYYYMMDD')
+    labelSelectedDate = tk.Label(master=frame4, text=f'Selected date of departure: ',bg=c.bgColor, fg='white')
+    buttonDateOfDeparture = tk.Button(master=frame4, text='SUBMIT DATE', command=lambda: submitDepartureDate(
+        dateDeparture, calDateOfDeparture, labelSelectedDate))
+    buttonDateOfDeparture.pack()
+    
+
+    labelSelectedDate.pack()
 
     backButton = tk.Button(master=frame4, text='BACK',
                            command=lambda: loadFrame(frame4, loadFrame1))
@@ -253,7 +255,7 @@ c.baseCurrency = tk.StringVar(value='your base currency')
 c.dateStart = tk.StringVar()
 c.dateEnd = tk.StringVar()
 
-dateFlight = tk.StringVar(value='YYYYMMDD')
+
 iata = tk.StringVar()
 
 for frame in (frame1, frame2, frame3, frame4):
