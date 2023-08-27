@@ -29,6 +29,7 @@ def getDistanceBetweenPoints(latitude1, longitude1, latitude2, longitude2, unit 
 import requests
 import pprint
 import json
+import sqlite3 as sql
 
 def searchAttractions(lng,lat):
     url = 'https://api.geoapify.com/v2/places'
@@ -43,7 +44,14 @@ def searchAttractions(lng,lat):
         print('wrong format of data')
     else:
         return(data)
+    
+def createTable(nameOfDb):
+    con = sql.connect(f'{nameOfDb}')
+    cur = con.cursor()
+    return con, cur
 
+
+pprint.pprint(searchAttractions(17,51))
 
         
 
