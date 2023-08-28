@@ -9,40 +9,46 @@ appearance()
 
 
 class Landmark:
+    landmarkId = 1
 
     def __init__(self, name, address,link) :
         self.name = name
         self.address = address
         self.link = link
+        self.id = Landmark.landmarkId
+        Landmark.landmarkId += 1
 
     def checkboxButton(self, frame):
         self.var = tk.IntVar()
         self.button = tk.Checkbutton(master=frame, text=f'{self.name}',variable=self.var, onvalue=1, offvalue=0, justify='left')
         self.button.pack()
 
-    def insertVaribleIntoTable(self, table, database):
+    def insertIntoDatabase(self, table, database):
         try:
-            sqliteConnection = connect(f'{database}')
-            cursor = sqliteConnection.cursor()
+            con = connect(f'{database}')
+            cur = con.cur()
             print("Connected to SQLite")
 
             sqlite_insert_with_param = f"""INSERT INTO {table}
-                            (id, name, address) 
-                            VALUES (?, ?, ?);"""
+                            (attractionId,nameOfAttraction,address, wantToSee) 
+                            VALUES (?, ?, ?, ?);"""
+            if self.var == 1:
+                data_tuple = (self.id, self.name, self.address, 'yes')
+            else:
+                data_tuple = (self.id, self.name, self.address, 'no')
 
-            data_tuple = (id, self.name, self.address)
-            cursor.execute(sqlite_insert_with_param, data_tuple)
-            sqliteConnection.commit()
-            print("Python Variables inserted successfully into table")
+            cur.execute(sqlite_insert_with_param, data_tuple)
+            con.commit()
+            print("success")
 
-            cursor.close()
+            cur.close()
 
         except Error as error:
-            print("Failed to insert Python variable into sqlite table", error)
+            print("fail", error)
         finally:
-            if sqliteConnection:
-                sqliteConnection.close()
-                print("The SQLite connection is closed")
+            if con:
+                con.close()
+                print("connection is closed")
 
 
 
