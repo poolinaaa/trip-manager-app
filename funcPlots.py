@@ -1,15 +1,11 @@
-from ast import Dict, List
-import config as c
+
 import requests
 import json
-import tkinter as tk
-import matplotlib.pyplot as plt
+
 from tkinter import *
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from datetime import date, timedelta
-import csv
-from geoFunc import getDistanceBetweenPoints, searchAttractions
 
 
 def createPlotButton(dates, rates, current, parent):

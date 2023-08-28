@@ -195,7 +195,9 @@ def loadFrame3():
     entryDepartureCountry = tk.Entry(master=frame3, textvariable=departureCountry)
     entryDepartureCountry.pack()
 
-    buttonConfirmCountry = tk.Button(master=frame3, text='CONFIRM COUNTRY', command=lambda : confirmCountry(departureCountry))
+    frameCheckbutton = tk.Frame(master = frame3)
+
+    buttonConfirmCountry = tk.Button(master=frame3, text='CONFIRM COUNTRY', command=lambda : confirmCountry(departureCountry, frameCheckbutton))
     buttonConfirmCountry.pack()
     
 

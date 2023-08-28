@@ -65,7 +65,7 @@ def confirmCountry(strVarCountry, frame):
 
         attractions = searchAttractions(
             destinationGeoInfo['lng'], destinationGeoInfo['lat'])
-        
+
         listOfAttractions = list()
 
         for attraction in attractions['features']:
@@ -74,11 +74,8 @@ def confirmCountry(strVarCountry, frame):
                                 attraction['properties']['datasource']['raw']['image'])
             listOfAttractions.append(landmark)
             landmark.checkboxButton(frame)
-        
+
         frame.pack()
-
-
-
 
 
 def submitDepartureDate(dateFlight, cal, labelSelectedDate):
@@ -125,6 +122,3 @@ def confirmButton(dateStart, dateEnd, baseCurrName, codeCurrency):
     else:
         print(currencyData)
         preparingData(currencyData, codeCurrency)
-
-
-
