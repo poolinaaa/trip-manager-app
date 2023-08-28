@@ -1,0 +1,76 @@
+from ast import Dict, List
+import config as c
+import requests
+import json
+import tkinter as tk
+import matplotlib.pyplot as plt
+from tkinter import *
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from datetime import date, timedelta
+import csv
+from geoFunc import getDistanceBetweenPoints, searchAttractions
+
+
+def createPlotButton(dates, rates, current, parent):
+    y = rates
+    x = {num: date for num, date in enumerate(dates)}
+    currRate = [current for _ in range(len(dates))]
+
+    fig = Figure(figsize=(4, 4), dpi=100)
+    plot1 = fig.add_subplot(111)
+
+    plot1.plot(list(range(0, len(dates))), y,
+               list(range(0, len(dates))), currRate)
+    canvas = FigureCanvasTkAgg(fig, master=parent)
+    canvas.draw()
+    canvas.get_tk_widget().grid(column=0, row=1, columnspan=3)
+
+
+def createPlotButtonAll(dates, parent, ratesChosenCountry, EUR, USD, PLN, GBP):
+    y = ratesChosenCountry
+    x = {num: date for num, date in enumerate(dates)}
+    ox = list(range(0, len(dates)))
+    e = EUR
+    u = USD
+    p = PLN
+    g = GBP
+    # the figure that will contain the plot
+    fig = Figure(figsize=(4, 4), dpi=100)
+
+    plot1 = fig.add_subplot(111)
+
+    plot1.plot(ox, y, ox, e, ox, u, ox, p, ox, g)
+    canvas = FigureCanvasTkAgg(fig, master=parent)
+    canvas.draw()
+    canvas.get_tk_widget().grid(column=0, row=1, columnspan=3)
+
+
+def createPlotButtonLastMonth(baseCurrName, codeCurrency, parent):
+
+    today = date.today()
+    monthAgo = today - timedelta(days=30)
+
+    params = {'start_date': monthAgo, 'end_date': today,
+              'base': baseCurrName, 'symbols': codeCurrency}
+    r = requests.get('https://api.exchangerate.host/timeseries/', params)
+    print(r)
+    try:
+        currencyData = r.json()
+    except json.JSONDecodeError:
+        print('Wrong format of data.')
+    else:
+        print(currencyData)
+        dates = [date for date in currencyData['rates']]
+        rate = [currencyData['rates'][date][codeCurrency]
+                for date in currencyData['rates']]
+        y = rate
+        x = {num: date for num, date in enumerate(dates)}
+
+        fig = Figure(figsize=(4, 4), dpi=100)
+        plot1 = fig.add_subplot(111)
+
+        plot1.plot(list(range(0, len(dates))), y)
+        canvas = FigureCanvasTkAgg(fig, master=parent)
+        canvas.draw()
+        canvas.get_tk_widget().grid(column=0, row=1, columnspan=3)

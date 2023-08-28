@@ -57,7 +57,8 @@ def createTable(nameOfDb, nameOfTable):
                 address TEXT,
                 wantToSee TEXT,
                 PRIMARY KEY (attractionId))''')
-    return con, cur
+    con.commit()
+    cur.close()
 
 
 pprint.pprint(searchAttractions(17, 51))

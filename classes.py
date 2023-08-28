@@ -5,16 +5,18 @@ import tkinter.font
 from funcBehaviorFrames import appearance
 import config as c
 from sqlite3 import *
+import webbrowser
 appearance()
 
 
 class Landmark:
     landmarkId = 1
 
-    def __init__(self, name, address,link) :
+    def __init__(self, name, address,link=None) :
         self.name = name
         self.address = address
         self.link = link
+        
         self.id = Landmark.landmarkId
         Landmark.landmarkId += 1
 
@@ -27,17 +29,17 @@ class Landmark:
         try:
             con = connect(f'{database}')
             cur = con.cur()
-            print("Connected to SQLite")
+            print("connected")
 
-            sqlite_insert_with_param = f"""INSERT INTO {table}
+            insertAttraction = f"""INSERT INTO {table}
                             (attractionId,nameOfAttraction,address, wantToSee) 
                             VALUES (?, ?, ?, ?);"""
             if self.var == 1:
-                data_tuple = (self.id, self.name, self.address, 'yes')
+                data = (self.id, self.name, self.address, 'yes')
             else:
-                data_tuple = (self.id, self.name, self.address, 'no')
+                data = (self.id, self.name, self.address, 'no')
 
-            cur.execute(sqlite_insert_with_param, data_tuple)
+            cur.execute(insertAttraction, data)
             con.commit()
             print("success")
 
@@ -45,13 +47,17 @@ class Landmark:
 
         except Error as error:
             print("fail", error)
+        
         finally:
             if con:
                 con.close()
                 print("connection is closed")
 
-
-
+    def openInTheBrowser(self):
+        if self.link != None:
+            webbrowser.open_new_tab(self.link)
+        else:
+            print('There is not any link')
 
 
 class ThemeSection(tk.Frame):
