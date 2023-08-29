@@ -4,10 +4,10 @@ import json
 import tkinter as tk
 from currencyFunc import checkingCurrency, checkingBase
 from ctypes import windll
-from classes import ThemeSection, InitializationFrame
+from partialForms import ThemeSection, InitializationFrame
 from funcBehaviorFrames import appearance, confirmCountry, clearView, loadFrame, confirmButton, submitDepartureDate
 import config as c
-from PIL import ImageTk
+
 from funcPlots import createPlotButton, createPlotButtonAll, createPlotButtonLastMonth
 
 

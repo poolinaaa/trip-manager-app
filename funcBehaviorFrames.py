@@ -4,10 +4,60 @@ import requests
 import json
 import tkinter as tk
 from tkinter import *
+from sqlite3 import *
 import csv
-from geoFunc import getDistanceBetweenPoints, searchAttractions
-from classes import Landmark
+from geoFunc import getDistanceBetweenPoints, searchAttractions, createTable
 
+
+class AttractionToSee:
+    AttractionToSeeId = 1
+
+    def __init__(self, name, address,link=None) :
+        self.name = name
+        self.address = address
+        self.link = link
+        
+        self.id = AttractionToSee.AttractionToSeeId
+        AttractionToSee.AttractionToSeeId += 1
+
+    def checkboxButton(self, frame):
+        self.var = tk.IntVar()
+        self.button = tk.Checkbutton(master=frame, text=f'{self.name}',variable=self.var, onvalue=1, offvalue=0, justify='left')
+        self.button.pack()
+
+    def insertIntoDatabase(self, table, database):
+        try:
+            con = connect(f'{database}.db')
+            cur = con.cursor()
+            print("connected")
+
+            insertAttraction = f"""INSERT INTO {table}
+                            (attractionId,nameOfAttraction,address, wantToSee) 
+                            VALUES (?, ?, ?, ?);"""
+            if self.var == 1:
+                data = (self.id, self.name, self.address, 'yes')
+            else:
+                data = (self.id, self.name, self.address, 'no')
+
+            cur.execute(insertAttraction, data)
+            con.commit()
+            print("success")
+
+            cur.close()
+
+        except Error as error:
+            print("fail", error)
+        
+        finally:
+            if con:
+                con.close()
+                print("connection is closed")
+
+    def openInTheBrowser(self):
+        if self.link != None:
+            webbrowser.open_new_tab(self.link)
+        else:
+            print('There is not any link')
 
 def checkingCountry(country):
     with open('countries.csv', encoding='utf8') as csvFile:
@@ -76,10 +126,15 @@ def confirmCountry(strVarCountry, frame):
 
         listOfAttractions = list()
 
-        for attraction in attractions['features']:
-            landmark = Landmark(attraction['properties']['address_line1'],
-                                attraction['properties']['address_line2'],
-                                attraction['properties']['datasource']['raw']['image'])
+        createTable( 'attractionsDatabase','attractionsTable')
+
+        for attr in attractions['features']:
+            ds = attr['properties']['datasource']
+            raw = ds.get('raw', {})  # Handle if 'raw' key is missing
+            image_url = raw.get('image', '')
+            landmark = AttractionToSee(attr['properties']['address_line1'],
+                                attr['properties']['address_line2'],
+                                image_url)
             listOfAttractions.append(landmark)
             landmark.checkboxButton(frame)
         

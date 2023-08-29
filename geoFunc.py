@@ -49,9 +49,9 @@ def searchAttractions(lng, lat):
 
 
 def createTable(nameOfDb, nameOfTable):
-    con = sql.connect(f'{nameOfDb}')
+    con = sql.connect(f'{nameOfDb}.db')
     cur = con.cursor()
-    cur.execute(f'''CREATE TABLE {nameOfTable} (
+    cur.execute(f'''CREATE TABLE if not exists {nameOfTable} (
                 attractionId INTEGER,
                 nameOfAttraction TEXT,
                 address TEXT,
