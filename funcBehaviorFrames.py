@@ -43,6 +43,14 @@ def searchInfoAboutDestination():
         dictInfo['citiesPopulation'] = fiveCitiesExamples
     return dictInfo
 
+def savingLandmarks(listAttractions):
+    for enum, landmark in enumerate(listAttractions):
+        landmark.insertIntoDatabase('attractionsTable', 'attractionsDatabase')
+        print(enum)
+        print('saved')
+        if landmark.var == 1:
+            landmark.openInTheBrowser()
+
 
 def confirmCountry(strVarCountry, frame):
     baseCountry = strVarCountry.get().capitalize()
@@ -74,6 +82,9 @@ def confirmCountry(strVarCountry, frame):
                                 attraction['properties']['datasource']['raw']['image'])
             listOfAttractions.append(landmark)
             landmark.checkboxButton(frame)
+        
+        buttonSave = tk.Button(master=frame, text='CONFIRM CHOICES', command= lambda : savingLandmarks(listOfAttractions))
+        buttonSave.pack()
 
         frame.pack()
 
