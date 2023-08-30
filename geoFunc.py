@@ -52,11 +52,12 @@ def createTable(nameOfDb, nameOfTable):
     con = sql.connect(f'{nameOfDb}.db')
     cur = con.cursor()
     cur.execute(f'''CREATE TABLE if not exists {nameOfTable} (
-                attractionId INTEGER,
                 nameOfAttraction TEXT,
                 address TEXT,
-                wantToSee TEXT,
-                PRIMARY KEY (attractionId))''')
+                wantToSee TEXT)''')
+    con.commit()
+
+    cur.execute(f'''DELETE FROM {nameOfTable}''')
     con.commit()
     cur.close()
 

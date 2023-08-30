@@ -7,11 +7,7 @@ from ctypes import windll
 from partialForms import ThemeSection, InitializationFrame
 from funcBehaviorFrames import appearance, confirmCountry, clearView, loadFrame, confirmButton, submitDepartureDate
 import config as c
-
 from funcPlots import createPlotButton, createPlotButtonAll, createPlotButtonLastMonth
-
-
-from datetime import datetime
 from tkcalendar import *
 
 

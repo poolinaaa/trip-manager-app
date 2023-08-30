@@ -33,12 +33,12 @@ class AttractionToSee:
             print("connected")
 
             insertAttraction = f"""INSERT INTO {table}
-                            (attractionId,nameOfAttraction,address, wantToSee) 
-                            VALUES (?, ?, ?, ?);"""
+                            (nameOfAttraction,address, wantToSee) 
+                            VALUES (?, ?, ?);"""
             if self.var.get() == 1:
-                data = (self.id, self.name, self.address, 'yes')
+                data = (self.name, self.address, 'yes')
             else:
-                data = (self.id, self.name, self.address, 'no')
+                data = (self.name, self.address, 'no')
 
             cur.execute(insertAttraction, data)
             con.commit()
@@ -95,8 +95,10 @@ def searchInfoAboutDestination():
     return dictInfo
 
 def savingLandmarks(listAttractions):
+    createTable( 'attractionsDatabase','attractionsTable')    
     for enum, landmark in enumerate(listAttractions):
-        landmark.insertIntoDatabase('attractionsTable2', 'attractionsDatabase')
+        
+        landmark.insertIntoDatabase('attractionsTable', 'attractionsDatabase')
         print(enum)
         print('saved')
         if landmark.var.get() == 1:
@@ -127,7 +129,7 @@ def confirmCountry(strVarCountry, frame):
 
         listOfAttractions = list()
 
-        createTable( 'attractionsDatabase','attractionsTable2')
+        
 
         for attr in attractions['features']:
             ds = attr['properties']['datasource']
