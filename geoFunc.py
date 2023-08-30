@@ -56,7 +56,6 @@ def createTable(nameOfDb, nameOfTable):
                 address TEXT,
                 wantToSee TEXT)''')
     con.commit()
-
     cur.execute(f'''DELETE FROM {nameOfTable}''')
     con.commit()
     cur.close()

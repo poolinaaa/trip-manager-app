@@ -1,4 +1,3 @@
-
 import config as c
 import requests
 import json

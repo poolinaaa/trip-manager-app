@@ -1,4 +1,3 @@
-from os import name
 from PIL import ImageTk
 import tkinter as tk
 import tkinter.font
@@ -7,9 +6,6 @@ import config as c
 from sqlite3 import *
 import webbrowser
 appearance()
-
-
-
 
 
 class ThemeSection(tk.Frame):
