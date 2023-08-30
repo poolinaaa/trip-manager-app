@@ -178,26 +178,26 @@ def loadFrame2():
 
 def loadFrame3():
     frame3.tkraise()
-    
+
     labelTitle = tk.Label(master=frame3, text="Find a flight",
-                        font=c.titleFont, bg=c.bgColor, fg='white')
+                          font=c.titleFont, bg=c.bgColor, fg='white')
     labelTitle.pack()
 
     labelDepartureCountry = tk.Label(master=frame3, text="What is your departure country?",
-                                 width=30, font=c.questionFont, bg=c.bgColor, fg='white', anchor="w")
+                                     width=30, font=c.questionFont, bg=c.bgColor, fg='white', anchor="w")
     labelDepartureCountry.pack()
     departureCountry = tk.StringVar(value='country')
 
-    entryDepartureCountry = tk.Entry(master=frame3, textvariable=departureCountry)
+    entryDepartureCountry = tk.Entry(
+        master=frame3, textvariable=departureCountry)
     entryDepartureCountry.pack()
 
-    frameCheckbutton = tk.Frame(master = frame3)
+    frameCheckbutton = tk.Frame(master=frame3)
 
-    buttonConfirmCountry = tk.Button(master=frame3, text='CONFIRM COUNTRY', command=lambda : confirmCountry(departureCountry, frameCheckbutton))
+    buttonConfirmCountry = tk.Button(master=frame3, text='CONFIRM COUNTRY',
+                                     command=lambda: confirmCountry(departureCountry, frameCheckbutton))
     buttonConfirmCountry.pack()
-    
 
-    
     backButton = tk.Button(master=frame3, text='BACK',
                            command=lambda: loadFrame(frame3, loadFrame1))
     backButton.pack(pady=20)
@@ -212,11 +212,11 @@ def loadFrame4():
         master=frame4, selectmode='day', date_pattern='YYYYMMDD')
     calDateOfDeparture.pack()
     dateDeparture = tk.StringVar(value='YYYYMMDD')
-    labelSelectedDate = tk.Label(master=frame4, text=f'Selected date of departure: ',bg=c.bgColor, fg='white')
+    labelSelectedDate = tk.Label(
+        master=frame4, text=f'Selected date of departure: ', bg=c.bgColor, fg='white')
     buttonDateOfDeparture = tk.Button(master=frame4, text='SUBMIT DATE', command=lambda: submitDepartureDate(
         dateDeparture, calDateOfDeparture, labelSelectedDate))
     buttonDateOfDeparture.pack()
-    
 
     labelSelectedDate.pack()
 
