@@ -7,6 +7,7 @@ from tkinter import *
 from sqlite3 import *
 import csv
 from geoFunc import getDistanceBetweenPoints, searchAttractions, createTable
+import webbrowser
 
 
 class AttractionToSee:
@@ -34,7 +35,7 @@ class AttractionToSee:
             insertAttraction = f"""INSERT INTO {table}
                             (attractionId,nameOfAttraction,address, wantToSee) 
                             VALUES (?, ?, ?, ?);"""
-            if self.var == 1:
+            if self.var.get() == 1:
                 data = (self.id, self.name, self.address, 'yes')
             else:
                 data = (self.id, self.name, self.address, 'no')
@@ -95,10 +96,10 @@ def searchInfoAboutDestination():
 
 def savingLandmarks(listAttractions):
     for enum, landmark in enumerate(listAttractions):
-        landmark.insertIntoDatabase('attractionsTable', 'attractionsDatabase')
+        landmark.insertIntoDatabase('attractionsTable2', 'attractionsDatabase')
         print(enum)
         print('saved')
-        if landmark.var == 1:
+        if landmark.var.get() == 1:
             landmark.openInTheBrowser()
 
 
@@ -126,7 +127,7 @@ def confirmCountry(strVarCountry, frame):
 
         listOfAttractions = list()
 
-        createTable( 'attractionsDatabase','attractionsTable')
+        createTable( 'attractionsDatabase','attractionsTable2')
 
         for attr in attractions['features']:
             ds = attr['properties']['datasource']
