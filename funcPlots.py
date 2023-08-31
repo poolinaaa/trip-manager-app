@@ -13,7 +13,7 @@ def createPlotButton(dates, rates, current, parent):
     x = {num: date for num, date in enumerate(dates)}
     currRate = [current for _ in range(len(dates))]
 
-    fig = Figure(figsize=(4, 4), dpi=100)
+    fig = Figure(figsize=(3,3), dpi=100)
     plot1 = fig.add_subplot(111)
 
     plot1.plot(list(range(0, len(dates))), y,
@@ -32,7 +32,7 @@ def createPlotButtonAll(dates, parent, ratesChosenCountry, EUR, USD, PLN, GBP):
     p = PLN
     g = GBP
     # the figure that will contain the plot
-    fig = Figure(figsize=(4, 4), dpi=100)
+    fig = Figure(figsize=(3,3), dpi=100)
 
     plot1 = fig.add_subplot(111)
 
@@ -63,7 +63,7 @@ def createPlotButtonLastMonth(baseCurrName, codeCurrency, parent):
         y = rate
         x = {num: date for num, date in enumerate(dates)}
 
-        fig = Figure(figsize=(4, 4), dpi=100)
+        fig = Figure(figsize=(3, 3), dpi=100)
         plot1 = fig.add_subplot(111)
 
         plot1.plot(list(range(0, len(dates))), y)

@@ -49,7 +49,7 @@ def loadFrame1():
                           font=c.titleFont, bg=c.bgColor, fg='white')
 
     # fields to enter destination and base currency
-    frameQuestions = tk.Frame(master=frame1, width=300, pady=0, bg=c.bgColor,
+    frameQuestions = tk.Frame(master=frame1, width=100,  bg=c.bgColor,
                               highlightbackground=c.bgColor, highlightcolor=c.bgColor)
 
     labelCountry = tk.Label(master=frameQuestions, text="What country is your destination?",
@@ -77,7 +77,7 @@ def loadFrame1():
                              highlightbackground=c.bgColor, highlightcolor=c.bgColor)
 
     # currency
-    frameCurrency = ThemeSection(frameSections)
+    frameCurrency = ThemeSection(frameSections,100,300)
     frameCurrency.addTitleLabel(title='Changes in currency')
     frameCurrency.grid(column=0, row=0, sticky='nsew')
     frameCurrency.addImage('cash.png')
@@ -86,14 +86,14 @@ def loadFrame1():
         master=frameCurrency, text='Current rate:', bg=c.highlight, font=c.errorFont, fg='white')
 
     # flights
-    frameFlights = ThemeSection(frameSections)
+    frameFlights = ThemeSection(frameSections,100,300)
     
     frameFlights.addTitleLabel(title='Geographical details')
     frameFlights.grid(column=1, row=0, sticky='nsew')
     frameFlights.addImage('plane.png')
 
     # weather
-    frameWeather = ThemeSection(frameSections)
+    frameWeather = ThemeSection(frameSections,100,300)
     frameWeather.addTitleLabel(title='Check the weather')
     frameWeather.grid(column=2, row=0, sticky='nsew')
     frameWeather.addImage('sun.png')
@@ -107,15 +107,15 @@ def loadFrame1():
     
 
     # loading buttons
-    buttonLoadFrame2 = customtkinter.CTkButton(master=frameCurrency, text='CURRENCY',fg_color='#162f3d',
+    buttonLoadFrame2 = customtkinter.CTkButton(master=frameCurrency, text='CURRENCY',fg_color=c.details,
                                  width=20, command=lambda: loadFrame(frame1, loadFrame2))
     buttonLoadFrame2.pack(side=tk.BOTTOM)
 
-    buttonLoadFrame3 = customtkinter.CTkButton(master=frameFlights, text='GEOGRAPHY',fg_color='#162f3d',
+    buttonLoadFrame3 = customtkinter.CTkButton(master=frameFlights, text='GEOGRAPHY',fg_color=c.details,
                                  width=20, command=lambda: loadFrame(frame1, loadFrame3))
     buttonLoadFrame3.pack(side=tk.BOTTOM)
 
-    buttonLoadFrame4 = customtkinter.CTkButton(master=frameWeather, text='WEATHER',fg_color='#162f3d',
+    buttonLoadFrame4 = customtkinter.CTkButton(master=frameWeather, text='WEATHER',fg_color=c.details,
                                  width=20, command=lambda: loadFrame(frame1, loadFrame4))
     buttonLoadFrame4.pack(side=tk.BOTTOM)
     
@@ -127,7 +127,7 @@ def loadFrame2():
     frame2.tkraise()
 
     labelTitle = tk.Label(master=frame2, text="Analyse currency rate",
-                          font=c.titleFont, bg=c.bgColor, fg='white')
+                          font=c.titleFont, bg=c.highlight, fg='white')
     labelTitle.pack()
 
     frameEnteringDate = tk.Frame(master=frame2)
@@ -141,7 +141,7 @@ def loadFrame2():
                             text='Enter the end date: ')
     labelEndDate.grid(column=1, row=0)
 
-    buttonConfirmDate = tk.Button(master=frameEnteringDate, width=20, text='CONFIRM TIME SPAN',
+    buttonConfirmDate = customtkinter.CTkButton(master=frameEnteringDate, width=20, text='CONFIRM TIME SPAN',fg_color=c.details,
                                   command=lambda: confirmButton(c.dateStart, c.dateEnd, baseCurrName, codeCurrency))
     buttonConfirmDate.grid(column=3, row=1, padx=10, pady=5)
 
@@ -158,23 +158,23 @@ def loadFrame2():
     framePlots = tk.Frame(master=frame2, bg=c.bgColor,
                           highlightbackground=c.bgColor, highlightcolor=c.bgColor)
 
-    buttonPlot1 = tk.Button(master=framePlots, width=20, text='PLOT',
+    buttonPlot1 = customtkinter.CTkButton(master=framePlots, width=20, text='PLOT',fg_color=c.details,
                             command=lambda: createPlotButton(c.dates, c.rate, c.current, framePlots))
     buttonPlot1.grid(column=0, row=0)
 
-    buttonPlot2 = tk.Button(master=framePlots, width=20, text='PLOT', command=lambda: createPlotButtonAll(
+    buttonPlot2 = customtkinter.CTkButton(master=framePlots, width=20, text='PLOT',fg_color=c.details, command=lambda: createPlotButtonAll(
         c.dates, framePlots, c.rate, c.eur, c.usd, c.pln, c.gbp))
     buttonPlot2.grid(column=1, row=0)
 
-    buttonPlot3 = tk.Button(master=framePlots, width=20, text='PLOT',
+    buttonPlot3 = customtkinter.CTkButton(master=framePlots, width=20, text='PLOT',fg_color=c.details,
                             command=lambda: createPlotButtonLastMonth(baseCurrName, codeCurrency, framePlots))
     buttonPlot3.grid(column=2, row=0)
 
     framePlots.pack()
 
-    backButton = tk.Button(master=frame2, text='BACK',
+    backButton = customtkinter.CTkButton(master=frame2, text='BACK',fg_color=c.details,
                            command=lambda: loadFrame(frame2, loadFrame1))
-    backButton.pack(pady=20)
+    backButton.pack(side=tk.BOTTOM)
 
 # frame with flights
 
@@ -197,13 +197,13 @@ def loadFrame3():
 
     frameCheckbutton = tk.Frame(master=frame3)
 
-    buttonConfirmCountry = tk.Button(master=frame3, text='CONFIRM COUNTRY',
+    buttonConfirmCountry = customtkinter.CTkButton(master=frame3, text='CONFIRM COUNTRY',fg_color=c.details,
                                      command=lambda: confirmCountry(departureCountry, frameCheckbutton))
     buttonConfirmCountry.pack()
 
-    backButton = tk.Button(master=frame3, text='BACK',
+    backButton = customtkinter.CTkButton(master=frame3, text='BACK',fg_color=c.details,
                            command=lambda: loadFrame(frame3, loadFrame1))
-    backButton.pack(pady=20)
+    backButton.pack(side=tk.BOTTOM)
 
 # frame with weather
 
@@ -217,15 +217,15 @@ def loadFrame4():
     dateDeparture = tk.StringVar(value='YYYY-MM-DD')
     labelSelectedDate = tk.Label(
         master=frame4, text=f'Selected date of departure: ', bg=c.bgColor, fg='white')
-    buttonDateOfDeparture = tk.Button(master=frame4, text='SUBMIT DATE', command=lambda: submitDepartureDate(
+    buttonDateOfDeparture = customtkinter.CTkButton(master=frame4, text='SUBMIT DATE', fg_color=c.details, command=lambda: submitDepartureDate(
         dateDeparture, calDateOfDeparture, labelSelectedDate))
     buttonDateOfDeparture.pack()
 
     labelSelectedDate.pack()
 
-    backButton = tk.Button(master=frame4, text='BACK',
+    backButton = customtkinter.CTkButton(master=frame4, text='BACK', fg_color=c.details,
                            command=lambda: loadFrame(frame4, loadFrame1))
-    backButton.pack(pady=20)
+    backButton.pack(side=tk.BOTTOM)
 
 
 windll.shcore.SetProcessDpiAwareness(1)

@@ -165,6 +165,7 @@ def loadFrame(frameToClear, funcRaisingFrame):
 def appearance():
     c.bgColor = '#295873'
     c.highlight = '#1c3c4f'
+    c.details = '#162f3d'
 
 
 def preparingData(data: dict, codeCurrency):

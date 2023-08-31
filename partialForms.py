@@ -10,22 +10,22 @@ appearance()
 
 class ThemeSection(tk.Frame):
 
-    def __init__(self, masterFrame, **kwargs):
-        super().__init__(master=masterFrame, bg=c.highlight,
-                         highlightbackground=c.bgColor, highlightcolor=c.bgColor, **kwargs)
+    def __init__(self, masterFrame, width, height,**kwargs):
+        super().__init__(master=masterFrame, bg=c.highlight, 
+                          **kwargs)
         self.headingF = tkinter.font.Font(family="Lato", size=11)
         self.textF = tkinter.font.Font(family="Lato", size=8)
         
 
     def addTitleLabel(self, title: str):
         self.title = tk.Label(
-            self, text=title, width=30,font=self.headingF, bg='#162f3d', fg='white')
+            self, text=title, width=30,font=self.headingF, bg=c.details, fg='white')
         self.title.pack(pady=10)
 
     def addImage(self, nameOfFile):
         self.pictureSection = ImageTk.PhotoImage(file=nameOfFile)
         self.pictureWidget = tk.Label(
-            master=self, image=self.pictureSection, bg='#162f3d', width=100, height=100)
+            master=self, image=self.pictureSection, bg=c.details, width=100, height=100)
         self.pictureWidget.image = self.pictureSection
         self.pictureWidget.pack(pady=10)
 
