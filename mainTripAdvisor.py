@@ -72,13 +72,13 @@ def loadFrame1():
     buttonCountrySearch.grid(column=0, row=3, columnspan=2, pady=10)
 
     # declare 3 sections of preparing the trip: currency, flights, weather
-    frameSections = tk.Frame(master=frame1, bg=c.bgColor,
+    frameSections = tk.Frame(master=frame1, width=300, bg=c.bgColor,
                              highlightbackground=c.bgColor, highlightcolor=c.bgColor)
 
     # currency
     frameCurrency = ThemeSection(frameSections)
     frameCurrency.addTitleLabel(title='Changes in currency')
-    frameCurrency.grid(column=0, row=0, sticky="nsew")
+    frameCurrency.grid(column=0, row=0, sticky='nsew')
     frameCurrency.addImage('cash.png')
 
     labelCurrentRate = tk.Label(
@@ -87,35 +87,33 @@ def loadFrame1():
     # flights
     frameFlights = ThemeSection(frameSections)
     frameFlights.addTitleLabel(title='Find proper flight')
-    frameFlights.grid(column=1, row=0, sticky="nsew")
+    frameFlights.grid(column=1, row=0, sticky='nsew')
     frameFlights.addImage('plane.png')
 
     # weather
     frameWeather = ThemeSection(frameSections)
     frameWeather.addTitleLabel(title='Check the weather')
-    frameWeather.grid(column=2, row=0, sticky="nsew")
+    frameWeather.grid(column=2, row=0, sticky='nsew')
     frameWeather.addImage('sun.png')
 
+    
     # packing widgets
-    for widget in (labelTitle, frameQuestions, frameSections, labelCurrentRate):
+    for nr, widget in enumerate([labelTitle, frameQuestions,frameSections,labelCurrentRate]):
         widget.pack()
 
     # loading buttons
-    frameSelectTopic = tk.Frame(master=frame1, bg=c.bgColor,
-                                highlightbackground=c.bgColor, highlightcolor=c.bgColor)
+    buttonLoadFrame2 = tk.Button(master=frameCurrency, text='Analyze changes of currency in detail',
+                                 width=20, command=lambda: loadFrame(frame1, loadFrame2))
+    buttonLoadFrame2.pack()
 
-    buttonLoadFrame2 = tk.Button(master=frameSelectTopic, text='Analyze changes of currency in detail',
-                                 width=19, command=lambda: loadFrame(frame1, loadFrame2))
-    buttonLoadFrame2.grid(column=0, row=0, padx=12, sticky="nsew")
+    buttonLoadFrame3 = tk.Button(master=frameFlights, text='Planessss',
+                                 width=20, command=lambda: loadFrame(frame1, loadFrame3))
+    buttonLoadFrame3.pack()
 
-    buttonLoadFrame3 = tk.Button(master=frameSelectTopic, text='Planessss',
-                                 width=19, command=lambda: loadFrame(frame1, loadFrame3))
-    buttonLoadFrame3.grid(column=1, row=0, padx=16, sticky="nsew")
-
-    buttonLoadFrame4 = tk.Button(master=frameSelectTopic, text='Weather',
-                                 width=19, command=lambda: loadFrame(frame1, loadFrame4))
-    buttonLoadFrame4.grid(column=2, row=0, padx=12, sticky="nsew")
-    frameSelectTopic.pack()
+    buttonLoadFrame4 = tk.Button(master=frameWeather, text='Weather',
+                                 width=20, command=lambda: loadFrame(frame1, loadFrame4))
+    buttonLoadFrame4.pack()
+    
 
 # frame with currency rate
 
@@ -259,7 +257,7 @@ iata = tk.StringVar()
 
 for frame in (frame1, frame2, frame3, frame4):
 
-    frame.grid(row=0, column=0, sticky="nsew")
+    frame.grid(row=0, column=0, sticky='nsew')
 
 
 for frame in (frame2, frame3, frame4):
