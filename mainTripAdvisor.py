@@ -212,9 +212,9 @@ def loadFrame4():
     frame4.tkraise()
 
     calDateOfDeparture = Calendar(
-        master=frame4, selectmode='day', date_pattern='YYYYMMDD')
+        master=frame4, selectmode='day', date_pattern='YYYY-MM-DD')
     calDateOfDeparture.pack()
-    dateDeparture = tk.StringVar(value='YYYYMMDD')
+    dateDeparture = tk.StringVar(value='YYYY-MM-DD')
     labelSelectedDate = tk.Label(
         master=frame4, text=f'Selected date of departure: ', bg=c.bgColor, fg='white')
     buttonDateOfDeparture = tk.Button(master=frame4, text='SUBMIT DATE', command=lambda: submitDepartureDate(

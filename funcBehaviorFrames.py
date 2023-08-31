@@ -147,9 +147,9 @@ def confirmCountry(strVarCountry, frame):
 
 
 def submitDepartureDate(dateFlight, cal, labelSelectedDate):
-    dateFlight = cal.get_date()
-    print(dateFlight)
-    labelSelectedDate['text'] = f'Selected date of departure: {str(dateFlight)[0:4]}-{str(dateFlight)[4:6]}-{str(dateFlight)[6:]}'
+    c.dateFlight = cal.get_date()
+    print(c.dateFlight)
+    labelSelectedDate['text'] = f'Selected date of departure: {c.dateFlight}'
 
 
 def clearView(frame):
