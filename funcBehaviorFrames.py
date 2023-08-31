@@ -163,7 +163,8 @@ def loadFrame(frameToClear, funcRaisingFrame):
 
 
 def appearance():
-    c.bgColor = '#3d4660'
+    c.bgColor = '#295873'
+    c.highlight = '#1c3c4f'
 
 
 def preparingData(data: dict, codeCurrency):

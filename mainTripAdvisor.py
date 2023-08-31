@@ -48,7 +48,7 @@ def loadFrame1():
                           font=c.titleFont, bg=c.bgColor, fg='white')
 
     # fields to enter destination and base currency
-    frameQuestions = tk.Frame(master=frame1, pady=0, bg=c.bgColor,
+    frameQuestions = tk.Frame(master=frame1, width=300, pady=0, bg=c.bgColor,
                               highlightbackground=c.bgColor, highlightcolor=c.bgColor)
 
     labelCountry = tk.Label(master=frameQuestions, text="What country is your destination?",
@@ -82,11 +82,11 @@ def loadFrame1():
     frameCurrency.addImage('cash.png')
 
     labelCurrentRate = tk.Label(
-        master=frameCurrency, text='Current rate:', bg=c.bgColor, fg='white')
+        master=frameCurrency, text='Current rate:', bg=c.highlight, font=c.errorFont, fg='white')
 
     # flights
     frameFlights = ThemeSection(frameSections)
-    frameFlights.addTitleLabel(title='Find proper flight')
+    frameFlights.addTitleLabel(title='Geographical details')
     frameFlights.grid(column=1, row=0, sticky='nsew')
     frameFlights.addImage('plane.png')
 
@@ -102,17 +102,17 @@ def loadFrame1():
         widget.pack()
 
     # loading buttons
-    buttonLoadFrame2 = tk.Button(master=frameCurrency, text='Analyze changes of currency in detail',
+    buttonLoadFrame2 = tk.Button(master=frameCurrency, text='CURRENCY',
                                  width=20, command=lambda: loadFrame(frame1, loadFrame2))
-    buttonLoadFrame2.pack()
+    buttonLoadFrame2.pack(side=tk.BOTTOM)
 
-    buttonLoadFrame3 = tk.Button(master=frameFlights, text='Planessss',
+    buttonLoadFrame3 = tk.Button(master=frameFlights, text='GEOGRAPHY',
                                  width=20, command=lambda: loadFrame(frame1, loadFrame3))
-    buttonLoadFrame3.pack()
+    buttonLoadFrame3.pack(side=tk.BOTTOM)
 
-    buttonLoadFrame4 = tk.Button(master=frameWeather, text='Weather',
+    buttonLoadFrame4 = tk.Button(master=frameWeather, text='WEATHER',
                                  width=20, command=lambda: loadFrame(frame1, loadFrame4))
-    buttonLoadFrame4.pack()
+    buttonLoadFrame4.pack(side=tk.BOTTOM)
     
 
 # frame with currency rate
