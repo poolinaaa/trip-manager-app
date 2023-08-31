@@ -9,6 +9,7 @@ from funcBehaviorFrames import appearance, confirmCountry, clearView, loadFrame,
 import config as c
 from funcPlots import createPlotButton, createPlotButtonAll, createPlotButtonLastMonth
 from tkcalendar import *
+import customtkinter
 
 
 # main frame: menu
@@ -67,8 +68,8 @@ def loadFrame1():
                              width=20, textvariable=c.baseCurrency)
     entryCurrency.grid(column=1, row=2, pady=10, padx=5)
 
-    buttonCountrySearch = tk.Button(
-        master=frameQuestions, width=8, text="SEARCH", command=searchButton)
+    buttonCountrySearch = customtkinter.CTkButton(
+        master=frameQuestions, width=8, fg_color=c.highlight,text="SEARCH", command=searchButton)
     buttonCountrySearch.grid(column=0, row=3, columnspan=2, pady=10)
 
     # declare 3 sections of preparing the trip: currency, flights, weather
@@ -86,6 +87,7 @@ def loadFrame1():
 
     # flights
     frameFlights = ThemeSection(frameSections)
+    
     frameFlights.addTitleLabel(title='Geographical details')
     frameFlights.grid(column=1, row=0, sticky='nsew')
     frameFlights.addImage('plane.png')
@@ -98,19 +100,22 @@ def loadFrame1():
 
     
     # packing widgets
-    for nr, widget in enumerate([labelTitle, frameQuestions,frameSections,labelCurrentRate]):
+    for widget in (labelTitle, frameQuestions, labelCurrentRate):
         widget.pack()
+    
+    frameSections.pack()
+    
 
     # loading buttons
-    buttonLoadFrame2 = tk.Button(master=frameCurrency, text='CURRENCY',
+    buttonLoadFrame2 = customtkinter.CTkButton(master=frameCurrency, text='CURRENCY',fg_color='#162f3d',
                                  width=20, command=lambda: loadFrame(frame1, loadFrame2))
     buttonLoadFrame2.pack(side=tk.BOTTOM)
 
-    buttonLoadFrame3 = tk.Button(master=frameFlights, text='GEOGRAPHY',
+    buttonLoadFrame3 = customtkinter.CTkButton(master=frameFlights, text='GEOGRAPHY',fg_color='#162f3d',
                                  width=20, command=lambda: loadFrame(frame1, loadFrame3))
     buttonLoadFrame3.pack(side=tk.BOTTOM)
 
-    buttonLoadFrame4 = tk.Button(master=frameWeather, text='WEATHER',
+    buttonLoadFrame4 = customtkinter.CTkButton(master=frameWeather, text='WEATHER',fg_color='#162f3d',
                                  width=20, command=lambda: loadFrame(frame1, loadFrame4))
     buttonLoadFrame4.pack(side=tk.BOTTOM)
     

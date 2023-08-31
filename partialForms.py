@@ -11,10 +11,11 @@ appearance()
 class ThemeSection(tk.Frame):
 
     def __init__(self, masterFrame, **kwargs):
-        super().__init__(master=masterFrame, width=100, padx=10, bg=c.highlight,
+        super().__init__(master=masterFrame, bg=c.highlight,
                          highlightbackground=c.bgColor, highlightcolor=c.bgColor, **kwargs)
         self.headingF = tkinter.font.Font(family="Lato", size=11)
         self.textF = tkinter.font.Font(family="Lato", size=8)
+        
 
     def addTitleLabel(self, title: str):
         self.title = tk.Label(
@@ -32,5 +33,5 @@ class ThemeSection(tk.Frame):
 class InitializationFrame(tk.Frame):
 
     def __init__(self, masterWindow, **kwargs):
-        super().__init__(master=masterWindow, width=500, height=500, bg=c.bgColor,
+        super().__init__(master=masterWindow, width=300, height=500, bg=c.bgColor,
                          highlightbackground=c.bgColor, highlightcolor=c.bgColor, **kwargs)
