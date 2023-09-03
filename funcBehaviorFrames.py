@@ -7,22 +7,24 @@ from sqlite3 import *
 import csv
 from geoFunc import getDistanceBetweenPoints, searchAttractions, createTable
 import webbrowser
+import customtkinter
 
 
 class AttractionToSee:
     AttractionToSeeId = 1
 
-    def __init__(self, name, address,link=None) :
+    def __init__(self, name, address, link=None):
         self.name = name
         self.address = address
         self.link = link
-        
+
         self.id = AttractionToSee.AttractionToSeeId
         AttractionToSee.AttractionToSeeId += 1
 
     def checkboxButton(self, frame):
         self.var = tk.IntVar()
-        self.button = tk.Checkbutton(master=frame, text=f'{self.name}',variable=self.var, onvalue=1, offvalue=0, justify='left')
+        self.button = tk.Checkbutton(
+            master=frame, text=f'{self.name}', variable=self.var, onvalue=1, offvalue=0, justify='left')
         self.button.pack()
 
     def insertIntoDatabase(self, table, database):
@@ -47,7 +49,7 @@ class AttractionToSee:
 
         except Error as error:
             print("fail", error)
-        
+
         finally:
             if con:
                 con.close()
@@ -58,6 +60,7 @@ class AttractionToSee:
             webbrowser.open_new_tab(self.link)
         else:
             print('There is not any link')
+
 
 def checkingCountry(country):
     with open('countries.csv', encoding='utf8') as csvFile:
@@ -93,10 +96,11 @@ def searchInfoAboutDestination():
         dictInfo['citiesPopulation'] = fiveCitiesExamples
     return dictInfo
 
+
 def savingLandmarks(listAttractions):
-    createTable( 'attractionsDatabase','attractionsTable')    
+    createTable('attractionsDatabase', 'attractionsTable')
     for enum, landmark in enumerate(listAttractions):
-        
+
         landmark.insertIntoDatabase('attractionsTable', 'attractionsDatabase')
         print(enum)
         print('saved')
@@ -104,7 +108,7 @@ def savingLandmarks(listAttractions):
             landmark.openInTheBrowser()
 
 
-def confirmCountry(strVarCountry, frame):
+def confirmCountry(strVarCountry, frame, unit):
     baseCountry = strVarCountry.get().capitalize()
     baseCountry = checkingCountry(baseCountry)
 
@@ -119,28 +123,31 @@ def confirmCountry(strVarCountry, frame):
 
         destinationGeoInfo = searchInfoAboutDestination()
         print(destinationGeoInfo)
+
         distance = getDistanceBetweenPoints(
-            latBase, lngBase, destinationGeoInfo['lat'], destinationGeoInfo['lng'])
-        print(distance)
+            latBase, lngBase, destinationGeoInfo['lat'], destinationGeoInfo['lng'], unit)
+
+        distanceLabel = tk.Label(
+            master=frame, text=f'Distance between {baseCountry} and {c.countryName.get().capitalize()} is about {distance} {unit}',font=c.questionFont, bg=c.highlight, fg='white', anchor="w")
+        distanceLabel.pack()
 
         attractions = searchAttractions(
             destinationGeoInfo['lng'], destinationGeoInfo['lat'])
 
         listOfAttractions = list()
 
-        
-
         for attr in attractions['features']:
             ds = attr['properties']['datasource']
             raw = ds.get('raw', {})  # Handle if 'raw' key is missing
             image_url = raw.get('image', '')
             landmark = AttractionToSee(attr['properties']['address_line1'],
-                                attr['properties']['address_line2'],
-                                image_url)
+                                       attr['properties']['address_line2'],
+                                       image_url)
             listOfAttractions.append(landmark)
             landmark.checkboxButton(frame)
-        
-        buttonSave = tk.Button(master=frame, text='CONFIRM CHOICES', command= lambda : savingLandmarks(listOfAttractions))
+
+        buttonSave = customtkinter.CTkButton(master=frame, text='CONFIRM CHOICES',fg_color=c.highlight,
+                               command=lambda: savingLandmarks(listOfAttractions))
         buttonSave.pack()
 
         frame.pack()

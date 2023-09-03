@@ -8,6 +8,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from datetime import date, timedelta
 
 
+
 def createPlotButton(dates, rates, current, parent):
     y = rates
     x = {num: date for num, date in enumerate(dates)}

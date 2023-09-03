@@ -195,10 +195,21 @@ def loadFrame3():
         master=frame3, textvariable=departureCountry)
     entryDepartureCountry.pack()
 
-    frameCheckbutton = tk.Frame(master=frame3)
+    labelUnit = tk.Label(master=frame3, text='Select the unit in which the distance will be displayed', width=30, font=c.questionFont, bg=c.bgColor, fg='white', anchor="w")
+    labelUnit.pack()
+
+    var = tk.StringVar(value='kilometers')
+    
+    kmButton = tk.Radiobutton(master=frame3, text='kilometers', variable=var, value='kilometers')
+    milesButton = tk.Radiobutton(master=frame3, text='miles', variable=var, value='miles')
+
+    kmButton.pack()
+    milesButton.pack()
+
+    frameCheckbutton = tk.Frame(master=frame3, bg=c.highlight)
 
     buttonConfirmCountry = customtkinter.CTkButton(master=frame3, text='CONFIRM COUNTRY',fg_color=c.details,
-                                     command=lambda: confirmCountry(departureCountry, frameCheckbutton))
+                                     command=lambda: confirmCountry(departureCountry, frameCheckbutton, var.get()))
     buttonConfirmCountry.pack()
 
     backButton = customtkinter.CTkButton(master=frame3, text='BACK',fg_color=c.details,
