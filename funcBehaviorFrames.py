@@ -8,6 +8,7 @@ import csv
 from geoFunc import getDistanceBetweenPoints, searchAttractions, createTable
 import webbrowser
 import customtkinter
+from weather import getWeather
 
 
 class AttractionToSee:
@@ -153,10 +154,13 @@ def confirmCountry(strVarCountry, frame, unit):
         frame.pack()
 
 
-def submitDepartureDate(dateFlight, cal, labelSelectedDate):
+def submitDepartureDate(dateDeparture, cal, labelSelectedDate, buttonYearAgo, futureData, pastData):
     c.dateFlight = cal.get_date()
+    buttonYearAgo['state']=tk.NORMAL
     print(c.dateFlight)
     labelSelectedDate['text'] = f'Selected date of departure: {c.dateFlight}'
+    getWeather(futureData, pastData)
+    
 
 
 def clearView(frame):

@@ -1,7 +1,7 @@
 import requests
 import json
 import config as c
-from datetime import timedelta
+from datetime import timedelta, datetime
 import csv
 
 
@@ -18,11 +18,14 @@ def searchCoordinates():
     return lat, lng
 
 
-def getWeather():
+def getWeather(futureData, pastData):
     lat, lng = searchCoordinates()
-    date = c.dateFlight
+    date = datetime.strptime(c.dateFlight, '%Y-%m-%d').date()
+    print(date)
     yearAgo = date - timedelta(days=365)
+    print(yearAgo)
     yearAgoPlusMonth = yearAgo + timedelta(days=30)
+    print(yearAgoPlusMonth)
 
     paramsArchive = {'latitude': lat,
                      'longitude': lng,
@@ -48,7 +51,7 @@ def getWeather():
     except json.JSONDecodeError:
         print('error forecast')
     finally:
-        pass
+        futureData = current
 
     try:
         archive = reqArchive.json()
@@ -56,4 +59,4 @@ def getWeather():
     except json.JSONDecodeError:
         print('error archive weather')
     finally:
-        pass
+        pastData = archive

@@ -221,7 +221,9 @@ def loadFrame3():
 
 def loadFrame4():
     frame4.tkraise()
-
+    futureData = tk.StringVar()
+    pastData = tk.StringVar()
+    
     calDateOfDeparture = Calendar(
         master=frame4, selectmode='day', date_pattern='YYYY-MM-DD')
     calDateOfDeparture.pack()
@@ -233,15 +235,15 @@ def loadFrame4():
     buttonYearAgo = customtkinter.CTkButton(master=frameForecast, text='YEAR AGO', state=tk.DISABLED, fg_color=c.details)
     buttonFuture = customtkinter.CTkButton(master=frameForecast, text='NEXT MONTH', state=tk.DISABLED, fg_color=c.details)
     
-    buttonFuture.pack()
-    buttonYearAgo.pack()
-    
+
+
     buttonDateOfDeparture = customtkinter.CTkButton(master=frame4, text='SUBMIT DATE', fg_color=c.details, command=lambda: submitDepartureDate(
-        dateDeparture, calDateOfDeparture, labelSelectedDate))
+        dateDeparture, calDateOfDeparture, labelSelectedDate, buttonYearAgo, futureData, pastData))
     buttonDateOfDeparture.pack()
     
     frameForecast.pack()
-
+    buttonFuture.pack()
+    buttonYearAgo.pack()
     labelSelectedDate.pack()
     
 
