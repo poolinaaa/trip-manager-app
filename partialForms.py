@@ -4,7 +4,6 @@ import tkinter.font
 from funcBehaviorFrames import appearance
 import config as c
 from sqlite3 import *
-import webbrowser
 appearance()
 
 

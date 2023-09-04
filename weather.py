@@ -2,6 +2,7 @@ import requests
 import json
 import config as c
 from datetime import timedelta
+import csv
 
 
 def searchCoordinates():

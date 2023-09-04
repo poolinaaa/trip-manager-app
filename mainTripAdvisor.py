@@ -228,11 +228,22 @@ def loadFrame4():
     dateDeparture = tk.StringVar(value='YYYY-MM-DD')
     labelSelectedDate = tk.Label(
         master=frame4, text=f'Selected date of departure: ', bg=c.bgColor, fg='white')
+    
+    frameForecast = tk.Frame(master=frame4, bg=c.bgColor, highlightbackground=c.bgColor, highlightcolor=c.bgColor)
+    buttonYearAgo = customtkinter.CTkButton(master=frameForecast, text='YEAR AGO', state=tk.DISABLED, fg_color=c.details)
+    buttonFuture = customtkinter.CTkButton(master=frameForecast, text='NEXT MONTH', state=tk.DISABLED, fg_color=c.details)
+    
+    buttonFuture.pack()
+    buttonYearAgo.pack()
+    
     buttonDateOfDeparture = customtkinter.CTkButton(master=frame4, text='SUBMIT DATE', fg_color=c.details, command=lambda: submitDepartureDate(
         dateDeparture, calDateOfDeparture, labelSelectedDate))
     buttonDateOfDeparture.pack()
+    
+    frameForecast.pack()
 
     labelSelectedDate.pack()
+    
 
     backButton = customtkinter.CTkButton(master=frame4, text='BACK', fg_color=c.details,
                            command=lambda: loadFrame(frame4, loadFrame1))

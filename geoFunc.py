@@ -1,6 +1,5 @@
 import sqlite3 as sql
 import json
-import pprint
 import requests
 from numpy import sin, cos, arccos, pi, round
 
@@ -59,6 +58,3 @@ def createTable(nameOfDb, nameOfTable):
     cur.execute(f'''DELETE FROM {nameOfTable}''')
     con.commit()
     cur.close()
-
-
-pprint.pprint(searchAttractions(17, 51))
