@@ -159,7 +159,8 @@ def submitDepartureDate(dateDeparture, cal, labelSelectedDate, buttonYearAgo, fu
     buttonYearAgo['state']=tk.NORMAL
     print(c.dateFlight)
     labelSelectedDate['text'] = f'Selected date of departure: {c.dateFlight}'
-    getWeather(futureData, pastData)
+    futureData, pastData = getWeather()
+
     
 
 

@@ -18,7 +18,7 @@ def searchCoordinates():
     return lat, lng
 
 
-def getWeather(futureData, pastData):
+def getWeather():
     lat, lng = searchCoordinates()
     date = datetime.strptime(c.dateFlight, '%Y-%m-%d').date()
     print(date)
@@ -47,16 +47,12 @@ def getWeather(futureData, pastData):
 
     try:
         current = reqCurrent.json()
+        archive = reqArchive.json()
         print(current)
+        print(archive)
     except json.JSONDecodeError:
         print('error forecast')
     finally:
-        futureData = current
+        return current, archive
 
-    try:
-        archive = reqArchive.json()
-        print(archive)
-    except json.JSONDecodeError:
-        print('error archive weather')
-    finally:
-        pastData = archive
+
