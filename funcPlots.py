@@ -6,7 +6,14 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from datetime import date, timedelta
 
+def preparingPastData(pastData : dict):
+    days = pastData['daily']['time']
+    temperature = pastData['daily']['temperature_2m_mean']
+    return days, temperature
 
+def createPlotWeatherYearAgo(parent, pastData):
+    x, y = preparingPastData(pastData)
+     
 
 def createPlotButton(dates, rates, current, parent):
     y = rates

@@ -238,7 +238,7 @@ def loadFrame4():
 
 
     buttonDateOfDeparture = customtkinter.CTkButton(master=frame4, text='SUBMIT DATE', fg_color=c.details, command=lambda: submitDepartureDate(
-        dateDeparture, calDateOfDeparture, labelSelectedDate, buttonYearAgo, futureData, pastData))
+        dateDeparture, calDateOfDeparture, labelSelectedDate, buttonYearAgo, futureData, pastData, frameForecast))
     buttonDateOfDeparture.pack()
     
     frameForecast.pack()

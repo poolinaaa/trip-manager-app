@@ -9,6 +9,7 @@ from geoFunc import getDistanceBetweenPoints, searchAttractions, createTable
 import webbrowser
 import customtkinter
 from weather import getWeather
+from funcPlots import createPlotWeatherYearAgo
 
 
 class AttractionToSee:
@@ -154,12 +155,13 @@ def confirmCountry(strVarCountry, frame, unit):
         frame.pack()
 
 
-def submitDepartureDate(dateDeparture, cal, labelSelectedDate, buttonYearAgo, futureData, pastData):
+def submitDepartureDate(dateDeparture, cal, labelSelectedDate, buttonYearAgo, futureData, pastData, parent):
     c.dateFlight = cal.get_date()
     buttonYearAgo['state']=tk.NORMAL
     print(c.dateFlight)
     labelSelectedDate['text'] = f'Selected date of departure: {c.dateFlight}'
     futureData, pastData = getWeather()
+    createPlotWeatherYearAgo(parent, pastData)
 
     
 
