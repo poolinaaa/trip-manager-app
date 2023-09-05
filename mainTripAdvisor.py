@@ -7,9 +7,10 @@ from ctypes import windll
 from partialForms import ThemeSection, InitializationFrame
 from funcBehaviorFrames import appearance, confirmCountry, clearView, loadFrame, confirmButton, submitDepartureDate
 import config as c
-from funcPlots import createPlotButton, createPlotButtonAll, createPlotButtonLastMonth
+from funcPlots import createPlotButton, createPlotButtonAll, createPlotButtonLastMonth, createPlotWeatherCurrent, createPlotWeatherYearAgo
 from tkcalendar import *
 import customtkinter
+from tkinter import *
 
 
 # main frame: menu
@@ -235,17 +236,16 @@ def loadFrame4():
     frameForecast = tk.Frame(master=frame4, bg=c.bgColor,
                              highlightbackground=c.bgColor, highlightcolor=c.bgColor)
     buttonYearAgo = customtkinter.CTkButton(
-        master=frameForecast, text='YEAR AGO', state=tk.DISABLED, fg_color=c.details)
+        master=frameForecast, text='YEAR AGO', fg_color=c.details, command=lambda: createPlotWeatherYearAgo(frameForecast, pastData))
     buttonFuture = customtkinter.CTkButton(
-        master=frameForecast, text='NEXT MONTH', state=tk.DISABLED, fg_color=c.details)
+        master=frameForecast, text='NEXT MONTH', fg_color=c.details,  command=lambda: createPlotWeatherCurrent(frameForecast, futureData))
 
     buttonDateOfDeparture = customtkinter.CTkButton(master=frame4, text='SUBMIT DATE', fg_color=c.details, command=lambda: submitDepartureDate(
-        dateDeparture, calDateOfDeparture, labelSelectedDate, buttonYearAgo, futureData, pastData, frameForecast))
+        dateDeparture, calDateOfDeparture, labelSelectedDate, buttonFuture, buttonYearAgo))
     buttonDateOfDeparture.pack()
 
     frameForecast.pack()
-    buttonFuture.pack()
-    buttonYearAgo.pack()
+
     labelSelectedDate.pack()
 
     backButton = customtkinter.CTkButton(master=frame4, text='BACK', fg_color=c.details,

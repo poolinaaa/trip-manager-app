@@ -1,10 +1,11 @@
-
+from weather import getWeather
 import requests
 import json
 from tkinter import *
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from datetime import date, timedelta
+import tkinter as tk
 
 
 def preparingPastData(pastData: dict):
@@ -14,14 +15,15 @@ def preparingPastData(pastData: dict):
 
 
 def createPlotWeatherYearAgo(parent, pastData):
-    x, y = preparingPastData(pastData)
+    futureData, pastData = getWeather()
+    x, y = preparingPastData(dict(pastData))
     fig = Figure(figsize=(3, 3), dpi=100)
     plotPast = fig.add_subplot(111)
 
     plotPast.plot(list(range(0, len(x))), y,)
     canvas = FigureCanvasTkAgg(fig, master=parent)
     canvas.draw()
-    canvas.get_tk_widget().pack()
+    canvas.get_tk_widget().grid(column=0,row=1, columnspan=2)
 
 def preparingCurrentData(futureData: dict):
     time = futureData['hourly']['time']
@@ -33,7 +35,8 @@ def preparingCurrentData(futureData: dict):
 
 
 def createPlotWeatherCurrent(parent, futureData):
-    x, y, y1, y2 = preparingCurrentData(futureData)
+    futureData, pastData = getWeather()
+    x, y, y1, y2 = preparingCurrentData(dict(futureData))
     xRange = list(range(0, len(x)))
     fig = Figure(figsize=(3, 3), dpi=100)
     
@@ -42,7 +45,7 @@ def createPlotWeatherCurrent(parent, futureData):
 
     canvas = FigureCanvasTkAgg(fig, master=parent)
     canvas.draw()
-    canvas.get_tk_widget().pack()
+    canvas.get_tk_widget().grid(column=0,row=1, columnspan=2)
 
 def createPlotButton(dates, rates, current, parent):
     y = rates

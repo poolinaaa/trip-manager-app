@@ -155,14 +155,14 @@ def confirmCountry(strVarCountry, frame, unit):
         frame.pack()
 
 
-def submitDepartureDate(dateDeparture, cal, labelSelectedDate, buttonYearAgo, futureData, pastData, parent):
+def submitDepartureDate(dateDeparture, cal, labelSelectedDate,buttonFuture, buttonYearAgo):
+
     c.dateFlight = cal.get_date()
-    buttonYearAgo['state']=tk.NORMAL
     print(c.dateFlight)
     labelSelectedDate['text'] = f'Selected date of departure: {c.dateFlight}'
-    futureData, pastData = getWeather()
-    createPlotWeatherYearAgo(parent, pastData)
-    createPlotWeatherCurrent(parent,futureData)
+    buttonFuture.grid(column=0,row=0)
+    buttonYearAgo.grid(column=1,row=0)
+    
     
 
     
