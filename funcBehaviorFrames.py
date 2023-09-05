@@ -9,7 +9,7 @@ from geoFunc import getDistanceBetweenPoints, searchAttractions, createTable
 import webbrowser
 import customtkinter
 from weather import getWeather
-from funcPlots import createPlotWeatherYearAgo
+from funcPlots import createPlotWeatherYearAgo, createPlotWeatherCurrent
 
 
 class AttractionToSee:
@@ -162,6 +162,8 @@ def submitDepartureDate(dateDeparture, cal, labelSelectedDate, buttonYearAgo, fu
     labelSelectedDate['text'] = f'Selected date of departure: {c.dateFlight}'
     futureData, pastData = getWeather()
     createPlotWeatherYearAgo(parent, pastData)
+    createPlotWeatherCurrent(parent,futureData)
+    
 
     
 
