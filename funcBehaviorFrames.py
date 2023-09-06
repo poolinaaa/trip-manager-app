@@ -1,3 +1,4 @@
+import datetime
 import config as c
 import requests
 import json
@@ -10,6 +11,7 @@ import webbrowser
 import customtkinter
 from weather import getWeather
 from funcPlots import createPlotWeatherYearAgo, createPlotWeatherCurrent
+from datetime import datetime
 
 
 class AttractionToSee:
@@ -200,19 +202,37 @@ def preparingData(data: dict, codeCurrency):
     c.pln = [data['rates'][date]['PLN'] for date in data['rates']]
     c.gbp = [data['rates'][date]['GBP'] for date in data['rates']]
 
+def checkDate(date):
+    try:
+        isDateCorrect = datetime.strptime(date, '%Y-%m-%d')
+        return True
+    except:
+        return False
+        
 
-def confirmButton(dateStart, dateEnd, baseCurrName, codeCurrency):
+
+def confirmButton(frame,dateStart, dateEnd, baseCurrName, codeCurrency):
+      
     start = dateStart.get()
     end = dateEnd.get()
-
-    params = {'start_date': start, 'end_date': end,
-              'base': baseCurrName, 'symbols': f'{codeCurrency},EUR,USD,PLN,GBP'}
-    r = requests.get('https://api.exchangerate.host/timeseries/', params)
-    print(r)
-    try:
-        currencyData = r.json()
-    except json.JSONDecodeError:
-        print('Wrong format of c.currencyData.')
+    if (checkDate(start) and checkDate(end)):
+        params = {'start_date': start, 'end_date': end,
+        'base': baseCurrName, 'symbols': f'{codeCurrency},EUR,USD,PLN,GBP'}
+        r = requests.get('https://api.exchangerate.host/timeseries/', params)
+        print(r)
+        try:
+            currencyData = r.json()
+        except json.JSONDecodeError:
+            print('Wrong format of c.currencyData.')
+        else:
+            print(currencyData)
+            preparingData(currencyData, codeCurrency)
+         
     else:
-        print(currencyData)
-        preparingData(currencyData, codeCurrency)
+        incorrectDate = tk.Label(master=frame, text='wrong format of date, try again')
+        incorrectDate.pack()
+        frame.after(5000, incorrectDate.destroy)
+            
+            
+
+

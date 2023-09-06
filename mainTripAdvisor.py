@@ -141,7 +141,7 @@ def loadFrame2():
     labelEndDate.grid(column=1, row=0)
 
     buttonConfirmDate = customtkinter.CTkButton(master=frameEnteringDate, width=20, text='CONFIRM TIME SPAN', fg_color=c.details,
-                                                command=lambda: confirmButton(c.dateStart, c.dateEnd, baseCurrName, codeCurrency))
+                                                command=lambda: confirmButton(frame2,c.dateStart, c.dateEnd, baseCurrName, codeCurrency))
     buttonConfirmDate.grid(column=3, row=1, padx=10, pady=5)
 
     entryStart = tk.Entry(master=frameEnteringDate,
