@@ -5,7 +5,7 @@ import tkinter as tk
 from currencyFunc import checkingCurrency, checkingBase
 from ctypes import windll
 from partialForms import ThemeSection, InitializationFrame
-from funcBehaviorFrames import appearance, confirmCountry, clearView, loadFrame, confirmButton, submitDepartureDate
+from funcBehaviorFrames import appearance, confirmCountry, clearView, loadFrame, confirmButton, submitDepartureDate, clearEntry, multipleFuncButton
 import config as c
 from funcPlots import createPlotButton, createPlotButtonAll, createPlotButtonLastMonth, createPlotWeatherCurrent, createPlotWeatherYearAgo
 from tkcalendar import *
@@ -151,6 +151,7 @@ def loadFrame2():
 
     entryEnd = tk.Entry(master=frameEnteringDate,
                         width=28, textvariable=c.dateEnd)
+    
     entryEnd.insert(0, 'YYYY-MM-DD')
     entryEnd.grid(column=1, row=1, padx=5, pady=5)
 
@@ -172,7 +173,7 @@ def loadFrame2():
     framePlots.pack()
 
     backButton = customtkinter.CTkButton(master=frame2, text='BACK', fg_color=c.details,
-                                         command=lambda: loadFrame(frame2, loadFrame1))
+                                         command=lambda: multipleFuncButton(clearEntry(entryStart,entryEnd), loadFrame(frame2, loadFrame1)))
     backButton.pack(side=tk.BOTTOM)
 
 # frame with flights

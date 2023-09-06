@@ -163,8 +163,16 @@ def submitDepartureDate(dateDeparture, cal, labelSelectedDate,buttonFuture, butt
     buttonFuture.grid(column=0,row=0)
     buttonYearAgo.grid(column=1,row=0)
     
-    
 
+def multipleFuncButton(*functions):
+    def executingFunctions(*args, **kwargs):
+        for func in functions:
+            func(*args, **kwargs)
+        return executingFunctions
+
+def clearEntry(*entries):
+    for entry in entries:
+        entry.delete(0,tk.END)
     
 
 
