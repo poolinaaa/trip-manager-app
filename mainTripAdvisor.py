@@ -240,14 +240,14 @@ def loadFrame4():
     
     backButton = customtkinter.CTkButton(master=frame4, text='BACK', fg_color=c.details, width=40, height=40,
                                          command=lambda: loadFrame(frame4, loadFrame1))
-    backButton.pack(side=TOP, anchor=NW)
+    backButton.grid(column=0,row=0)
     
     futureData = tk.StringVar()
     pastData = tk.StringVar()
 
     calDateOfDeparture = Calendar(
         master=frame4, selectmode='day', date_pattern='YYYY-MM-DD')
-    calDateOfDeparture.pack()
+    calDateOfDeparture.grid(column=1,row=1, rowspan=2)
     dateDeparture = tk.StringVar(value='YYYY-MM-DD')
     labelSelectedDate = tk.Label(
         master=frame4, text=f'Selected date of departure: ', bg=c.bgColor, fg='white')
@@ -261,12 +261,12 @@ def loadFrame4():
 
     buttonDateOfDeparture = customtkinter.CTkButton(master=frame4, text='SUBMIT DATE', fg_color=c.details, command=lambda: submitDepartureDate(
         dateDeparture, calDateOfDeparture, labelSelectedDate, buttonFuture, buttonYearAgo))
-    buttonDateOfDeparture.pack()
+    buttonDateOfDeparture.grid(column=2,row=1)
 
-    frameForecast.pack()
+    
 
-    labelSelectedDate.pack()
-
+    labelSelectedDate.grid(column=2,row=2)
+    frameForecast.grid(row=3,column=0,columnspan=3)
 
 
 
