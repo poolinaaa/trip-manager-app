@@ -124,13 +124,17 @@ def loadFrame1():
 
 def loadFrame2():
     frame2.tkraise()
-
+    
+    backButton = customtkinter.CTkButton(master=frame2, text='BACK', fg_color=c.details, width=40, height=40,
+                                         command=lambda: multipleFuncButton(clearEntry(entryStart, entryEnd), loadFrame(frame2, loadFrame1)))
+    backButton.pack(side=TOP, anchor=NW)
+    
     labelTitle = tk.Label(master=frame2, text="Analyse currency rate",
                           font=c.titleFont, bg=c.highlight, fg='white')
     labelTitle.pack()
 
     frameEnteringDate = tk.Frame(master=frame2, bg=c.highlight, highlightbackground=c.bgColor, highlightcolor=c.bgColor)
-    frameEnteringDate.pack(pady=10)
+    frameEnteringDate.pack(pady=20)
 
     labelStartDate = tk.Label(master=frameEnteringDate,
                               text='Enter the start date: ', fg='white',bg=c.highlight)
@@ -158,39 +162,41 @@ def loadFrame2():
     framePlots = tk.Frame(master=frame2, bg=c.bgColor,
                           highlightbackground=c.bgColor, highlightcolor=c.bgColor)
     
-    labelPlot1 = tk.Label(master=framePlots, text='label1', bg=c.bgColor,font=c.errorFont, fg='white')
-    labelPlot1.grid(column=0, row=0)
+    labelPlot1 = tk.Label(master=framePlots, text='Comparison to the current rate', bg=c.bgColor, fg='white')
+    labelPlot1.grid(column=0, row=0,padx=15)
 
-    buttonPlot1 = customtkinter.CTkButton(master=framePlots, width=20, text='PLOT', fg_color=c.details,
+    buttonPlot1 = customtkinter.CTkButton(master=framePlots, width=20, text='SHOW PLOT 1', fg_color=c.details,
                                           command=lambda: createPlotButton(c.dates, c.rate, c.current, framePlots))
-    buttonPlot1.grid(column=0, row=1, padx= 15)
+    buttonPlot1.grid(column=0, row=1, padx= 15, pady= 10)
 
-    labelPlot2 = tk.Label(master=framePlots, text='label2',bg=c.bgColor, font=c.errorFont, fg='white')
-    labelPlot2.grid(column=1, row=0)
+    labelPlot2 = tk.Label(master=framePlots, text='Rate compared to changes \nin EUR, USD, PLN, GBP',bg=c.bgColor,fg='white')
+    labelPlot2.grid(column=1, row=0,padx=15)
 
-    buttonPlot2 = customtkinter.CTkButton(master=framePlots, width=20, text='PLOT', fg_color=c.details, command=lambda: createPlotButtonAll(
+    buttonPlot2 = customtkinter.CTkButton(master=framePlots, width=20, text='SHOW PLOT 2', fg_color=c.details, command=lambda: createPlotButtonAll(
         c.dates, framePlots, c.rate, c.eur, c.usd, c.pln, c.gbp))
-    buttonPlot2.grid(column=1, row=1, padx= 15)
+    buttonPlot2.grid(column=1, row=1, padx= 15, pady= 10)
 
-    labelPlot3 = tk.Label(master=framePlots, text='Currency rate for the last 30 days', bg=c.bgColor, font=c.errorFont, fg='white')
-    labelPlot3.grid(column=2, row=0)
+    labelPlot3 = tk.Label(master=framePlots, text='Currency rate for the last 30 days', bg=c.bgColor,  fg='white')
+    labelPlot3.grid(column=2, row=0,padx=15)
 
-    buttonPlot3 = customtkinter.CTkButton(master=framePlots, width=20, text='PLOT', fg_color=c.details,
+    buttonPlot3 = customtkinter.CTkButton(master=framePlots, width=20, text='SHOW PLOT 3', fg_color=c.details,
                                           command=lambda: createPlotButtonLastMonth(baseCurrName, codeCurrency, framePlots))
-    buttonPlot3.grid(column=2, row=1, padx= 15)
+    buttonPlot3.grid(column=2, row=1, padx= 15, pady= 10)
 
     framePlots.pack()
 
-    backButton = customtkinter.CTkButton(master=frame2, text='BACK', fg_color=c.details,
-                                         command=lambda: multipleFuncButton(clearEntry(entryStart, entryEnd), loadFrame(frame2, loadFrame1)))
-    backButton.pack(side=tk.BOTTOM)
+
 
 # frame with flights
 
 
 def loadFrame3():
     frame3.tkraise()
-
+    
+    backButton = customtkinter.CTkButton(master=frame3, text='BACK', fg_color=c.details,width=40, height=40,
+                                         command=lambda: loadFrame(frame3, loadFrame1))
+    backButton.pack(side=TOP, anchor=NW)
+    
     labelTitle = tk.Label(master=frame3, text="Find a flight",
                           font=c.titleFont, bg=c.bgColor, fg='white')
     labelTitle.pack()
@@ -224,15 +230,18 @@ def loadFrame3():
                                                    command=lambda: confirmCountry(departureCountry, frameCheckbutton, var.get()))
     buttonConfirmCountry.pack()
 
-    backButton = customtkinter.CTkButton(master=frame3, text='BACK', fg_color=c.details,
-                                         command=lambda: loadFrame(frame3, loadFrame1))
-    backButton.pack(side=tk.BOTTOM)
+
 
 # frame with weather
 
 
 def loadFrame4():
     frame4.tkraise()
+    
+    backButton = customtkinter.CTkButton(master=frame4, text='BACK', fg_color=c.details, width=40, height=40,
+                                         command=lambda: loadFrame(frame4, loadFrame1))
+    backButton.pack(side=TOP, anchor=NW)
+    
     futureData = tk.StringVar()
     pastData = tk.StringVar()
 
@@ -258,9 +267,7 @@ def loadFrame4():
 
     labelSelectedDate.pack()
 
-    backButton = customtkinter.CTkButton(master=frame4, text='BACK', fg_color=c.details,
-                                         command=lambda: loadFrame(frame4, loadFrame1))
-    backButton.pack(side=tk.BOTTOM)
+
 
 
 windll.shcore.SetProcessDpiAwareness(1)
