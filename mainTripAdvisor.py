@@ -129,19 +129,19 @@ def loadFrame2():
                           font=c.titleFont, bg=c.highlight, fg='white')
     labelTitle.pack()
 
-    frameEnteringDate = tk.Frame(master=frame2)
-    frameEnteringDate.pack()
+    frameEnteringDate = tk.Frame(master=frame2, bg=c.highlight, highlightbackground=c.bgColor, highlightcolor=c.bgColor)
+    frameEnteringDate.pack(pady=10)
 
     labelStartDate = tk.Label(master=frameEnteringDate,
-                              text='Enter the start date: ')
+                              text='Enter the start date: ', fg='white',bg=c.highlight)
     labelStartDate.grid(column=0, row=0)
 
     labelEndDate = tk.Label(master=frameEnteringDate,
-                            text='Enter the end date: ')
+                            text='Enter the end date: ', fg='white',bg=c.highlight)
     labelEndDate.grid(column=1, row=0)
 
     buttonConfirmDate = customtkinter.CTkButton(master=frameEnteringDate, width=20, text='CONFIRM TIME SPAN', fg_color=c.details,
-                                                command=lambda: confirmButton(frame2,c.dateStart, c.dateEnd, baseCurrName, codeCurrency))
+                                                command=lambda: confirmButton(frame2, c.dateStart, c.dateEnd, baseCurrName, codeCurrency))
     buttonConfirmDate.grid(column=3, row=1, padx=10, pady=5)
 
     entryStart = tk.Entry(master=frameEnteringDate,
@@ -151,29 +151,38 @@ def loadFrame2():
 
     entryEnd = tk.Entry(master=frameEnteringDate,
                         width=28, textvariable=c.dateEnd)
-    
+
     entryEnd.insert(0, 'YYYY-MM-DD')
     entryEnd.grid(column=1, row=1, padx=5, pady=5)
 
     framePlots = tk.Frame(master=frame2, bg=c.bgColor,
                           highlightbackground=c.bgColor, highlightcolor=c.bgColor)
+    
+    labelPlot1 = tk.Label(master=framePlots, text='label1', bg=c.bgColor,font=c.errorFont, fg='white')
+    labelPlot1.grid(column=0, row=0)
 
     buttonPlot1 = customtkinter.CTkButton(master=framePlots, width=20, text='PLOT', fg_color=c.details,
                                           command=lambda: createPlotButton(c.dates, c.rate, c.current, framePlots))
-    buttonPlot1.grid(column=0, row=0)
+    buttonPlot1.grid(column=0, row=1, padx= 15)
+
+    labelPlot2 = tk.Label(master=framePlots, text='label2',bg=c.bgColor, font=c.errorFont, fg='white')
+    labelPlot2.grid(column=1, row=0)
 
     buttonPlot2 = customtkinter.CTkButton(master=framePlots, width=20, text='PLOT', fg_color=c.details, command=lambda: createPlotButtonAll(
         c.dates, framePlots, c.rate, c.eur, c.usd, c.pln, c.gbp))
-    buttonPlot2.grid(column=1, row=0)
+    buttonPlot2.grid(column=1, row=1, padx= 15)
+
+    labelPlot3 = tk.Label(master=framePlots, text='Currency rate for the last 30 days', bg=c.bgColor, font=c.errorFont, fg='white')
+    labelPlot3.grid(column=2, row=0)
 
     buttonPlot3 = customtkinter.CTkButton(master=framePlots, width=20, text='PLOT', fg_color=c.details,
                                           command=lambda: createPlotButtonLastMonth(baseCurrName, codeCurrency, framePlots))
-    buttonPlot3.grid(column=2, row=0)
+    buttonPlot3.grid(column=2, row=1, padx= 15)
 
     framePlots.pack()
 
     backButton = customtkinter.CTkButton(master=frame2, text='BACK', fg_color=c.details,
-                                         command=lambda: multipleFuncButton(clearEntry(entryStart,entryEnd), loadFrame(frame2, loadFrame1)))
+                                         command=lambda: multipleFuncButton(clearEntry(entryStart, entryEnd), loadFrame(frame2, loadFrame1)))
     backButton.pack(side=tk.BOTTOM)
 
 # frame with flights

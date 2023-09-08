@@ -132,7 +132,7 @@ def confirmCountry(strVarCountry, frame, unit):
             latBase, lngBase, destinationGeoInfo['lat'], destinationGeoInfo['lng'], unit)
 
         distanceLabel = tk.Label(
-            master=frame, text=f'Distance between {baseCountry} and {c.countryName.get().capitalize()} is about {distance} {unit}',font=c.questionFont, bg=c.highlight, fg='white', anchor="w")
+            master=frame, text=f'Distance between {baseCountry} and {c.countryName.get().capitalize()} is about {distance} {unit}', font=c.questionFont, bg=c.highlight, fg='white', anchor="w")
         distanceLabel.pack()
 
         attractions = searchAttractions(
@@ -150,21 +150,21 @@ def confirmCountry(strVarCountry, frame, unit):
             listOfAttractions.append(landmark)
             landmark.checkboxButton(frame)
 
-        buttonSave = customtkinter.CTkButton(master=frame, text='CONFIRM CHOICES',fg_color=c.highlight,
-                               command=lambda: savingLandmarks(listOfAttractions))
+        buttonSave = customtkinter.CTkButton(master=frame, text='CONFIRM CHOICES', fg_color=c.highlight,
+                                             command=lambda: savingLandmarks(listOfAttractions))
         buttonSave.pack()
 
         frame.pack()
 
 
-def submitDepartureDate(dateDeparture, cal, labelSelectedDate,buttonFuture, buttonYearAgo):
+def submitDepartureDate(dateDeparture, cal, labelSelectedDate, buttonFuture, buttonYearAgo):
 
     c.dateFlight = cal.get_date()
     print(c.dateFlight)
     labelSelectedDate['text'] = f'Selected date of departure: {c.dateFlight}'
-    buttonFuture.grid(column=0,row=0)
-    buttonYearAgo.grid(column=1,row=0)
-    
+    buttonFuture.grid(column=0, row=0)
+    buttonYearAgo.grid(column=1, row=0)
+
 
 def multipleFuncButton(*functions):
     def executingFunctions(*args, **kwargs):
@@ -172,10 +172,10 @@ def multipleFuncButton(*functions):
             func(*args, **kwargs)
         return executingFunctions
 
+
 def clearEntry(*entries):
     for entry in entries:
-        entry.delete(0,tk.END)
-    
+        entry.delete(0, tk.END)
 
 
 def clearView(frame):
@@ -202,22 +202,22 @@ def preparingData(data: dict, codeCurrency):
     c.pln = [data['rates'][date]['PLN'] for date in data['rates']]
     c.gbp = [data['rates'][date]['GBP'] for date in data['rates']]
 
+
 def checkDate(date):
     try:
         isDateCorrect = datetime.strptime(date, '%Y-%m-%d')
         return True
     except:
         return False
-        
 
 
-def confirmButton(frame,dateStart, dateEnd, baseCurrName, codeCurrency):
-      
+def confirmButton(frame, dateStart, dateEnd, baseCurrName, codeCurrency):
+
     start = dateStart.get()
     end = dateEnd.get()
     if (checkDate(start) and checkDate(end)):
         params = {'start_date': start, 'end_date': end,
-        'base': baseCurrName, 'symbols': f'{codeCurrency},EUR,USD,PLN,GBP'}
+                  'base': baseCurrName, 'symbols': f'{codeCurrency},EUR,USD,PLN,GBP'}
         r = requests.get('https://api.exchangerate.host/timeseries/', params)
         print(r)
         try:
@@ -227,12 +227,9 @@ def confirmButton(frame,dateStart, dateEnd, baseCurrName, codeCurrency):
         else:
             print(currencyData)
             preparingData(currencyData, codeCurrency)
-         
+
     else:
-        incorrectDate = tk.Label(master=frame, text='wrong format of date, try again')
+        incorrectDate = tk.Label(
+            master=frame, text='wrong format of date, try again')
         incorrectDate.pack()
         frame.after(5000, incorrectDate.destroy)
-            
-            
-
-
