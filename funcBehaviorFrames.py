@@ -230,6 +230,6 @@ def confirmButton(frame, dateStart, dateEnd, baseCurrName, codeCurrency):
 
     else:
         incorrectDate = tk.Label(
-            master=frame, text='wrong format of date, try again')
+            master=frame, text='wrong format of date, try again', font=c.errorFont, bg=c.highlight,fg='white')
         incorrectDate.pack()
         frame.after(5000, incorrectDate.destroy)
