@@ -10,7 +10,7 @@ from geoFunc import getDistanceBetweenPoints, searchAttractions, createTable
 import webbrowser
 import customtkinter
 from weather import getWeather
-from funcPlots import createPlotWeatherYearAgo, createPlotWeatherCurrent
+from plotsWeather import createPlotWeatherYearAgo, createPlotWeatherCurrent
 from datetime import datetime
 
 

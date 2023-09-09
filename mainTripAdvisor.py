@@ -7,7 +7,8 @@ from ctypes import windll
 from partialForms import ThemeSection, InitializationFrame
 from funcBehaviorFrames import appearance, confirmCountry, clearView, loadFrame, confirmButton, submitDepartureDate, clearEntry, multipleFuncButton
 import config as c
-from funcPlots import createPlotButton, createPlotButtonAll, createPlotButtonLastMonth, createPlotWeatherCurrent, createPlotWeatherYearAgo
+from funcPlots import createPlotButton, createPlotButtonAll, createPlotButtonLastMonth
+from plotsWeather import createPlotWeatherCurrent, createPlotWeatherYearAgo
 from tkcalendar import *
 import customtkinter
 from tkinter import *
