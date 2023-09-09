@@ -24,6 +24,7 @@ def createPlotButton(dates, rates, current, parent):
     plot1.set_xlabel('X Label')
     plot1.set_ylabel('Y Label')
     plot1.set_title('Plot Title')
+    fig.tight_layout()
 
 
 def createPlotButtonAll(dates, parent, ratesChosenCountry, EUR, USD, PLN, GBP):
@@ -47,6 +48,7 @@ def createPlotButtonAll(dates, parent, ratesChosenCountry, EUR, USD, PLN, GBP):
     plot1.set_xlabel('X Label')
     plot1.set_ylabel('Y Label')
     plot1.set_title('Plot Title')
+    fig.tight_layout()
 
 
 def createPlotButtonLastMonth(baseCurrName, codeCurrency, parent):
@@ -81,3 +83,4 @@ def createPlotButtonLastMonth(baseCurrName, codeCurrency, parent):
         plot1.set_xlabel('X Label')
         plot1.set_ylabel('Y Label')
         plot1.set_title('Plot Title')
+        fig.tight_layout()

@@ -21,7 +21,8 @@ def createPlotWeatherYearAgo(parent, pastData):
     canvas.get_tk_widget().grid(column=0,row=1, columnspan=2)
     plotPast.set_xlabel('X Label')  
     plotPast.set_ylabel('Y Label')  
-    plotPast.set_title('Plot Title')  
+    plotPast.set_title('Plot Title')
+    fig.tight_layout()  
 
 def preparingCurrentData(futureData: dict):
     time = futureData['hourly']['time']
@@ -47,3 +48,4 @@ def createPlotWeatherCurrent(parent, futureData):
     plotCurrentTemp.set_xlabel('X Label')  
     plotCurrentTemp.set_ylabel('Y Label')  
     plotCurrentTemp.set_title('Plot Title')
+    fig.tight_layout()

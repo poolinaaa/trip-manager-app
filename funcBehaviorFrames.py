@@ -154,7 +154,7 @@ def confirmCountry(strVarCountry, frame, unit):
                                              command=lambda: savingLandmarks(listOfAttractions))
         buttonSave.pack()
 
-        frame.pack()
+        frame.pack(side=RIGHT, padx=30)
 
 
 def submitDepartureDate(dateDeparture, cal, labelSelectedDate, buttonFuture, buttonYearAgo):
@@ -233,3 +233,19 @@ def confirmButton(frame, dateStart, dateEnd, baseCurrName, codeCurrency):
             master=frame, text='wrong format of date, try again', font=c.errorFont, bg=c.highlight,fg='white')
         incorrectDate.pack()
         frame.after(5000, incorrectDate.destroy)
+
+def preparingLabelCities(frame):
+    destinationGeoInfo = searchInfoAboutDestination()
+    print(destinationGeoInfo)
+    
+    capital = destinationGeoInfo['capital']
+    cities = [city for city in destinationGeoInfo['citiesPopulation']]
+    population = [destinationGeoInfo['citiesPopulation'][city] for city in destinationGeoInfo['citiesPopulation']]
+    print(cities)
+    print(capital)
+    print(population)
+    
+    labelCapital = tk.Label(frame, text=f'Capital: {capital}')
+    labelCities = tk.Label(frame, text=f'The most crowded cities:\n{cities[0]}, population:{population[0]}\n{cities[1]}, population:{population[1]}\n{cities[2]}, population:{population[2]}\n{cities[3]}, population:{population[3]}\n{cities[4]}, population:{population[4]}')
+    labelCapital.pack(pady=20)
+    labelCities.pack()

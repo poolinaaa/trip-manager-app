@@ -5,7 +5,7 @@ import tkinter as tk
 from currencyFunc import checkingCurrency, checkingBase
 from ctypes import windll
 from partialForms import ThemeSection, InitializationFrame
-from funcBehaviorFrames import appearance, confirmCountry, clearView, loadFrame, confirmButton, submitDepartureDate, clearEntry, multipleFuncButton
+from funcBehaviorFrames import appearance, preparingLabelCities, confirmCountry, clearView, loadFrame, confirmButton, submitDepartureDate, clearEntry, multipleFuncButton
 import config as c
 from funcPlots import createPlotButton, createPlotButtonAll, createPlotButtonLastMonth
 from plotsWeather import createPlotWeatherCurrent, createPlotWeatherYearAgo
@@ -196,43 +196,48 @@ def loadFrame2():
 
 def loadFrame3():
     frame3.tkraise()
-
+    frameOptions = tk.Frame(frame3)
     backButton = customtkinter.CTkButton(master=frame3, text='BACK', fg_color=c.details, width=40, height=40,
                                          command=lambda: loadFrame(frame3, loadFrame1))
     backButton.pack(side=TOP, anchor=NW)
 
-    labelTitle = tk.Label(master=frame3, text="Find a flight",
+    labelTitle = tk.Label(master=frame3, text=f"Discover some geographical facts about {c.countryName.get().capitalize()}",
                           font=c.titleFont, bg=c.bgColor, fg='white')
     labelTitle.pack()
+    frameOptions.pack()
 
-    labelDepartureCountry = tk.Label(master=frame3, text="What is your departure country?",
+    labelDepartureCountry = tk.Label(master=frameOptions, text="What is your departure country?",
                                      width=30, font=c.questionFont, bg=c.bgColor, fg='white', anchor="w")
-    labelDepartureCountry.pack()
+    labelDepartureCountry.grid(column=0, row=0)
+
     departureCountry = tk.StringVar(value='country')
 
     entryDepartureCountry = tk.Entry(
-        master=frame3, textvariable=departureCountry)
-    entryDepartureCountry.pack()
+        master=frameOptions, textvariable=departureCountry)
+    entryDepartureCountry.grid(column=0, row=1)
 
-    labelUnit = tk.Label(master=frame3, text='Select the unit in which the distance will be displayed',
+    labelUnit = tk.Label(master=frameOptions, text='Select the unit in which the distance will be displayed',
                          width=30, font=c.questionFont, bg=c.bgColor, fg='white', anchor="w")
-    labelUnit.pack()
+    labelUnit.grid(column=1, row=0, columnspan=2)
 
     var = tk.StringVar(value='kilometers')
 
     kmButton = tk.Radiobutton(
-        master=frame3, text='kilometers', variable=var, value='kilometers')
+        master=frameOptions, text='kilometers', variable=var, value='kilometers')
     milesButton = tk.Radiobutton(
-        master=frame3, text='miles', variable=var, value='miles')
+        master=frameOptions, text='miles', variable=var, value='miles')
 
-    kmButton.pack()
-    milesButton.pack()
+    kmButton.grid(column=1, row=1)
+    milesButton.grid(column=2, row=1)
 
+    frameCities = tk.Frame(frame3)
+    frameCities.pack(side=LEFT, padx=30)
+    preparingLabelCities(frameCities)
     frameCheckbutton = tk.Frame(master=frame3, bg=c.highlight)
 
-    buttonConfirmCountry = customtkinter.CTkButton(master=frame3, text='CONFIRM COUNTRY', fg_color=c.details,
+    buttonConfirmCountry = customtkinter.CTkButton(master=frameOptions, text='CONFIRM COUNTRY', fg_color=c.details,
                                                    command=lambda: confirmCountry(departureCountry, frameCheckbutton, var.get()))
-    buttonConfirmCountry.pack()
+    buttonConfirmCountry.grid(row=2, column=0, columnspan=3)
 
 
 # frame with weather
@@ -264,13 +269,14 @@ def loadFrame4():
 
     labelTitle = tk.Label(master=frame4, text="Check the weather",
                           font=c.titleFont, bg=c.highlight, fg='white')
-    labelTitle.grid(column=2,row=1, columnspan=3,padx=30, sticky='w')
+    labelTitle.grid(column=2, row=1, columnspan=3, padx=30, sticky='w')
 
     buttonDateOfDeparture = customtkinter.CTkButton(master=frame4, text='SUBMIT DATE', fg_color=c.details, command=lambda: submitDepartureDate(
         dateDeparture, calDateOfDeparture, labelSelectedDate, buttonFuture, buttonYearAgo))
-    buttonDateOfDeparture.grid(column=2, row=2, columnspan=3,padx=30, sticky='w')
+    buttonDateOfDeparture.grid(
+        column=2, row=2, columnspan=3, padx=30, sticky='w')
 
-    labelSelectedDate.grid(column=2, row=3, columnspan=3,padx=30, sticky='w')
+    labelSelectedDate.grid(column=2, row=3, columnspan=3, padx=30, sticky='w')
     frameForecast.grid(row=4, column=0, columnspan=5, pady=15)
 
 
