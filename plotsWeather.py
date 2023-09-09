@@ -12,13 +12,16 @@ def preparingPastData(pastData: dict):
 def createPlotWeatherYearAgo(parent, pastData):
     futureData, pastData = getWeather()
     x, y = preparingPastData(dict(pastData))
-    fig = Figure(figsize=(4, 2), dpi=100)
+    fig = Figure(figsize=(5, 3))
     plotPast = fig.add_subplot(111)
 
     plotPast.plot(list(range(0, len(x))), y,)
     canvas = FigureCanvasTkAgg(fig, master=parent)
     canvas.draw()
     canvas.get_tk_widget().grid(column=0,row=1, columnspan=2)
+    plotPast.set_xlabel('X Label')  
+    plotPast.set_ylabel('Y Label')  
+    plotPast.set_title('Plot Title')  
 
 def preparingCurrentData(futureData: dict):
     time = futureData['hourly']['time']
@@ -33,7 +36,7 @@ def createPlotWeatherCurrent(parent, futureData):
     futureData, pastData = getWeather()
     x, y, y1, y2 = preparingCurrentData(dict(futureData))
     xRange = list(range(0, len(x)))
-    fig = Figure(figsize=(4, 2), dpi=100)
+    fig = Figure(figsize=(5, 3))
     
     plotCurrentTemp = fig.add_subplot(111)
     plotCurrentTemp.plot(xRange, y, xRange, y1, xRange, y2)
@@ -41,3 +44,6 @@ def createPlotWeatherCurrent(parent, futureData):
     canvas = FigureCanvasTkAgg(fig, master=parent)
     canvas.draw()
     canvas.get_tk_widget().grid(column=0,row=1, columnspan=2)
+    plotCurrentTemp.set_xlabel('X Label')  
+    plotCurrentTemp.set_ylabel('Y Label')  
+    plotCurrentTemp.set_title('Plot Title')

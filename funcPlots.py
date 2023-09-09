@@ -1,4 +1,3 @@
-from weather import getWeather
 import requests
 import json
 from tkinter import *
@@ -13,16 +12,18 @@ def createPlotButton(dates, rates, current, parent):
     x = {num: date for num, date in enumerate(dates)}
     currRate = [current for _ in range(len(dates))]
 
-    fig = Figure(figsize=(4, 2))
+    fig = Figure(figsize=(5, 3))
     plot1 = fig.add_subplot(111)
 
     plot1.plot(list(range(0, len(dates))), y,
                list(range(0, len(dates))), currRate)
-    plt.xlabel('')
-    plt.ylabel('')
+
     canvas = FigureCanvasTkAgg(fig, master=parent)
     canvas.draw()
     canvas.get_tk_widget().grid(column=0, row=2, columnspan=3, pady=10)
+    plot1.set_xlabel('X Label')
+    plot1.set_ylabel('Y Label')
+    plot1.set_title('Plot Title')
 
 
 def createPlotButtonAll(dates, parent, ratesChosenCountry, EUR, USD, PLN, GBP):
@@ -33,17 +34,19 @@ def createPlotButtonAll(dates, parent, ratesChosenCountry, EUR, USD, PLN, GBP):
     u = USD
     p = PLN
     g = GBP
-    # the figure that will contain the plot
-    fig = Figure(figsize=(4, 2))
+
+    fig = Figure(figsize=(5, 3))
 
     plot1 = fig.add_subplot(111)
 
     plot1.plot(ox, y, ox, e, ox, u, ox, p, ox, g)
-    plt.xlabel('')
-    plt.ylabel('')
+
     canvas = FigureCanvasTkAgg(fig, master=parent)
     canvas.draw()
     canvas.get_tk_widget().grid(column=0, row=2, columnspan=3, pady=10)
+    plot1.set_xlabel('X Label')
+    plot1.set_ylabel('Y Label')
+    plot1.set_title('Plot Title')
 
 
 def createPlotButtonLastMonth(baseCurrName, codeCurrency, parent):
@@ -67,7 +70,7 @@ def createPlotButtonLastMonth(baseCurrName, codeCurrency, parent):
         y = rate
         x = {num: date for num, date in enumerate(dates)}
 
-        fig = Figure(figsize=(4, 2))
+        fig = Figure(figsize=(5, 3))
         plot1 = fig.add_subplot(111)
 
         plot1.plot(list(range(0, len(dates))), y)
@@ -75,3 +78,6 @@ def createPlotButtonLastMonth(baseCurrName, codeCurrency, parent):
         canvas = FigureCanvasTkAgg(fig, master=parent)
         canvas.draw()
         canvas.get_tk_widget().grid(column=0, row=2, columnspan=3, pady=10)
+        plot1.set_xlabel('X Label')
+        plot1.set_ylabel('Y Label')
+        plot1.set_title('Plot Title')
