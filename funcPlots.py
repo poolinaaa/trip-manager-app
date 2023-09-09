@@ -1,11 +1,13 @@
+from turtle import width
 from weather import getWeather
 import requests
 import json
 from tkinter import *
 from matplotlib.figure import Figure
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.backends.backend_tkagg import NavigationToolbar2Tk, FigureCanvasTkAgg 
 from datetime import date, timedelta
 import tkinter as tk
+import matplotlib.pyplot as plt
 
 
 def preparingPastData(pastData: dict):
@@ -102,10 +104,32 @@ def createPlotButtonLastMonth(baseCurrName, codeCurrency, parent):
         y = rate
         x = {num: date for num, date in enumerate(dates)}
 
-        fig = Figure(figsize=(3, 3), dpi=100)
-        plot1 = fig.add_subplot(111)
+        fig = plt.figure()
+        #plot1 = fig.add_subplot(111)
+        fig.set_figheight(5)
+        fig.set_figwidth(10)
 
-        plot1.plot(list(range(0, len(dates))), y)
+        plt.plot(list(range(0, len(dates))), y)
         canvas = FigureCanvasTkAgg(fig, master=parent)
+        
         canvas.draw()
         canvas.get_tk_widget().grid(column=0, row=1, columnspan=3)
+
+
+        figure = Figure(figsize=(6, 4), dpi=100)
+
+        # create FigureCanvasTkAgg object
+        figure_canvas = FigureCanvasTkAgg(figure, self)
+
+        # create the toolbar
+        NavigationToolbar2Tk(figure_canvas, self)
+
+        # create axes
+        axes = figure.add_subplot()
+
+        # create the barchart
+        axes.bar(languages, popularity)
+        axes.set_title('Top 5 Programming Languages')
+        axes.set_ylabel('Popularity')
+
+        figure_canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)

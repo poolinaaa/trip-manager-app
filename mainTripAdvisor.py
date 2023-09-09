@@ -124,24 +124,25 @@ def loadFrame1():
 
 def loadFrame2():
     frame2.tkraise()
-    
+
     backButton = customtkinter.CTkButton(master=frame2, text='BACK', fg_color=c.details, width=40, height=40,
                                          command=lambda: multipleFuncButton(clearEntry(entryStart, entryEnd), loadFrame(frame2, loadFrame1)))
     backButton.pack(side=TOP, anchor=NW)
-    
+
     labelTitle = tk.Label(master=frame2, text="Analyse currency rate",
                           font=c.titleFont, bg=c.highlight, fg='white')
     labelTitle.pack()
 
-    frameEnteringDate = tk.Frame(master=frame2, bg=c.highlight, highlightbackground=c.bgColor, highlightcolor=c.bgColor)
+    frameEnteringDate = tk.Frame(
+        master=frame2, bg=c.highlight, highlightbackground=c.bgColor, highlightcolor=c.bgColor)
     frameEnteringDate.pack(pady=20)
 
     labelStartDate = tk.Label(master=frameEnteringDate,
-                              text='Enter the start date: ', fg='white',bg=c.highlight)
+                              text='Enter the start date: ', fg='white', bg=c.highlight)
     labelStartDate.grid(column=0, row=0)
 
     labelEndDate = tk.Label(master=frameEnteringDate,
-                            text='Enter the end date: ', fg='white',bg=c.highlight)
+                            text='Enter the end date: ', fg='white', bg=c.highlight)
     labelEndDate.grid(column=1, row=0)
 
     buttonConfirmDate = customtkinter.CTkButton(master=frameEnteringDate, width=20, text='CONFIRM TIME SPAN', fg_color=c.details,
@@ -161,30 +162,32 @@ def loadFrame2():
 
     framePlots = tk.Frame(master=frame2, bg=c.bgColor,
                           highlightbackground=c.bgColor, highlightcolor=c.bgColor)
-    
-    labelPlot1 = tk.Label(master=framePlots, text='Comparison to the current rate', bg=c.bgColor, fg='white')
-    labelPlot1.grid(column=0, row=0,padx=15)
+
+    labelPlot1 = tk.Label(
+        master=framePlots, text='Comparison to the current rate', bg=c.bgColor, fg='white')
+    labelPlot1.grid(column=0, row=0, padx=15)
 
     buttonPlot1 = customtkinter.CTkButton(master=framePlots, width=20, text='SHOW PLOT 1', fg_color=c.details,
                                           command=lambda: createPlotButton(c.dates, c.rate, c.current, framePlots))
-    buttonPlot1.grid(column=0, row=1, padx= 15, pady= 10)
+    buttonPlot1.grid(column=0, row=1, padx=15, pady=10)
 
-    labelPlot2 = tk.Label(master=framePlots, text='Rate compared to changes \nin EUR, USD, PLN, GBP',bg=c.bgColor,fg='white')
-    labelPlot2.grid(column=1, row=0,padx=15)
+    labelPlot2 = tk.Label(
+        master=framePlots, text='Rate compared to changes \nin EUR, USD, PLN, GBP', bg=c.bgColor, fg='white')
+    labelPlot2.grid(column=1, row=0, padx=15)
 
     buttonPlot2 = customtkinter.CTkButton(master=framePlots, width=20, text='SHOW PLOT 2', fg_color=c.details, command=lambda: createPlotButtonAll(
         c.dates, framePlots, c.rate, c.eur, c.usd, c.pln, c.gbp))
-    buttonPlot2.grid(column=1, row=1, padx= 15, pady= 10)
+    buttonPlot2.grid(column=1, row=1, padx=15, pady=10)
 
-    labelPlot3 = tk.Label(master=framePlots, text='Currency rate for the last 30 days', bg=c.bgColor,  fg='white')
-    labelPlot3.grid(column=2, row=0,padx=15)
+    labelPlot3 = tk.Label(
+        master=framePlots, text='Currency rate for the last 30 days', bg=c.bgColor,  fg='white')
+    labelPlot3.grid(column=2, row=0, padx=15)
 
     buttonPlot3 = customtkinter.CTkButton(master=framePlots, width=20, text='SHOW PLOT 3', fg_color=c.details,
                                           command=lambda: createPlotButtonLastMonth(baseCurrName, codeCurrency, framePlots))
-    buttonPlot3.grid(column=2, row=1, padx= 15, pady= 10)
+    buttonPlot3.grid(column=2, row=1, padx=15, pady=10)
 
     framePlots.pack()
-
 
 
 # frame with flights
@@ -192,11 +195,11 @@ def loadFrame2():
 
 def loadFrame3():
     frame3.tkraise()
-    
-    backButton = customtkinter.CTkButton(master=frame3, text='BACK', fg_color=c.details,width=40, height=40,
+
+    backButton = customtkinter.CTkButton(master=frame3, text='BACK', fg_color=c.details, width=40, height=40,
                                          command=lambda: loadFrame(frame3, loadFrame1))
     backButton.pack(side=TOP, anchor=NW)
-    
+
     labelTitle = tk.Label(master=frame3, text="Find a flight",
                           font=c.titleFont, bg=c.bgColor, fg='white')
     labelTitle.pack()
@@ -231,26 +234,25 @@ def loadFrame3():
     buttonConfirmCountry.pack()
 
 
-
 # frame with weather
 
 
 def loadFrame4():
     frame4.tkraise()
-    
+
     backButton = customtkinter.CTkButton(master=frame4, text='BACK', fg_color=c.details, width=40, height=40,
                                          command=lambda: loadFrame(frame4, loadFrame1))
-    backButton.grid(column=0,row=0)
-    
+    backButton.grid(column=0, row=0)
+
     futureData = tk.StringVar()
     pastData = tk.StringVar()
 
     calDateOfDeparture = Calendar(
         master=frame4, selectmode='day', date_pattern='YYYY-MM-DD')
-    calDateOfDeparture.grid(column=1,row=1, rowspan=2)
+    calDateOfDeparture.grid(column=1, row=1, rowspan=3, padx=50)
     dateDeparture = tk.StringVar(value='YYYY-MM-DD')
     labelSelectedDate = tk.Label(
-        master=frame4, text=f'Selected date of departure: ', bg=c.bgColor, fg='white')
+        master=frame4, text=f'Selected date of departure: ', font=c.titleFont, bg=c.highlight, fg='white')
 
     frameForecast = tk.Frame(master=frame4, bg=c.bgColor,
                              highlightbackground=c.bgColor, highlightcolor=c.bgColor)
@@ -259,15 +261,16 @@ def loadFrame4():
     buttonFuture = customtkinter.CTkButton(
         master=frameForecast, text='NEXT MONTH', fg_color=c.details,  command=lambda: createPlotWeatherCurrent(frameForecast, futureData))
 
+    labelTitle = tk.Label(master=frame4, text="Check the weather",
+                          font=c.titleFont, bg=c.highlight, fg='white')
+    labelTitle.grid(column=2,row=1, columnspan=3,padx=30, sticky='w')
+
     buttonDateOfDeparture = customtkinter.CTkButton(master=frame4, text='SUBMIT DATE', fg_color=c.details, command=lambda: submitDepartureDate(
         dateDeparture, calDateOfDeparture, labelSelectedDate, buttonFuture, buttonYearAgo))
-    buttonDateOfDeparture.grid(column=2,row=1)
+    buttonDateOfDeparture.grid(column=2, row=2, columnspan=3,padx=30, sticky='w')
 
-    
-
-    labelSelectedDate.grid(column=2,row=2)
-    frameForecast.grid(row=3,column=0,columnspan=3)
-
+    labelSelectedDate.grid(column=2, row=3, columnspan=3,padx=30, sticky='w')
+    frameForecast.grid(row=4, column=0, columnspan=5, pady=15)
 
 
 windll.shcore.SetProcessDpiAwareness(1)
@@ -298,9 +301,6 @@ c.countryName = tk.StringVar(value='your country')
 c.baseCurrency = tk.StringVar(value='your base currency')
 c.dateStart = tk.StringVar()
 c.dateEnd = tk.StringVar()
-
-
-iata = tk.StringVar()
 
 for frame in (frame1, frame2, frame3, frame4):
 
