@@ -112,10 +112,10 @@ def savingLandmarks(listAttractions):
             landmark.openInTheBrowser()
 
 
-def confirmCountry(strVarCountry, frame, unit):
+def confirmCountry(strVarCountry, frame, unit, frameToDestroy):
     baseCountry = strVarCountry.get().capitalize()
     baseCountry = checkingCountry(baseCountry)
-
+    
     with open('worldcities.csv', encoding='utf8') as csvFile:
         csvRead = csv.reader(csvFile, delimiter=',')
         for row in csvRead:
@@ -153,8 +153,8 @@ def confirmCountry(strVarCountry, frame, unit):
         buttonSave = customtkinter.CTkButton(master=frame, text='SAVE IN THE DATABASE', fg_color=c.details,
                                              command=lambda: savingLandmarks(listOfAttractions))
         buttonSave.pack(pady=10)
-
-        frame.pack(side=LEFT, pady=10, padx=37, anchor='n')
+        frameToDestroy.destroy()
+        frame.pack(side=LEFT, pady=10, anchor='nw')
 
 
 def submitDepartureDate(dateDeparture, cal, labelSelectedDate, buttonFuture, buttonYearAgo):

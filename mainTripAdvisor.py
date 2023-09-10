@@ -12,6 +12,7 @@ from plotsWeather import createPlotWeatherCurrent, createPlotWeatherYearAgo
 from tkcalendar import *
 import customtkinter
 from tkinter import *
+from PIL import ImageTk, Image
 
 
 # main frame: menu
@@ -238,20 +239,37 @@ def loadFrame3():
     var = tk.StringVar(value='kilometers')
 
     kmButton = tk.Radiobutton(
-        master=frameOptions, text='kilometers', variable=var, value='kilometers')
+        master=frameOptions, text='kilometers', variable=var, value='kilometers',bg='#9dc0d1')
     milesButton = tk.Radiobutton(
-        master=frameOptions, text='miles', variable=var, value='miles')
+        master=frameOptions, text='miles', variable=var, value='miles',bg='#9dc0d1')
 
-    kmButton.grid(column=1, row=1)
-    milesButton.grid(column=2, row=1)
+    kmButton.grid(column=1, row=1, pady=5)
+    milesButton.grid(column=2, row=1,pady=5)
 
     frameCities = tk.Frame(frame3, bg=c.highlight, height=450)
     frameCities.pack(side=LEFT, anchor='n', padx=55, pady=10)
     preparingLabelCities(frameCities)
     frameCheckbutton = tk.Frame(master=frame3, bg=c.highlight, width=300, height=450)
+    
+    img= (Image.open("globe.png"))
+
+
+    resized_image= img.resize((300,300))
+    new_image= ImageTk.PhotoImage(resized_image)
+    
+    
+    framePic =tk.Frame(master=frame3,bg=c.bgColor)
+    
+    pictureWidget = tk.Label(master=framePic, image=new_image, width=300, height=300,bg=c.bgColor)
+    
+    pictureWidget.image = new_image
+    pictureWidget.pack(pady=10)
+    
+    framePic.pack(side=LEFT, pady=30, padx=34, anchor='n')
+
 
     buttonConfirmCountry = customtkinter.CTkButton(master=frameOptions, text='CONFIRM COUNTRY', fg_color=c.details,
-                                                   command=lambda: confirmCountry(departureCountry, frameCheckbutton, var.get()))
+                                                   command=lambda: confirmCountry(departureCountry, frameCheckbutton, var.get(),framePic))
     buttonConfirmCountry.grid(row=2, column=0, columnspan=3, pady=20)
 
 
@@ -273,7 +291,7 @@ def loadFrame4():
     calDateOfDeparture.grid(column=1, row=1, rowspan=3, padx=50)
     dateDeparture = tk.StringVar(value='YYYY-MM-DD')
     labelSelectedDate = tk.Label(
-        master=frame4, text=f'Selected date of departure: ', font=c.titleFont, bg=c.highlight, fg='white')
+        master=frame4, text=f'Select date of the departure', font=c.titleFont, bg=c.highlight, fg='white')
 
     frameForecast = tk.Frame(master=frame4, bg=c.bgColor,
                              highlightbackground=c.bgColor, highlightcolor=c.bgColor)
