@@ -220,7 +220,7 @@ def loadFrame2():
 
 def loadFrame3():
     frame3.tkraise()
-    frameOptions = tk.Frame(frame3)
+    frameOptions = tk.Frame(frame3, bg=c.highlight)
     backButton = customtkinter.CTkButton(master=frame3, text='BACK', fg_color=c.details, width=40, height=40,
                                          command=lambda: loadFrame(frame3, loadFrame1))
     backButton.pack(side=TOP, anchor=NW)
@@ -241,27 +241,27 @@ def loadFrame3():
     entryDepartureCountry.grid(column=0, row=1)
 
     labelUnit = tk.Label(master=frameOptions, text='Select the unit in which the distance will be displayed',
-                         width=30, font=c.questionFont, bg=c.bgColor, fg='white', anchor="w")
+                         font=c.questionFont, bg=c.bgColor, fg='white', anchor="w")
     labelUnit.grid(column=1, row=0, columnspan=2)
 
     var = tk.StringVar(value='kilometers')
 
     kmButton = tk.Radiobutton(
-        master=frameOptions, text='kilometers', variable=var, value='kilometers')
+        master=frameOptions, text='kilometers', variable=var, value='kilometers', bg=c.highlight, fg='white')
     milesButton = tk.Radiobutton(
-        master=frameOptions, text='miles', variable=var, value='miles')
+        master=frameOptions, text='miles', variable=var, value='miles', bg=c.highlight, fg='white')
 
     kmButton.grid(column=1, row=1)
     milesButton.grid(column=2, row=1)
 
-    frameCities = tk.Frame(frame3)
-    frameCities.pack(side=LEFT, padx=30)
+    frameCities = tk.Frame(frame3, bg=c.highlight)
+    frameCities.pack(side=LEFT, padx=50, pady=30)
     preparingLabelCities(frameCities)
-    frameCheckbutton = tk.Frame(master=frame3, bg=c.highlight)
+    frameCheckbutton = tk.Frame(master=frame3, bg=c.highlight, width=300)
 
     buttonConfirmCountry = customtkinter.CTkButton(master=frameOptions, text='CONFIRM COUNTRY', fg_color=c.details,
                                                    command=lambda: confirmCountry(departureCountry, frameCheckbutton, var.get()))
-    buttonConfirmCountry.grid(row=2, column=0, columnspan=3)
+    buttonConfirmCountry.grid(row=2, column=0, columnspan=3, pady=20)
 
 
 # frame with weather

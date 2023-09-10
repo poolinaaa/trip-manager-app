@@ -28,8 +28,8 @@ class AttractionToSee:
     def checkboxButton(self, frame):
         self.var = tk.IntVar()
         self.button = tk.Checkbutton(
-            master=frame, text=f'{self.name}', variable=self.var, onvalue=1, offvalue=0, justify='left')
-        self.button.pack()
+            master=frame, text=f'{self.name}', variable=self.var, onvalue=1, offvalue=0, justify='left',bg=c.highlight,font=c.errorFont,fg='white')
+        self.button.pack(anchor='w')
 
     def insertIntoDatabase(self, table, database):
         try:
@@ -150,11 +150,11 @@ def confirmCountry(strVarCountry, frame, unit):
             listOfAttractions.append(landmark)
             landmark.checkboxButton(frame)
 
-        buttonSave = customtkinter.CTkButton(master=frame, text='CONFIRM CHOICES', fg_color=c.highlight,
+        buttonSave = customtkinter.CTkButton(master=frame, text='SAVE IN THE DATABASE', fg_color=c.details,
                                              command=lambda: savingLandmarks(listOfAttractions))
         buttonSave.pack()
 
-        frame.pack(side=RIGHT, padx=30)
+        frame.pack(side=RIGHT, padx=30, pady=30)
 
 
 def submitDepartureDate(dateDeparture, cal, labelSelectedDate, buttonFuture, buttonYearAgo):
@@ -230,28 +230,38 @@ def confirmButton(frame, dateStart, dateEnd, baseCurrName, codeCurrency):
 
     else:
         incorrectDate = tk.Label(
-            master=frame, text='wrong format of date, try again', font=c.errorFont, bg=c.highlight,fg='white')
+            master=frame, text='wrong format of date, try again', font=c.errorFont, bg=c.highlight, fg='white')
         incorrectDate.pack()
         frame.after(5000, incorrectDate.destroy)
+
 
 def preparingLabelCities(frame):
     destinationGeoInfo = searchInfoAboutDestination()
     print(destinationGeoInfo)
-    
+
     capital = destinationGeoInfo['capital']
     cities = [city for city in destinationGeoInfo['citiesPopulation']]
-    population = [destinationGeoInfo['citiesPopulation'][city] for city in destinationGeoInfo['citiesPopulation']]
+    population = [destinationGeoInfo['citiesPopulation'][city]
+                  for city in destinationGeoInfo['citiesPopulation']]
     print(cities)
     print(capital)
     print(population)
-    
-    labelCapital = tk.Label(frame, text=f'Capital: {capital}')
-    labelCities = tk.Label(frame, text=f'The most crowded cities:\n{cities[0]}, population:{population[0]}\n{cities[1]}, population:{population[1]}\n{cities[2]}, population:{population[2]}\n{cities[3]}, population:{population[3]}\n{cities[4]}, population:{population[4]}')
-    labelCapital.pack(pady=20)
-    labelCities.pack()
-    
+
+    labelCapital = tk.Label(
+        frame, text=f'Capital: {capital}', font=c.questionFont, bg=c.details, fg='white')
+    labelCities = tk.Label(
+        frame, text=f'''The most crowded cities:
+        \n{cities[0]}, population: {population[0]}
+        \n{cities[1]}, population: {population[1]}
+        \n{cities[2]}, population: {population[2]}
+        \n{cities[3]}, population: {population[3]}
+        \n{cities[4]}, population: {population[4]}''', font=c.questionFont, bg=c.highlight, fg='white', justify='left')
+    labelCapital.pack(pady=30, padx=30)
+    labelCities.pack(pady=30, padx=30)
+
+
 def counterFrame1():
     i = 1
     while True:
         yield i
-        i +=1
+        i += 1
