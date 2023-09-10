@@ -132,7 +132,7 @@ def confirmCountry(strVarCountry, frame, unit):
             latBase, lngBase, destinationGeoInfo['lat'], destinationGeoInfo['lng'], unit)
 
         distanceLabel = tk.Label(
-            master=frame, text=f'Distance between {baseCountry} and {c.countryName.get().capitalize()} is about {distance} {unit}', font=c.questionFont, bg=c.highlight, fg='white', anchor="w")
+            master=frame, text=f'Distance between {baseCountry} and {c.countryName.get().capitalize()} is about \n{distance} {unit}', font=c.questionFont, bg=c.highlight, fg='white', anchor="w")
         distanceLabel.pack()
 
         attractions = searchAttractions(
@@ -152,9 +152,9 @@ def confirmCountry(strVarCountry, frame, unit):
 
         buttonSave = customtkinter.CTkButton(master=frame, text='SAVE IN THE DATABASE', fg_color=c.details,
                                              command=lambda: savingLandmarks(listOfAttractions))
-        buttonSave.pack()
+        buttonSave.pack(pady=10)
 
-        frame.pack(side=RIGHT, padx=30, pady=30)
+        frame.pack(side=LEFT, pady=10, padx=37, anchor='n')
 
 
 def submitDepartureDate(dateDeparture, cal, labelSelectedDate, buttonFuture, buttonYearAgo):
@@ -256,8 +256,8 @@ def preparingLabelCities(frame):
         \n{cities[2]}, population: {population[2]}
         \n{cities[3]}, population: {population[3]}
         \n{cities[4]}, population: {population[4]}''', font=c.questionFont, bg=c.highlight, fg='white', justify='left')
-    labelCapital.pack(pady=30, padx=30)
-    labelCities.pack(pady=30, padx=30)
+    labelCapital.pack(pady=10, padx=30)
+    labelCities.pack(pady=10, padx=30)
 
 
 def counterFrame1():

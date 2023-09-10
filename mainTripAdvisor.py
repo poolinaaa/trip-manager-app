@@ -36,12 +36,9 @@ def loadFrame1():
             fake3.destroy()
             buttonLoadFrame2.pack(side=tk.BOTTOM)
 
-
             buttonLoadFrame3.pack(side=tk.BOTTOM)
 
-
             buttonLoadFrame4.pack(side=tk.BOTTOM)
-            
 
             if 'baseCurrName' in globals():
                 params = {'base': baseCurrName, 'symbols': codeCurrency}
@@ -56,7 +53,7 @@ def loadFrame1():
                     labelCurrentRate['text'] = f'Current rate: {c.current} {baseCurrName}'
 
     frame1.tkraise()
-    
+
     nr = next(gen)
 
     # title
@@ -82,10 +79,10 @@ def loadFrame1():
     entryCurrency = tk.Entry(master=frameQuestions,
                              width=20, textvariable=c.baseCurrency)
     entryCurrency.grid(column=1, row=2, pady=10, padx=5)
-    
+
     frameSections = tk.Frame(master=frame1, width=300, bg=c.bgColor,
                              highlightbackground=c.bgColor, highlightcolor=c.bgColor)
-    
+
     frameCurrency = ThemeSection(frameSections, 100, 300)
     frameCurrency.addTitleLabel(title='Changes in currency')
     frameCurrency.grid(column=0, row=0, sticky='nsew')
@@ -106,14 +103,13 @@ def loadFrame1():
     frameWeather.addTitleLabel(title='Check the weather')
     frameWeather.grid(column=2, row=0, sticky='nsew')
     frameWeather.addImage('sun.png')
-    
+
     fake1 = customtkinter.CTkButton(master=frameCurrency, text='CURRENCY', fg_color=c.details,
-                                               width=20, state=tk.DISABLED)
+                                    width=20, state=tk.DISABLED)
     fake2 = customtkinter.CTkButton(master=frameFlights, text='GEOGRAPHY', fg_color=c.details,
-                                               width=20, state=tk.DISABLED)
+                                    width=20, state=tk.DISABLED)
     fake3 = customtkinter.CTkButton(master=frameWeather, text='WEATHER', fg_color=c.details,
-                                               width=20, state=tk.DISABLED)
-    
+                                    width=20, state=tk.DISABLED)
 
     buttonLoadFrame2 = customtkinter.CTkButton(master=frameCurrency, text='CURRENCY', fg_color=c.details,
                                                width=20, command=lambda: loadFrame(frame1, loadFrame2))
@@ -125,10 +121,7 @@ def loadFrame1():
                                                width=20, command=lambda: loadFrame(frame1, loadFrame4))
     buttonCountrySearch.grid(column=0, row=3, columnspan=2, pady=10)
 
-    
-    
-    
-    for widget in (labelTitle, frameQuestions, labelCurrentRate,frameSections):
+    for widget in (labelTitle, frameQuestions, labelCurrentRate, frameSections):
         widget.pack()
 
     if nr == 1:
@@ -140,8 +133,6 @@ def loadFrame1():
         buttonLoadFrame3.pack(side=tk.BOTTOM)
         buttonLoadFrame4.pack(side=tk.BOTTOM)
     # loading buttons
-
-
 
 
 # frame with currency rate
@@ -247,17 +238,17 @@ def loadFrame3():
     var = tk.StringVar(value='kilometers')
 
     kmButton = tk.Radiobutton(
-        master=frameOptions, text='kilometers', variable=var, value='kilometers', bg=c.highlight, fg='white')
+        master=frameOptions, text='kilometers', variable=var, value='kilometers')
     milesButton = tk.Radiobutton(
-        master=frameOptions, text='miles', variable=var, value='miles', bg=c.highlight, fg='white')
+        master=frameOptions, text='miles', variable=var, value='miles')
 
     kmButton.grid(column=1, row=1)
     milesButton.grid(column=2, row=1)
 
-    frameCities = tk.Frame(frame3, bg=c.highlight)
-    frameCities.pack(side=LEFT, padx=50, pady=30)
+    frameCities = tk.Frame(frame3, bg=c.highlight, height=450)
+    frameCities.pack(side=LEFT, anchor='n', padx=55, pady=10)
     preparingLabelCities(frameCities)
-    frameCheckbutton = tk.Frame(master=frame3, bg=c.highlight, width=300)
+    frameCheckbutton = tk.Frame(master=frame3, bg=c.highlight, width=300, height=450)
 
     buttonConfirmCountry = customtkinter.CTkButton(master=frameOptions, text='CONFIRM COUNTRY', fg_color=c.details,
                                                    command=lambda: confirmCountry(departureCountry, frameCheckbutton, var.get()))
@@ -318,7 +309,7 @@ y = 200
 window.geometry("918x700")
 
 window.minsize(918, 700)
- 
+
 # set maximum window size value
 window.maxsize(918, 700)
 window.configure(background=c.bgColor)
