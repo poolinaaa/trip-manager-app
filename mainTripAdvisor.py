@@ -5,7 +5,7 @@ import tkinter as tk
 from currencyFunc import checkingCurrency, checkingBase
 from ctypes import windll
 from partialForms import ThemeSection, InitializationFrame
-from funcBehaviorFrames import appearance, preparingLabelCities, confirmCountry, clearView, loadFrame, confirmButton, submitDepartureDate, clearEntry, multipleFuncButton
+from funcBehaviorFrames import counterFrame1, appearance, preparingLabelCities, confirmCountry, clearView, loadFrame, confirmButton, submitDepartureDate, clearEntry, multipleFuncButton
 import config as c
 from funcPlots import createPlotButton, createPlotButtonAll, createPlotButtonLastMonth
 from plotsWeather import createPlotWeatherCurrent, createPlotWeatherYearAgo
@@ -31,6 +31,17 @@ def loadFrame1():
             frameQuestions.after(5000, errorLabel.destroy)
         else:
             frameCurrency.title['text'] = f'Analyse changes in {codeCurrency}'
+            fake1.destroy()
+            fake2.destroy()
+            fake3.destroy()
+            buttonLoadFrame2.pack(side=tk.BOTTOM)
+
+
+            buttonLoadFrame3.pack(side=tk.BOTTOM)
+
+
+            buttonLoadFrame4.pack(side=tk.BOTTOM)
+            
 
             if 'baseCurrName' in globals():
                 params = {'base': baseCurrName, 'symbols': codeCurrency}
@@ -45,6 +56,8 @@ def loadFrame1():
                     labelCurrentRate['text'] = f'Current rate: {c.current} {baseCurrName}'
 
     frame1.tkraise()
+    
+    nr = next(gen)
 
     # title
     labelTitle = tk.Label(master=frame1, text="Let's prepare for your trip!",
@@ -69,16 +82,10 @@ def loadFrame1():
     entryCurrency = tk.Entry(master=frameQuestions,
                              width=20, textvariable=c.baseCurrency)
     entryCurrency.grid(column=1, row=2, pady=10, padx=5)
-
-    buttonCountrySearch = customtkinter.CTkButton(
-        master=frameQuestions, width=8, fg_color=c.highlight, text="SEARCH", command=searchButton)
-    buttonCountrySearch.grid(column=0, row=3, columnspan=2, pady=10)
-
-    # declare 3 sections of preparing the trip: currency, flights, weather
+    
     frameSections = tk.Frame(master=frame1, width=300, bg=c.bgColor,
                              highlightbackground=c.bgColor, highlightcolor=c.bgColor)
-
-    # currency
+    
     frameCurrency = ThemeSection(frameSections, 100, 300)
     frameCurrency.addTitleLabel(title='Changes in currency')
     frameCurrency.grid(column=0, row=0, sticky='nsew')
@@ -99,25 +106,42 @@ def loadFrame1():
     frameWeather.addTitleLabel(title='Check the weather')
     frameWeather.grid(column=2, row=0, sticky='nsew')
     frameWeather.addImage('sun.png')
+    
+    fake1 = customtkinter.CTkButton(master=frameCurrency, text='CURRENCY', fg_color=c.details,
+                                               width=20, state=tk.DISABLED)
+    fake2 = customtkinter.CTkButton(master=frameFlights, text='GEOGRAPHY', fg_color=c.details,
+                                               width=20, state=tk.DISABLED)
+    fake3 = customtkinter.CTkButton(master=frameWeather, text='WEATHER', fg_color=c.details,
+                                               width=20, state=tk.DISABLED)
+    
 
-    # packing widgets
-    for widget in (labelTitle, frameQuestions, labelCurrentRate):
-        widget.pack()
-
-    frameSections.pack()
-
-    # loading buttons
     buttonLoadFrame2 = customtkinter.CTkButton(master=frameCurrency, text='CURRENCY', fg_color=c.details,
                                                width=20, command=lambda: loadFrame(frame1, loadFrame2))
-    buttonLoadFrame2.pack(side=tk.BOTTOM)
-
     buttonLoadFrame3 = customtkinter.CTkButton(master=frameFlights, text='GEOGRAPHY', fg_color=c.details,
                                                width=20, command=lambda: loadFrame(frame1, loadFrame3))
-    buttonLoadFrame3.pack(side=tk.BOTTOM)
-
+    buttonCountrySearch = customtkinter.CTkButton(
+        master=frameQuestions, width=8, fg_color=c.highlight, text="SEARCH", command=searchButton)
     buttonLoadFrame4 = customtkinter.CTkButton(master=frameWeather, text='WEATHER', fg_color=c.details,
                                                width=20, command=lambda: loadFrame(frame1, loadFrame4))
-    buttonLoadFrame4.pack(side=tk.BOTTOM)
+    buttonCountrySearch.grid(column=0, row=3, columnspan=2, pady=10)
+
+    
+    
+    
+    for widget in (labelTitle, frameQuestions, labelCurrentRate,frameSections):
+        widget.pack()
+
+    if nr == 1:
+        fake1.pack(side=tk.BOTTOM)
+        fake2.pack(side=tk.BOTTOM)
+        fake3.pack(side=tk.BOTTOM)
+    else:
+        buttonLoadFrame2.pack(side=tk.BOTTOM)
+        buttonLoadFrame3.pack(side=tk.BOTTOM)
+        buttonLoadFrame4.pack(side=tk.BOTTOM)
+    # loading buttons
+
+
 
 
 # frame with currency rate
@@ -286,11 +310,17 @@ windll.shcore.SetProcessDpiAwareness(1)
 # INITIALIZATION
 # window
 window = tk.Tk()
+
 window.title('Travel advisor')
 
-x = 600
-y = 300
-window.geometry("+%d+%d" % (x, y))
+x = 550
+y = 200
+window.geometry("918x700")
+
+window.minsize(918, 700)
+ 
+# set maximum window size value
+window.maxsize(918, 700)
 window.configure(background=c.bgColor)
 
 c.titleFont = tkinter.font.Font(family="Lato", size=13, weight="bold")
@@ -316,7 +346,7 @@ for frame in (frame1, frame2, frame3, frame4):
 
 for frame in (frame2, frame3, frame4):
     clearView(frame)
-
+gen = counterFrame1()
 loadFrame1()
 
 window.mainloop()

@@ -249,3 +249,9 @@ def preparingLabelCities(frame):
     labelCities = tk.Label(frame, text=f'The most crowded cities:\n{cities[0]}, population:{population[0]}\n{cities[1]}, population:{population[1]}\n{cities[2]}, population:{population[2]}\n{cities[3]}, population:{population[3]}\n{cities[4]}, population:{population[4]}')
     labelCapital.pack(pady=20)
     labelCities.pack()
+    
+def counterFrame1():
+    i = 1
+    while True:
+        yield i
+        i +=1
