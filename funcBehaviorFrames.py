@@ -28,7 +28,7 @@ class AttractionToSee:
     def checkboxButton(self, frame):
         self.var = tk.IntVar()
         self.button = tk.Checkbutton(
-            master=frame, text=f'{self.name}', variable=self.var, onvalue=1, offvalue=0, justify='left',bg=c.highlight,font=c.errorFont,fg='white')
+            master=frame, text=f'{self.name}', variable=self.var, onvalue=1, offvalue=0, justify='left',bg='#9dc0d1',font=c.errorFont)
         self.button.pack(anchor='w')
 
     def insertIntoDatabase(self, table, database):
@@ -60,8 +60,9 @@ class AttractionToSee:
                 print("connection is closed")
 
     def openInTheBrowser(self):
-        if self.link != None:
-            webbrowser.open_new_tab(self.link)
+        if self.name != None:
+            url = "https://www.google.com.tr/search?q={}".format(self.name)
+            webbrowser.open_new_tab(url)
         else:
             print('There is not any link')
 
