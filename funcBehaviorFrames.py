@@ -9,8 +9,7 @@ import csv
 from geoFunc import getDistanceBetweenPoints, searchAttractions, createTable
 import webbrowser
 import customtkinter
-from weather import getWeather
-from plotsWeather import createPlotWeatherYearAgo, createPlotWeatherCurrent
+
 from datetime import datetime
 
 

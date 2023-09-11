@@ -24,7 +24,7 @@ def getWeather():
     print(date)
     yearAgo = date - timedelta(days=365)
     print(yearAgo)
-    yearAgoPlusMonth = yearAgo + timedelta(days=30)
+    yearAgoPlusMonth = yearAgo + timedelta(days=29)
     print(yearAgoPlusMonth)
 
     paramsArchive = {'latitude': lat,
