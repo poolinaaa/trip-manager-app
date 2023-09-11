@@ -163,8 +163,8 @@ def submitDepartureDate(dateDeparture, cal, labelSelectedDate, buttonFuture, but
     c.dateFlight = cal.get_date()
     print(c.dateFlight)
     labelSelectedDate['text'] = f'Selected date of departure: {c.dateFlight}'
-    buttonFuture.grid(column=0, row=0)
-    buttonYearAgo.grid(column=1, row=0)
+    buttonFuture.grid(column=0, row=0, sticky='e')
+    buttonYearAgo.grid(column=1, row=0, sticky = 'w')
 
 
 def multipleFuncButton(*functions):

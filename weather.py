@@ -33,10 +33,10 @@ def getWeather():
                      'end_date': yearAgoPlusMonth,
                      'daily': 'temperature_2m_mean',
                      'timezone': 'GMT'}
-    
-    paramsCurrent = {'latitude':lat,
-                     'longitude':lng,
-                     'hourly':'temperature_2m,precipitation_probability,precipitation'}
+
+    paramsCurrent = {'latitude': lat,
+                     'longitude': lng,
+                     'hourly': 'temperature_2m,precipitation_probability,precipitation'}
 
     urlArchive = 'https://archive-api.open-meteo.com/v1/archive'
 
@@ -54,5 +54,3 @@ def getWeather():
         print('error forecast')
     finally:
         return current, archive
-
-

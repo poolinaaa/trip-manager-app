@@ -2,6 +2,9 @@ from weather import getWeather
 from tkinter import *
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import datetime as dt
+import matplotlib.dates as mdates
+import matplotlib.pyplot as plt
 
 def preparingPastData(pastData: dict):
     days = pastData['daily']['time']
@@ -12,10 +15,16 @@ def preparingPastData(pastData: dict):
 def createPlotWeatherYearAgo(parent, pastData):
     futureData, pastData = getWeather()
     x, y = preparingPastData(dict(pastData))
+    print(x)
+    xFormatted = [dt.datetime.strptime(d,'%Y-%m-%d').date() for d in x]
+    
+    plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+    plt.gca().xaxis.set_major_locator(mdates.DayLocator())
     fig = Figure(figsize=(5, 3))
     plotPast = fig.add_subplot(111)
 
-    plotPast.plot(list(range(0, len(x))), y,)
+    plotPast.plot(xFormatted, y)
+    plt.gcf().autofmt_xdate()
     canvas = FigureCanvasTkAgg(fig, master=parent)
     canvas.draw()
     canvas.get_tk_widget().grid(column=0,row=1, columnspan=2)
