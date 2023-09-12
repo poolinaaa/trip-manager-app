@@ -52,16 +52,25 @@ def preparingCurrentData(futureData: dict):
 def createPlotWeatherCurrent(parent, futureData):
     futureData, pastData = getWeather()
     x, y, y1, y2 = preparingCurrentData(dict(futureData))
-    xRange = list(range(0, len(x)))
+    xFormatted = [dt.datetime.strptime(d[:10]+d[11:], '%Y-%m-%d%H:%M') for d in x ]
+    
+    
     fig = Figure(figsize=(5, 3))
 
     plotCurrentTemp = fig.add_subplot(111)
-    plotCurrentTemp.plot(xRange, y, xRange, y1, xRange, y2)
-
+    plotCurrentTemp.plot(xFormatted, y)
+    plotCurrentTemp.plot(xFormatted, y1)
+    plotCurrentTemp.plot(xFormatted, y2)
+    
+    plotCurrentTemp.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+    plotCurrentTemp.xaxis.set_major_locator(mdates.DayLocator())
+    plotCurrentTemp.xaxis.set_minor_locator(mdates.HourLocator())
+    plotCurrentTemp.margins(x=0,y=0.05)
+    plotCurrentTemp.tick_params(axis='x', labelrotation=30, labelsize=7)
     canvas = FigureCanvasTkAgg(fig, master=parent)
     canvas.draw()
     canvas.get_tk_widget().grid(column=0, row=1, columnspan=2)
-    plotCurrentTemp.set_xlabel('X Label')
-    plotCurrentTemp.set_ylabel('Y Label')
-    plotCurrentTemp.set_title('Plot Title')
+    plotCurrentTemp.tick_params(axis='y', labelsize=7)
+    plotCurrentTemp.set_ylabel('Degrees (Celsius scale)')
+    plotCurrentTemp.set_title('Weather for the next week')
     fig.tight_layout()
