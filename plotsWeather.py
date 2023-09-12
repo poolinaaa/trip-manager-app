@@ -21,10 +21,11 @@ def createPlotWeatherYearAgo(parent, pastData):
     
 
 
-    fig = Figure(figsize=(5, 3))
+    fig = Figure(figsize=(6, 3.2))
     plotPast = fig.add_subplot(111)
     
     plotPast.plot(xFormatted, y)
+    
     plotPast.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
     
     plotPast.xaxis.set_major_locator(mdates.DayLocator(interval=3))
@@ -35,7 +36,7 @@ def createPlotWeatherYearAgo(parent, pastData):
     canvas.draw()
     canvas.get_tk_widget().grid(column=0, row=1, columnspan=2)
     plotPast.tick_params(axis='y', labelsize=7)
-    plotPast.set_ylabel('Degrees (Celsius scale)')
+    plotPast.set_ylabel('Degrees [°C]')
     plotPast.set_title('Temperature year ago')
     fig.tight_layout()
 
@@ -54,25 +55,43 @@ def createPlotWeatherCurrent(parent, futureData):
     x, y, y1, y2 = preparingCurrentData(dict(futureData))
     xFormatted = [dt.datetime.strptime(d[:10]+d[11:], '%Y-%m-%d%H:%M') for d in x ]
     
-    
-    fig, ax1 = plt.subplots()
-
+    #fig = Figure(figsize=(5, 3))
+    fig, ax1 = plt.subplots(figsize=(6, 3.2))
     color = 'tab:red'
-    ax1.set_xlabel('time (s)')
-    ax1.set_ylabel('exp', color=color)
+    ax1.set_ylabel('Degrees [°C]', color=color, fontsize= 6)
     ax1.plot(xFormatted, y, color=color)
     ax1.tick_params(axis='y', labelcolor=color)
-
-    ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
-
+    ax1.tick_params(axis='y', labelsize=5)
+    ax1.margins(x=0,y=0.05)
+    ax1.tick_params(axis='x', labelrotation=30, labelsize=6)
+    
+    ax2 = ax1.twinx()
     color = 'tab:blue'
-    ax2.set_ylabel('sin', color=color)  # we already handled the x-label with ax1
-    ax2.plot(xFormatted, y1, color=color)
+    ax2.set_ylabel('Precipitation [mm]', color=color, fontsize= 6)  # we already handled the x-label with ax1
+    ax2.plot(xFormatted, y2, color=color)
+    ax2.fill_between(xFormatted,y2)
     ax2.tick_params(axis='y', labelcolor=color)
+    ax2.tick_params(axis='y', labelsize=6)
+    ax2.margins(x=0,y=0.05)
+    
+     
 
+    
+     # instantiate a second axes that shares the same x-axis
+
+
+    ax3 = ax1.twinx()
+    color = 'tab:green'
+    #ax3.set_ylabel('sin', color=color)  # we already handled the x-label with ax1
+    ax3.plot(xFormatted, y1, color=color)
+    ax3.tick_params(axis='y', labelcolor=color)
+    ax3.tick_params(axis='y', labelsize=6)
+    ax3.set_ylabel('Precipitation probability [%]', color=color, fontsize= 6)
+    ax3.margins(x=0,y=0.05)
+    ax3.spines['right'].set_position(('outward', 30))
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
-    plt.gca()..xaxis.set_major_locator(mdates.DayLocator())
-    plt.gca()..xaxis.set_minor_locator(mdates.HourLocator())
+    plt.gca().xaxis.set_major_locator(mdates.DayLocator())
+    plt.gca().xaxis.set_minor_locator(mdates.HourLocator())
 
     fig.tight_layout()  # otherwise the right y-label is slightly clipped
     #plt.show()
@@ -80,8 +99,8 @@ def createPlotWeatherCurrent(parent, futureData):
     
     
     
-    '''    fig = Figure(figsize=(5, 3))
-
+      
+    ''' 
     plotCurrentTemp = fig.add_subplot(111)
     plotCurrentTemp.plot(xFormatted, y2)
     plotCurrentTemp.fill(xFormatted,y2)
