@@ -55,22 +55,48 @@ def createPlotWeatherCurrent(parent, futureData):
     xFormatted = [dt.datetime.strptime(d[:10]+d[11:], '%Y-%m-%d%H:%M') for d in x ]
     
     
-    fig = Figure(figsize=(5, 3))
+    fig, ax1 = plt.subplots()
+
+    color = 'tab:red'
+    ax1.set_xlabel('time (s)')
+    ax1.set_ylabel('exp', color=color)
+    ax1.plot(xFormatted, y, color=color)
+    ax1.tick_params(axis='y', labelcolor=color)
+
+    ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
+
+    color = 'tab:blue'
+    ax2.set_ylabel('sin', color=color)  # we already handled the x-label with ax1
+    ax2.plot(xFormatted, y1, color=color)
+    ax2.tick_params(axis='y', labelcolor=color)
+
+    plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+    plt.gca()..xaxis.set_major_locator(mdates.DayLocator())
+    plt.gca()..xaxis.set_minor_locator(mdates.HourLocator())
+
+    fig.tight_layout()  # otherwise the right y-label is slightly clipped
+    #plt.show()
+    
+    
+    
+    
+    '''    fig = Figure(figsize=(5, 3))
 
     plotCurrentTemp = fig.add_subplot(111)
-    plotCurrentTemp.plot(xFormatted, y)
-    plotCurrentTemp.plot(xFormatted, y1)
     plotCurrentTemp.plot(xFormatted, y2)
-    
-    plotCurrentTemp.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+    plotCurrentTemp.fill(xFormatted,y2)
+    plotCurrentTemp.plot(xFormatted, y)
+    plotCurrentTemp.plot(xFormatted, y1)'''
+
+    '''    plotCurrentTemp.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
     plotCurrentTemp.xaxis.set_major_locator(mdates.DayLocator())
     plotCurrentTemp.xaxis.set_minor_locator(mdates.HourLocator())
     plotCurrentTemp.margins(x=0,y=0.05)
-    plotCurrentTemp.tick_params(axis='x', labelrotation=30, labelsize=7)
+    plotCurrentTemp.tick_params(axis='x', labelrotation=30, labelsize=7)'''
     canvas = FigureCanvasTkAgg(fig, master=parent)
     canvas.draw()
     canvas.get_tk_widget().grid(column=0, row=1, columnspan=2)
-    plotCurrentTemp.tick_params(axis='y', labelsize=7)
+    '''    plotCurrentTemp.tick_params(axis='y', labelsize=7)
     plotCurrentTemp.set_ylabel('Degrees (Celsius scale)')
     plotCurrentTemp.set_title('Weather for the next week')
-    fig.tight_layout()
+    fig.tight_layout()'''
