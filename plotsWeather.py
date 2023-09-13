@@ -1,3 +1,4 @@
+from matplotlib import style
 from weather import getWeather
 from tkinter import *
 from matplotlib.figure import Figure
@@ -7,13 +8,15 @@ import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 
 
+
 def preparingPastData(pastData: dict):
     days = pastData['daily']['time']
     temperature = pastData['daily']['temperature_2m_mean']
     return days, temperature
 
 
-def createPlotWeatherYearAgo(parent, pastData):
+def createPlotWeatherYearAgo(parent, pastData,pic):
+    pic.destroy()
     futureData, pastData = getWeather()
     x, y = preparingPastData(dict(pastData))
     print(x)
@@ -23,8 +26,8 @@ def createPlotWeatherYearAgo(parent, pastData):
 
     fig = Figure(figsize=(6, 3.2))
     plotPast = fig.add_subplot(111)
-    
-    plotPast.plot(xFormatted, y)
+    color = 'teal'
+    plotPast.plot(xFormatted, y,'-o',color=color)
     
     plotPast.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
     
@@ -36,8 +39,8 @@ def createPlotWeatherYearAgo(parent, pastData):
     canvas.draw()
     canvas.get_tk_widget().grid(column=0, row=1, columnspan=2)
     plotPast.tick_params(axis='y', labelsize=7)
-    plotPast.set_ylabel('Degrees [°C]')
-    plotPast.set_title('Temperature year ago')
+    plotPast.set_ylabel('Degrees [°C]',fontsize=8)
+    plotPast.set_title('Temperature year ago',fontsize=11)
     fig.tight_layout()
 
 
@@ -50,26 +53,28 @@ def preparingCurrentData(futureData: dict):
     return time, temperature, precipitationProb, precipitation
 
 
-def createPlotWeatherCurrent(parent, futureData):
+def createPlotWeatherCurrent(parent, futureData,pic):
+    pic.destroy()
     futureData, pastData = getWeather()
     x, y, y1, y2 = preparingCurrentData(dict(futureData))
     xFormatted = [dt.datetime.strptime(d[:10]+d[11:], '%Y-%m-%d%H:%M') for d in x ]
     
-    #fig = Figure(figsize=(5, 3))
+    
     fig, ax1 = plt.subplots(figsize=(6, 3.2))
-    color = 'tab:red'
-    ax1.set_ylabel('Degrees [°C]', color=color, fontsize= 6)
+    color = 'maroon'
+    ax1.set_ylabel('Degrees [°C]', color=color, fontsize= 7)
     ax1.plot(xFormatted, y, color=color)
     ax1.tick_params(axis='y', labelcolor=color)
     ax1.tick_params(axis='y', labelsize=5)
     ax1.margins(x=0,y=0.05)
     ax1.tick_params(axis='x', labelrotation=30, labelsize=6)
+    ax1.set_title('Weather for the next week',fontsize=11)
     
     ax2 = ax1.twinx()
-    color = 'tab:blue'
-    ax2.set_ylabel('Precipitation [mm]', color=color, fontsize= 6)  # we already handled the x-label with ax1
-    ax2.plot(xFormatted, y2, color=color)
-    ax2.fill_between(xFormatted,y2)
+    color = 'teal'
+    ax2.set_ylabel('Precipitation [mm]', color=color, fontsize= 7) 
+    ax2.plot(xFormatted, y2, color=color, alpha=0)
+    ax2.fill_between(xFormatted,y2,color=color,alpha=0.3)
     ax2.tick_params(axis='y', labelcolor=color)
     ax2.tick_params(axis='y', labelsize=6)
     ax2.margins(x=0,y=0.05)
@@ -77,45 +82,25 @@ def createPlotWeatherCurrent(parent, futureData):
      
 
     
-     # instantiate a second axes that shares the same x-axis
+    
 
 
     ax3 = ax1.twinx()
-    color = 'tab:green'
-    #ax3.set_ylabel('sin', color=color)  # we already handled the x-label with ax1
-    ax3.plot(xFormatted, y1, color=color)
+    color = 'rebeccapurple'
+    
+    ax3.plot(xFormatted, y1, color=color, ls=':')
     ax3.tick_params(axis='y', labelcolor=color)
     ax3.tick_params(axis='y', labelsize=6)
-    ax3.set_ylabel('Precipitation probability [%]', color=color, fontsize= 6)
+    ax3.set_ylabel('Precipitation probability [%]', color=color, fontsize= 7)
     ax3.margins(x=0,y=0.05)
     ax3.spines['right'].set_position(('outward', 30))
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
     plt.gca().xaxis.set_major_locator(mdates.DayLocator())
     plt.gca().xaxis.set_minor_locator(mdates.HourLocator())
 
-    fig.tight_layout()  # otherwise the right y-label is slightly clipped
-    #plt.show()
+    fig.tight_layout()  
     
-    
-    
-    
-      
-    ''' 
-    plotCurrentTemp = fig.add_subplot(111)
-    plotCurrentTemp.plot(xFormatted, y2)
-    plotCurrentTemp.fill(xFormatted,y2)
-    plotCurrentTemp.plot(xFormatted, y)
-    plotCurrentTemp.plot(xFormatted, y1)'''
-
-    '''    plotCurrentTemp.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
-    plotCurrentTemp.xaxis.set_major_locator(mdates.DayLocator())
-    plotCurrentTemp.xaxis.set_minor_locator(mdates.HourLocator())
-    plotCurrentTemp.margins(x=0,y=0.05)
-    plotCurrentTemp.tick_params(axis='x', labelrotation=30, labelsize=7)'''
     canvas = FigureCanvasTkAgg(fig, master=parent)
     canvas.draw()
     canvas.get_tk_widget().grid(column=0, row=1, columnspan=2)
-    '''    plotCurrentTemp.tick_params(axis='y', labelsize=7)
-    plotCurrentTemp.set_ylabel('Degrees (Celsius scale)')
-    plotCurrentTemp.set_title('Weather for the next week')
-    fig.tight_layout()'''
+

@@ -158,7 +158,7 @@ def confirmCountry(strVarCountry, frame, unit, frameToDestroy):
 
 
 def submitDepartureDate(dateDeparture, cal, labelSelectedDate, buttonFuture, buttonYearAgo):
-
+    
     c.dateFlight = cal.get_date()
     print(c.dateFlight)
     labelSelectedDate['text'] = f'Selected date of departure: {c.dateFlight}'

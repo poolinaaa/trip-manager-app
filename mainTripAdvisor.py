@@ -294,10 +294,18 @@ def loadFrame4():
 
     frameForecast = tk.Frame(master=frame4, bg=c.bgColor,
                              highlightbackground=c.bgColor, highlightcolor=c.bgColor)
+    
+    pictureSection = ImageTk.PhotoImage(file='fog.png')
+    pictureSection.res
+    pictureWidget = tk.Label(
+        master=frameForecast, image=pictureSection, bg=c.bgColor, width=512, height=512)
+    pictureWidget.image = pictureSection
+    pictureWidget.grid(column=0,row=1,padx=(60,0),columnspan=2)
+    
     buttonYearAgo = customtkinter.CTkButton(
-        master=frameForecast, text='YEAR AGO', fg_color=c.details, command=lambda: createPlotWeatherYearAgo(frameForecast, pastData))
+        master=frameForecast, text='YEAR AGO', fg_color=c.details, command=lambda: createPlotWeatherYearAgo(frameForecast, pastData,pictureWidget))
     buttonFuture = customtkinter.CTkButton(
-        master=frameForecast, text='NEXT MONTH', fg_color=c.details,  command=lambda: createPlotWeatherCurrent(frameForecast, futureData))
+        master=frameForecast, text='NEXT WEEK', fg_color=c.details,  command=lambda: createPlotWeatherCurrent(frameForecast, futureData,pictureWidget))
 
     labelTitle = tk.Label(master=frame4, text="Check the weather",
                           font=c.titleFont, bg=c.highlight, fg='white')
@@ -309,6 +317,9 @@ def loadFrame4():
         column=2, row=2, columnspan=3, padx=30, sticky='w')
 
     labelSelectedDate.grid(column=2, row=3, columnspan=3, padx=30, sticky='w')
+    
+
+    
     frameForecast.grid(row=4, column=0, columnspan=5, pady=15)
 
 
