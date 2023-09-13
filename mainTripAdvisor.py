@@ -295,17 +295,30 @@ def loadFrame4():
     frameForecast = tk.Frame(master=frame4, bg=c.bgColor,
                              highlightbackground=c.bgColor, highlightcolor=c.bgColor)
     
-    pictureSection = ImageTk.PhotoImage(file='fog.png')
+    img = (Image.open("fog.png"))
+
+    resized_image = img.resize((300, 300))
+    new_image = ImageTk.PhotoImage(resized_image)
+
+    framePic = tk.Frame(master=frameForecast, bg=c.bgColor)
+
+    pictureWidget = tk.Label(
+        master=framePic, image=new_image, width=300, height=300, bg=c.bgColor)
+
+    pictureWidget.image = new_image
+    pictureWidget.pack(pady=10)
+    framePic.grid(column=0,row=1)
+    '''    pictureSection = ImageTk.PhotoImage(file='fog.png')
     pictureSection.res
     pictureWidget = tk.Label(
         master=frameForecast, image=pictureSection, bg=c.bgColor, width=512, height=512)
     pictureWidget.image = pictureSection
-    pictureWidget.grid(column=0,row=1,padx=(60,0),columnspan=2)
-    
+    pictureWidget.grid(column=0, row=1, padx=(60, 0), columnspan=2)'''
+
     buttonYearAgo = customtkinter.CTkButton(
-        master=frameForecast, text='YEAR AGO', fg_color=c.details, command=lambda: createPlotWeatherYearAgo(frameForecast, pastData,pictureWidget))
+        master=frameForecast, text='YEAR AGO', fg_color=c.details, command=lambda: createPlotWeatherYearAgo(frameForecast, pastData, pictureWidget))
     buttonFuture = customtkinter.CTkButton(
-        master=frameForecast, text='NEXT WEEK', fg_color=c.details,  command=lambda: createPlotWeatherCurrent(frameForecast, futureData,pictureWidget))
+        master=frameForecast, text='NEXT WEEK', fg_color=c.details,  command=lambda: createPlotWeatherCurrent(frameForecast, futureData, pictureWidget))
 
     labelTitle = tk.Label(master=frame4, text="Check the weather",
                           font=c.titleFont, bg=c.highlight, fg='white')
@@ -317,9 +330,7 @@ def loadFrame4():
         column=2, row=2, columnspan=3, padx=30, sticky='w')
 
     labelSelectedDate.grid(column=2, row=3, columnspan=3, padx=30, sticky='w')
-    
 
-    
     frameForecast.grid(row=4, column=0, columnspan=5, pady=15)
 
 
