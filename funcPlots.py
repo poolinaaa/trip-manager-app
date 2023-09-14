@@ -9,43 +9,32 @@ import datetime as dt
 import matplotlib.dates as mdates
 
 
-
 def createPlotButton(dates, rates, current, parent):
     y = rates
-    x = {num: date for num, date in enumerate(dates)}
     currRate = [current for _ in range(len(dates))]
-    
-    xFormatted = [dt.datetime.strptime(d, '%Y-%m-%d') for d in dates ]
+
+    xFormatted = [dt.datetime.strptime(d, '%Y-%m-%d') for d in dates]
 
     fig, ax1 = plt.subplots(figsize=(6, 3.2))
-    
+
     color = 'maroon'
-    ax1.set_ylabel('rate', color=color, fontsize= 7)
-    ax1.plot(xFormatted, y, color=color)
-    ax1.tick_params(axis='y', labelcolor=color)
-    ax1.tick_params(axis='y', labelsize=5)
-    ax1.margins(x=0,y=0.05)
-    ax1.tick_params(axis='x', labelrotation=30, labelsize=6)
-    ax1.set_title('Ratees',fontsize=11)
-    
-    
-    ax2 = ax1.twinx()
+    ax1.set_ylabel('Rate', fontsize=8)
+    ax1.plot(xFormatted, y, color=color,
+             label=f'Rate from {xFormatted[0]} to {xFormatted[-1]}')
     color = 'teal'
-    ax2.set_ylabel('Precipitation [mm]', color=color, fontsize= 7) 
-    ax2.plot(xFormatted, currRate, color=color)
-    
-    ax2.tick_params(axis='y', labelcolor=color)
-    ax2.tick_params(axis='y', labelsize=6)
-    ax2.margins(x=0,y=0.05)
-    
-    
+    ax1.plot(xFormatted, currRate, color=color, label='Current rate')
+
+    ax1.tick_params(axis='y', labelsize=8)
+    ax1.margins(x=0, y=0.05)
+    ax1.tick_params(axis='x', labelrotation=30, labelsize=6)
+    ax1.set_title(
+        'Comparison between the rate from a specific period and the current rate', fontsize=11)
+
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
-    plt.gca().xaxis.set_major_locator(mdates.DayLocator())
-    
+    plt.gca().xaxis.set_major_locator(mdates.DayLocator(interval=3))
 
     fig.tight_layout()
- 
-    
+
     canvas = FigureCanvasTkAgg(fig, master=parent)
     canvas.draw()
     canvas.get_tk_widget().grid(column=0, row=2, columnspan=3, pady=10)
