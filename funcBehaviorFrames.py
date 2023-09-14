@@ -201,7 +201,7 @@ def preparingData(data: dict, codeCurrency):
     c.eur = [data['rates'][date]['EUR'] for date in data['rates']]
     c.usd = [data['rates'][date]['USD'] for date in data['rates']]
     c.pln = [data['rates'][date]['PLN'] for date in data['rates']]
-    c.gbp = [data['rates'][date]['GBP'] for date in data['rates']]
+    c.cny = [data['rates'][date]['CNY'] for date in data['rates']]
 
 
 def checkDate(date):
@@ -218,7 +218,7 @@ def confirmButton(frame, dateStart, dateEnd, baseCurrName, codeCurrency):
     end = dateEnd.get()
     if (checkDate(start) and checkDate(end)):
         params = {'start_date': start, 'end_date': end,
-                  'base': baseCurrName, 'symbols': f'{codeCurrency},EUR,USD,PLN,GBP'}
+                  'base': baseCurrName, 'symbols': f'{codeCurrency},EUR,USD,PLN,CNY'}
         r = requests.get('https://api.exchangerate.host/timeseries/', params)
         print(r)
         try:

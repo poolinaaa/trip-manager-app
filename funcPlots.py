@@ -20,7 +20,7 @@ def createPlotButton(dates, rates, current, parent):
     color = 'maroon'
     ax1.set_ylabel('Rate', fontsize=8)
     ax1.plot(xFormatted, y, color=color,
-             label=f'Rate from {xFormatted[0]} to {xFormatted[-1]}')
+             label=f'Rate from {dates[0][0:10]} to {dates[-1][0:10]}')
     color = 'teal'
     ax1.plot(xFormatted, currRate, color=color, label='Current rate')
 
@@ -28,10 +28,12 @@ def createPlotButton(dates, rates, current, parent):
     ax1.margins(x=0, y=0.05)
     ax1.tick_params(axis='x', labelrotation=30, labelsize=6)
     ax1.set_title(
-        'Comparison between the rate from a specific period and the current rate', fontsize=11)
-
+        'Comparison between the rate from a specific period and the current rate', fontsize=10)
+    
+    ax1.legend(loc='upper left', fontsize=7)
+    
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
-    plt.gca().xaxis.set_major_locator(mdates.DayLocator(interval=3))
+    plt.gca().xaxis.set_major_locator(mdates.AutoDateLocator())
 
     fig.tight_layout()
 
@@ -40,28 +42,51 @@ def createPlotButton(dates, rates, current, parent):
     canvas.get_tk_widget().grid(column=0, row=2, columnspan=3, pady=10)
 
 
-def createPlotButtonAll(dates, parent, ratesChosenCountry, EUR, USD, PLN, GBP):
+def createPlotButtonAll(dates, parent, ratesChosenCountry, EUR, USD, PLN, CNY, codeCurrency):
     y = ratesChosenCountry
-    x = {num: date for num, date in enumerate(dates)}
-    ox = list(range(0, len(dates)))
+    xFormatted = [dt.datetime.strptime(d, '%Y-%m-%d') for d in dates]
+    
     e = EUR
     u = USD
     p = PLN
-    g = GBP
+    c = CNY
 
-    fig = Figure(figsize=(5, 3))
+    fig, ax1 = plt.subplots(figsize=(6, 3.2))
 
-    plot1 = fig.add_subplot(111)
+    color = 'maroon'
+    ax1.set_ylabel('Rate', fontsize=8)
+    ax1.plot(xFormatted, y, color=color,
+             label=codeCurrency)
+    color = 'teal'
+    if codeCurrency != 'EUR':
+        ax1.plot(xFormatted, e, color=color, label='EUR')
+    color = 'red'
+    if codeCurrency != 'USD':
+        ax1.plot(xFormatted, u, color=color, label='USD')
+    color = 'blue'
+    if codeCurrency != 'PLN':
+        ax1.plot(xFormatted, p, color=color, label='PLN')
+    color = 'orange'
+    if codeCurrency != 'CNY':
+        ax1.plot(xFormatted, c, color=color, label='CNY')
 
-    plot1.plot(ox, y, ox, e, ox, u, ox, p, ox, g)
+    
+    ax1.tick_params(axis='y', labelsize=8)
+    ax1.margins(x=0, y=0.05)
+    ax1.tick_params(axis='x', labelrotation=30, labelsize=6)
+    ax1.set_title(
+        'Comparison between EUR, USD, PLN, CNY and currency in chosen country', fontsize=10)
 
+    ax1.legend(loc='upper left', fontsize=7)
+    
+    plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+    plt.gca().xaxis.set_major_locator(mdates.AutoDateLocator())
+
+    fig.tight_layout()
     canvas = FigureCanvasTkAgg(fig, master=parent)
     canvas.draw()
     canvas.get_tk_widget().grid(column=0, row=2, columnspan=3, pady=10)
-    plot1.set_xlabel('X Label')
-    plot1.set_ylabel('Y Label')
-    plot1.set_title('Plot Title')
-    fig.tight_layout()
+
 
 
 def createPlotButtonLastMonth(baseCurrName, codeCurrency, parent):

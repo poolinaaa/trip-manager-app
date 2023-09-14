@@ -193,7 +193,7 @@ def loadFrame2():
     labelPlot2.grid(column=1, row=0, padx=15)
 
     buttonPlot2 = customtkinter.CTkButton(master=framePlots, width=20, text='SHOW PLOT 2', fg_color=c.details, command=lambda: createPlotButtonAll(
-        c.dates, framePlots, c.rate, c.eur, c.usd, c.pln, c.gbp))
+        c.dates, framePlots, c.rate, c.eur, c.usd, c.pln, c.cny, codeCurrency))
     buttonPlot2.grid(column=1, row=1, padx=15, pady=10)
 
     labelPlot3 = tk.Label(
@@ -205,9 +205,6 @@ def loadFrame2():
     buttonPlot3.grid(column=2, row=1, padx=15, pady=10)
 
     framePlots.pack()
-
-
-# frame with flights
 
 
 def loadFrame3():
@@ -294,7 +291,7 @@ def loadFrame4():
 
     frameForecast = tk.Frame(master=frame4, bg=c.bgColor,
                              highlightbackground=c.bgColor, highlightcolor=c.bgColor)
-    
+
     img = (Image.open("fog.png"))
 
     resized_image = img.resize((300, 300))
@@ -307,15 +304,14 @@ def loadFrame4():
 
     pictureWidget.image = new_image
     pictureWidget.pack(pady=10)
-    framePic.grid(column=0,row=1, columnspan=2)
-    
-    buttonFake1 = customtkinter.CTkButton(
-        master=frameForecast, text='YEAR AGO', fg_color=c.details)
-    buttonFake2 = customtkinter.CTkButton(
-        master=frameForecast, text='NEXT WEEK', fg_color=c.details)
-    buttonFake2.grid(column=0,row=0,sticky='w')
-    buttonFake1.grid(column=1,row=0, sticky='w')
+    framePic.grid(column=0, row=1, columnspan=2)
 
+    buttonFake1 = customtkinter.CTkButton(
+        master=frameForecast, text='YEAR AGO', fg_color=c.details, state=tk.DISABLED)
+    buttonFake2 = customtkinter.CTkButton(
+        master=frameForecast, text='NEXT WEEK', fg_color=c.details, state=tk.DISABLED)
+    buttonFake2.grid(column=0, row=0, sticky='w')
+    buttonFake1.grid(column=1, row=0, sticky='w')
 
     buttonYearAgo = customtkinter.CTkButton(
         master=frameForecast, text='YEAR AGO', fg_color=c.details, command=lambda: createPlotWeatherYearAgo(frameForecast, pastData, pictureWidget))
@@ -327,7 +323,7 @@ def loadFrame4():
     labelTitle.grid(column=2, row=1, columnspan=3, padx=30, sticky='w')
 
     buttonDateOfDeparture = customtkinter.CTkButton(master=frame4, text='SUBMIT DATE', fg_color=c.details, command=lambda: submitDepartureDate(
-        dateDeparture, calDateOfDeparture, labelSelectedDate, buttonFuture, buttonYearAgo,buttonFake2,buttonFake1))
+        dateDeparture, calDateOfDeparture, labelSelectedDate, buttonFuture, buttonYearAgo, buttonFake2, buttonFake1))
     buttonDateOfDeparture.grid(
         column=2, row=2, columnspan=3, padx=30, sticky='w')
 
@@ -343,7 +339,7 @@ windll.shcore.SetProcessDpiAwareness(1)
 # window
 window = tk.Tk()
 
-window.title('Travel advisor')
+window.title('WanderWisely')
 
 x = 550
 y = 200
