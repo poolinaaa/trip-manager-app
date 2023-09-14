@@ -290,7 +290,7 @@ def loadFrame4():
     calDateOfDeparture.grid(column=1, row=1, rowspan=3, padx=50)
     dateDeparture = tk.StringVar(value='YYYY-MM-DD')
     labelSelectedDate = tk.Label(
-        master=frame4, text=f'Select date of the departure', font=c.titleFont, bg=c.highlight, fg='white')
+        master=frame4, text=f'Select date of the departure', width=30, font=c.titleFont, bg=c.highlight, fg='white')
 
     frameForecast = tk.Frame(master=frame4, bg=c.bgColor,
                              highlightbackground=c.bgColor, highlightcolor=c.bgColor)
@@ -307,13 +307,15 @@ def loadFrame4():
 
     pictureWidget.image = new_image
     pictureWidget.pack(pady=10)
-    framePic.grid(column=0,row=1)
-    '''    pictureSection = ImageTk.PhotoImage(file='fog.png')
-    pictureSection.res
-    pictureWidget = tk.Label(
-        master=frameForecast, image=pictureSection, bg=c.bgColor, width=512, height=512)
-    pictureWidget.image = pictureSection
-    pictureWidget.grid(column=0, row=1, padx=(60, 0), columnspan=2)'''
+    framePic.grid(column=0,row=1, columnspan=2)
+    
+    buttonFake1 = customtkinter.CTkButton(
+        master=frameForecast, text='YEAR AGO', fg_color=c.details)
+    buttonFake2 = customtkinter.CTkButton(
+        master=frameForecast, text='NEXT WEEK', fg_color=c.details)
+    buttonFake2.grid(column=0,row=0,sticky='w')
+    buttonFake1.grid(column=1,row=0, sticky='w')
+
 
     buttonYearAgo = customtkinter.CTkButton(
         master=frameForecast, text='YEAR AGO', fg_color=c.details, command=lambda: createPlotWeatherYearAgo(frameForecast, pastData, pictureWidget))
@@ -325,7 +327,7 @@ def loadFrame4():
     labelTitle.grid(column=2, row=1, columnspan=3, padx=30, sticky='w')
 
     buttonDateOfDeparture = customtkinter.CTkButton(master=frame4, text='SUBMIT DATE', fg_color=c.details, command=lambda: submitDepartureDate(
-        dateDeparture, calDateOfDeparture, labelSelectedDate, buttonFuture, buttonYearAgo))
+        dateDeparture, calDateOfDeparture, labelSelectedDate, buttonFuture, buttonYearAgo,buttonFake2,buttonFake1))
     buttonDateOfDeparture.grid(
         column=2, row=2, columnspan=3, padx=30, sticky='w')
 

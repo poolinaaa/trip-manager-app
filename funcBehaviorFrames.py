@@ -157,8 +157,9 @@ def confirmCountry(strVarCountry, frame, unit, frameToDestroy):
         frame.pack(side=LEFT, pady=10, anchor='nw')
 
 
-def submitDepartureDate(dateDeparture, cal, labelSelectedDate, buttonFuture, buttonYearAgo):
-    
+def submitDepartureDate(dateDeparture, cal, labelSelectedDate, buttonFuture, buttonYearAgo,btn1,btn2):
+    btn1.destroy()
+    btn2.destroy()
     c.dateFlight = cal.get_date()
     print(c.dateFlight)
     labelSelectedDate['text'] = f'Selected date of departure: {c.dateFlight}'
