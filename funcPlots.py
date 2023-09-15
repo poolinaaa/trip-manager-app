@@ -29,9 +29,9 @@ def createPlotButton(dates, rates, current, parent):
     ax1.tick_params(axis='x', labelrotation=30, labelsize=6)
     ax1.set_title(
         'Comparison between the rate from a specific period and the current rate', fontsize=10)
-    
+
     ax1.legend(loc='upper left', fontsize=7)
-    
+
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
     plt.gca().xaxis.set_major_locator(mdates.AutoDateLocator())
 
@@ -45,7 +45,7 @@ def createPlotButton(dates, rates, current, parent):
 def createPlotButtonAll(dates, parent, ratesChosenCountry, EUR, USD, PLN, CNY, codeCurrency):
     y = ratesChosenCountry
     xFormatted = [dt.datetime.strptime(d, '%Y-%m-%d') for d in dates]
-    
+
     e = EUR
     u = USD
     p = PLN
@@ -53,24 +53,23 @@ def createPlotButtonAll(dates, parent, ratesChosenCountry, EUR, USD, PLN, CNY, c
 
     fig, ax1 = plt.subplots(figsize=(6, 3.2))
 
-    color = 'maroon'
+    color = 'rebeccapurple'
     ax1.set_ylabel('Rate', fontsize=8)
     ax1.plot(xFormatted, y, color=color,
              label=codeCurrency)
     color = 'teal'
     if codeCurrency != 'EUR':
         ax1.plot(xFormatted, e, color=color, label='EUR')
-    color = 'red'
+    color = 'dodgerblue'
     if codeCurrency != 'USD':
         ax1.plot(xFormatted, u, color=color, label='USD')
-    color = 'blue'
+    color = 'maroon'
     if codeCurrency != 'PLN':
         ax1.plot(xFormatted, p, color=color, label='PLN')
-    color = 'orange'
+    color = 'turquoise'
     if codeCurrency != 'CNY':
         ax1.plot(xFormatted, c, color=color, label='CNY')
 
-    
     ax1.tick_params(axis='y', labelsize=8)
     ax1.margins(x=0, y=0.05)
     ax1.tick_params(axis='x', labelrotation=30, labelsize=6)
@@ -78,7 +77,7 @@ def createPlotButtonAll(dates, parent, ratesChosenCountry, EUR, USD, PLN, CNY, c
         'Comparison between EUR, USD, PLN, CNY and currency in chosen country', fontsize=10)
 
     ax1.legend(loc='upper left', fontsize=7)
-    
+
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
     plt.gca().xaxis.set_major_locator(mdates.AutoDateLocator())
 
@@ -86,7 +85,6 @@ def createPlotButtonAll(dates, parent, ratesChosenCountry, EUR, USD, PLN, CNY, c
     canvas = FigureCanvasTkAgg(fig, master=parent)
     canvas.draw()
     canvas.get_tk_widget().grid(column=0, row=2, columnspan=3, pady=10)
-
 
 
 def createPlotButtonLastMonth(baseCurrName, codeCurrency, parent):
@@ -103,22 +101,34 @@ def createPlotButtonLastMonth(baseCurrName, codeCurrency, parent):
     except json.JSONDecodeError:
         print('Wrong format of data.')
     else:
-        print(currencyData)
+        
         dates = [date for date in currencyData['rates']]
+        xFormatted = [dt.datetime.strptime(d, '%Y-%m-%d') for d in dates]
         rate = [currencyData['rates'][date][codeCurrency]
                 for date in currencyData['rates']]
         y = rate
-        x = {num: date for num, date in enumerate(dates)}
+        
+        fig, ax1 = plt.subplots(figsize=(6, 3.2))
 
-        fig = Figure(figsize=(5, 3))
-        plot1 = fig.add_subplot(111)
+        color = 'teal'
+        ax1.set_ylabel('Rate', fontsize=8)
+        ax1.plot(xFormatted, y, color=color,
+        label=f'Rate from {dates[0][0:10]} to {dates[-1][0:10]}')   
 
-        plot1.plot(list(range(0, len(dates))), y)
+        ax1.tick_params(axis='y', labelsize=8)
+        ax1.margins(x=0, y=0.05)
+        ax1.tick_params(axis='x', labelrotation=30, labelsize=6)
+        ax1.set_title(
+            'Changes in rate for the last 30 days', fontsize=10)
+
+        ax1.legend(loc='upper left', fontsize=7)
+        plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+        plt.gca().xaxis.set_major_locator(mdates.AutoDateLocator())       
 
         canvas = FigureCanvasTkAgg(fig, master=parent)
         canvas.draw()
         canvas.get_tk_widget().grid(column=0, row=2, columnspan=3, pady=10)
-        plot1.set_xlabel('X Label')
-        plot1.set_ylabel('Y Label')
-        plot1.set_title('Plot Title')
+
         fig.tight_layout()
+        
+
