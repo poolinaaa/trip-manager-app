@@ -254,18 +254,18 @@ def loadFrame3():
     resized_image = img.resize((300, 300))
     new_image = ImageTk.PhotoImage(resized_image)
 
-    framePic = tk.Frame(master=frame3, bg=c.bgColor)
+    #framePic = tk.Frame(master=frame3, bg=c.bgColor)
 
     pictureWidget = tk.Label(
-        master=framePic, image=new_image, width=300, height=300, bg=c.bgColor)
+        master=frameCheckbutton, image=new_image, width=300, height=300, bg=c.bgColor)
 
     pictureWidget.image = new_image
-    pictureWidget.pack(pady=10)
+    pictureWidget.pack()
 
-    framePic.pack(side=LEFT, pady=30, padx=34, anchor='n')
+    frameCheckbutton.pack(side=LEFT, pady=30, anchor='n')
 
     buttonConfirmCountry = customtkinter.CTkButton(master=frameOptions, text='CONFIRM COUNTRY', fg_color=c.details,
-                                                   command=lambda: confirmCountry(departureCountry, frameCheckbutton, var.get(), framePic))
+                                                   command=lambda: confirmCountry(departureCountry, frameCheckbutton, var.get()))
     buttonConfirmCountry.grid(row=2, column=0, columnspan=3, pady=20)
 
 

@@ -112,7 +112,9 @@ def savingLandmarks(listAttractions):
             landmark.openInTheBrowser()
 
 
-def confirmCountry(strVarCountry, frame, unit, frameToDestroy):
+def confirmCountry(strVarCountry, frame, unit):
+    for widget in frame.winfo_children():
+        widget.destroy()
     baseCountry = strVarCountry.get().capitalize()
     baseCountry = checkingCountry(baseCountry)
     
@@ -153,8 +155,8 @@ def confirmCountry(strVarCountry, frame, unit, frameToDestroy):
         buttonSave = customtkinter.CTkButton(master=frame, text='SAVE IN THE DATABASE', fg_color=c.details,
                                              command=lambda: savingLandmarks(listOfAttractions))
         buttonSave.pack(pady=10)
-        frameToDestroy.destroy()
-        frame.pack(side=LEFT, pady=10, anchor='nw')
+        
+        #frame.pack(side=LEFT, pady=10, anchor='nw')
 
 
 def submitDepartureDate(dateDeparture, cal, labelSelectedDate, buttonFuture, buttonYearAgo,btn1,btn2):
