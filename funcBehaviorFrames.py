@@ -214,7 +214,7 @@ def checkDate(date):
         return False
 
 
-def confirmButton(frame, dateStart, dateEnd, baseCurrName, codeCurrency):
+def confirmButton(frame, dateStart, dateEnd, baseCurrName, codeCurrency,fake1,fake2,fake3,btn1,btn2,btn3):
 
     start = dateStart.get()
     end = dateEnd.get()
@@ -230,6 +230,12 @@ def confirmButton(frame, dateStart, dateEnd, baseCurrName, codeCurrency):
         else:
             print(currencyData)
             preparingData(currencyData, codeCurrency)
+            fake1.destroy()
+            fake2.destroy()
+            fake3.destroy()
+            btn1.grid(column=0, row=1, padx=15, pady=10)
+            btn2.grid(column=0, row=1, padx=15, pady=10)
+            btn3.grid(column=0, row=1, padx=15, pady=10)
 
     else:
         incorrectDate = tk.Label(
