@@ -408,11 +408,19 @@ class FrameBase(tk.Frame):
 
 class Frame1(FrameBase):
 
-    def __init__(self, masterWindow, colorOfBg):
+    def __init__(self, masterWindow, colorOfBg, frame1):
         super().__init__(master=masterWindow, bg=colorOfBg)
         self.gen = counterFrame1()
+        self.frame1 = frame1 
+
         self.load()
         
+    
+    def setFrames(self, frame2, frame3, frame4):
+        self.frame2 = frame2
+        self.frame3 = frame3
+        self.frame4 = frame4
+            
     def load(self):
         def searchButton():
             countryToFind = c.countryName.get().capitalize()
@@ -510,13 +518,13 @@ class Frame1(FrameBase):
                                         width=20, state=tk.DISABLED)
 
         buttonLoadFrame2 = customtkinter.CTkButton(master=frameCurrency, text='CURRENCY', fg_color=c.details,
-                                                width=20, command=lambda: loadFrame(frame1, loadFrame2))
+                                                width=20, command=lambda: loadFrame(self.frame1, self.frame2.load()))
         buttonLoadFrame3 = customtkinter.CTkButton(master=frameFlights, text='GEOGRAPHY', fg_color=c.details,
-                                                width=20, command=lambda: loadFrame(frame1, loadFrame3))
+                                                width=20, command=lambda: loadFrame(self.frame1, self.frame3.load()))
         buttonCountrySearch = customtkinter.CTkButton(
             master=frameQuestions, width=8, fg_color=c.highlight, text="SEARCH", command=searchButton)
         buttonLoadFrame4 = customtkinter.CTkButton(master=frameWeather, text='WEATHER', fg_color=c.details,
-                                                width=20, command=lambda: loadFrame(frame1, loadFrame4))
+                                                width=20, command=lambda: loadFrame(self.frame1, self.frame4.load()))
         buttonCountrySearch.grid(column=0, row=3, columnspan=2, pady=10)
 
         for widget in (labelTitle, frameQuestions, labelCurrentRate, frameSections):
@@ -533,15 +541,16 @@ class Frame1(FrameBase):
         
 class Frame2(FrameBase):
 
-    def __init__(self, masterWindow, colorOfBg):
+    def __init__(self, masterWindow, colorOfBg, frame1):
         super().__init__(master=masterWindow, bg=colorOfBg) 
+        self.frame1 = frame1 
         self.load()
         
     def load(self):
         self.tkraise()
 
         backButton = customtkinter.CTkButton(master=self, text='BACK', fg_color=c.details, width=40, height=40,
-                                            command=lambda: multipleFuncButton(clearEntry(entryStart, entryEnd), loadFrame(frame2, loadFrame1)))
+                                            command=lambda: multipleFuncButton(clearEntry(entryStart, entryEnd), loadFrame(self, self.frame1.load())))
         backButton.pack(side=TOP, anchor=NW)
 
         labelTitle = tk.Label(master=self, text="Analyse currency rate",
@@ -561,7 +570,7 @@ class Frame2(FrameBase):
         labelEndDate.grid(column=1, row=0)
 
         buttonConfirmDate = customtkinter.CTkButton(master=frameEnteringDate, width=20, text='CONFIRM TIME SPAN', fg_color=c.details,
-                                                    command=lambda: confirmButton(frame2, c.dateStart, c.dateEnd, baseCurrName, codeCurrency, fake1, fake2, fake3, buttonPlot1, buttonPlot2, buttonPlot3))
+                                                    command=lambda: confirmButton(self, c.dateStart, c.dateEnd, baseCurrName, codeCurrency, fake1, fake2, fake3, buttonPlot1, buttonPlot2, buttonPlot3))
         buttonConfirmDate.grid(column=3, row=1, padx=10, pady=5)
 
         entryStart = tk.Entry(master=frameEnteringDate,
@@ -624,16 +633,136 @@ class Frame2(FrameBase):
         
 class Frame3(FrameBase):
 
-    def __init__(self, masterWindow, colorOfBg):
+    def __init__(self, masterWindow, colorOfBg,frame1):
         super().__init__(master=masterWindow, bg=colorOfBg)
+        self.frame1 = frame1
+        self.load()
         
-        
+    def load(self):
+        self.tkraise()
+        frameOptions = tk.Frame(self, bg=c.highlight)
+        backButton = customtkinter.CTkButton(master=self, text='BACK', fg_color=c.details, width=40, height=40,
+                                            command=lambda: loadFrame(self, self.frame1.load()))
+        backButton.pack(side=TOP, anchor=NW)
+
+        labelTitle = tk.Label(master=self, text=f"Discover some geographical facts about {c.countryName.get().capitalize()}",
+                            font=c.titleFont, bg=c.bgColor, fg='white')
+        labelTitle.pack()
+        frameOptions.pack()
+
+        labelDepartureCountry = tk.Label(master=frameOptions, text="What is your departure country?",
+                                        width=30, font=c.questionFont, bg=c.bgColor, fg='white', anchor="w")
+        labelDepartureCountry.grid(column=0, row=0)
+
+        departureCountry = tk.StringVar(value='country')
+
+        entryDepartureCountry = tk.Entry(
+            master=frameOptions, textvariable=departureCountry)
+        entryDepartureCountry.grid(column=0, row=1)
+
+        labelUnit = tk.Label(master=frameOptions, text='Select the unit in which the distance will be displayed',
+                            font=c.questionFont, bg=c.bgColor, fg='white', anchor="w")
+        labelUnit.grid(column=1, row=0, columnspan=2)
+
+        var = tk.StringVar(value='kilometers')
+
+        kmButton = tk.Radiobutton(
+            master=frameOptions, text='kilometers', variable=var, value='kilometers', bg='#9dc0d1')
+        milesButton = tk.Radiobutton(
+            master=frameOptions, text='miles', variable=var, value='miles', bg='#9dc0d1')
+
+        kmButton.grid(column=1, row=1, pady=5)
+        milesButton.grid(column=2, row=1, pady=5)
+
+        frameCities = tk.Frame(self, bg=c.highlight, height=450)
+        frameCities.pack(side=LEFT, anchor='n', padx=55, pady=10)
+        preparingLabelCities(frameCities)
+        frameCheckbutton = tk.Frame(
+            master=self, bg='#9dc0d1', width=300, height=450)
+
+        img = (Image.open("globe.png"))
+
+        resized_image = img.resize((300, 300))
+        new_image = ImageTk.PhotoImage(resized_image)
+
+        pictureWidget = tk.Label(
+            master=frameCheckbutton, image=new_image, width=300, height=300, bg=c.bgColor)
+
+        pictureWidget.image = new_image
+        pictureWidget.pack()
+
+        frameCheckbutton.pack(side=LEFT, pady=30, anchor='n')
+
+        buttonConfirmCountry = customtkinter.CTkButton(master=frameOptions, text='CONFIRM COUNTRY', fg_color=c.details,
+                                                    command=lambda: confirmCountry(departureCountry, frameCheckbutton, var.get()))
+        buttonConfirmCountry.grid(row=2, column=0, columnspan=3, pady=20)
+            
 class Frame4(FrameBase):
 
-    def __init__(self, masterWindow, colorOfBg):
-        super().__init__(master=masterWindow, bg=colorOfBg)    
+    def __init__(self, masterWindow, colorOfBg, frame1):
+        super().__init__(master=masterWindow, bg=colorOfBg) 
+        self.frame1 = frame1
+        self.load()   
         
-        
+    def load(self):
+        self.tkraise()
+
+        backButton = customtkinter.CTkButton(master=self, text='BACK', fg_color=c.details, width=40, height=40,
+                                            command=lambda: loadFrame(self, self.frame1.load()))
+        backButton.grid(column=0, row=0)
+
+        futureData = tk.StringVar()
+        pastData = tk.StringVar()
+
+        calDateOfDeparture = Calendar(
+            master=self, selectmode='day', date_pattern='YYYY-MM-DD')
+        calDateOfDeparture.grid(column=1, row=1, rowspan=3, padx=50)
+        dateDeparture = tk.StringVar(value='YYYY-MM-DD')
+        labelSelectedDate = tk.Label(
+            master=self, text=f'Select date of the departure', width=30, font=c.titleFont, bg=c.highlight, fg='white')
+
+        frameForecast = tk.Frame(master=self, bg=c.bgColor,
+                                highlightbackground=c.bgColor, highlightcolor=c.bgColor)
+
+        img = (Image.open("fog.png"))
+
+        resized_image = img.resize((300, 300))
+        new_image = ImageTk.PhotoImage(resized_image)
+
+        framePic = tk.Frame(master=frameForecast, bg=c.bgColor)
+
+        pictureWidget = tk.Label(
+            master=framePic, image=new_image, width=300, height=300, bg=c.bgColor)
+
+        pictureWidget.image = new_image
+        pictureWidget.pack(pady=10)
+        framePic.grid(column=0, row=1, columnspan=2)
+
+        buttonFake1 = customtkinter.CTkButton(
+            master=frameForecast, text='YEAR AGO', fg_color=c.details, state=tk.DISABLED)
+        buttonFake2 = customtkinter.CTkButton(
+            master=frameForecast, text='NEXT WEEK', fg_color=c.details, state=tk.DISABLED)
+        buttonFake2.grid(column=0, row=0, sticky='w')
+        buttonFake1.grid(column=1, row=0, sticky='w')
+
+        buttonYearAgo = customtkinter.CTkButton(
+            master=frameForecast, text='YEAR AGO', fg_color=c.details, command=lambda: createPlotWeatherYearAgo(frameForecast, pastData, pictureWidget))
+        buttonFuture = customtkinter.CTkButton(
+            master=frameForecast, text='NEXT WEEK', fg_color=c.details,  command=lambda: createPlotWeatherCurrent(frameForecast, futureData, pictureWidget))
+
+        labelTitle = tk.Label(master=self, text="Check the weather",
+                            font=c.titleFont, bg=c.highlight, fg='white')
+        labelTitle.grid(column=2, row=1, columnspan=3, padx=30, sticky='w')
+
+        buttonDateOfDeparture = customtkinter.CTkButton(master=self, text='SUBMIT DATE', fg_color=c.details, command=lambda: submitDepartureDate(
+            dateDeparture, calDateOfDeparture, labelSelectedDate, buttonFuture, buttonYearAgo, buttonFake2, buttonFake1))
+        buttonDateOfDeparture.grid(
+            column=2, row=2, columnspan=3, padx=30, sticky='w')
+
+        labelSelectedDate.grid(column=2, row=3, columnspan=3, padx=30, sticky='w')
+
+        frameForecast.grid(row=4, column=0, columnspan=5, pady=15)
+            
         
         
 
@@ -653,9 +782,11 @@ class Window(tk.Tk):
         
     def start(self):
         self.frame1 = Frame1(self, self.bgColor)
-        self.frame2 = Frame2(self, self.bgColor)
-        self.frame3 = Frame3(self, self.bgColor)
-        self.frame4 = Frame4(self, self.bgColor)
+        self.frame2 = Frame2(self, self.bgColor, self.frame1)
+        self.frame3 = Frame3(self, self.bgColor, self.frame1)
+        self.frame4 = Frame4(self, self.bgColor, self.frame1)
+        
+        self.frame1.setFrames(self.frame2, self.frame3, self.frame4)
         
         for frame in (self.frame1, self.frame2, self.frame3, self.frame4):
             
