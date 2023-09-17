@@ -32,5 +32,5 @@ class ThemeSection(tk.Frame):
 class InitializationFrame(tk.Frame):
 
     def __init__(self, masterWindow, **kwargs):
-        super().__init__(master=masterWindow, width=300, height=500, bg=c.bgColor,
+        super().__init__(master=masterWindow, bg=c.bgColor,
                          highlightbackground=c.bgColor, highlightcolor=c.bgColor, **kwargs)

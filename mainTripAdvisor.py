@@ -163,7 +163,7 @@ def loadFrame2():
     labelEndDate.grid(column=1, row=0)
 
     buttonConfirmDate = customtkinter.CTkButton(master=frameEnteringDate, width=20, text='CONFIRM TIME SPAN', fg_color=c.details,
-                                                command=lambda: confirmButton(frame2, c.dateStart, c.dateEnd, baseCurrName, codeCurrency, fake1,fake2,fake3,buttonPlot1,buttonPlot2,buttonPlot3))
+                                                command=lambda: confirmButton(frame2, c.dateStart, c.dateEnd, baseCurrName, codeCurrency, fake1, fake2, fake3, buttonPlot1, buttonPlot2, buttonPlot3))
     buttonConfirmDate.grid(column=3, row=1, padx=10, pady=5)
 
     entryStart = tk.Entry(master=frameEnteringDate,
@@ -179,20 +179,21 @@ def loadFrame2():
 
     framePlots = tk.Frame(master=frame2, bg=c.bgColor,
                           highlightbackground=c.bgColor, highlightcolor=c.bgColor)
-    
-    fake1= customtkinter.CTkButton(master=framePlots, width=20, state=DISABLED, text='SHOW PLOT 1', fg_color=c.details)
-    fake2=customtkinter.CTkButton(master=framePlots, width=20, state=DISABLED, text='SHOW PLOT 2', fg_color=c.details)
-    fake3=customtkinter.CTkButton(master=framePlots, width=20, state=DISABLED, text='SHOW PLOT 3', fg_color=c.details) 
+
+    fake1 = customtkinter.CTkButton(
+        master=framePlots, width=20, state=DISABLED, text='SHOW PLOT 1', fg_color=c.details)
+    fake2 = customtkinter.CTkButton(
+        master=framePlots, width=20, state=DISABLED, text='SHOW PLOT 2', fg_color=c.details)
+    fake3 = customtkinter.CTkButton(
+        master=framePlots, width=20, state=DISABLED, text='SHOW PLOT 3', fg_color=c.details)
     fake1.grid(column=0, row=1, padx=15, pady=10)
     fake2.grid(column=1, row=1, padx=15, pady=10)
     fake3.grid(column=2, row=1, padx=15, pady=10)
-    
+
     img = (Image.open("money.png"))
 
     resized_image = img.resize((400, 400))
     new_image = ImageTk.PhotoImage(resized_image)
-
-
 
     pictureWidget = tk.Label(
         master=framePlots, image=new_image, width=400, height=400, bg=c.bgColor)
@@ -206,7 +207,6 @@ def loadFrame2():
 
     buttonPlot1 = customtkinter.CTkButton(master=framePlots, width=20, text='SHOW PLOT 1', fg_color=c.details,
                                           command=lambda: createPlotButton(c.dates, c.rate, c.current, framePlots))
-    
 
     labelPlot2 = tk.Label(
         master=framePlots, text='Rate compared to changes \nin EUR, USD, PLN, GBP', bg=c.bgColor, fg='white')
@@ -214,14 +214,13 @@ def loadFrame2():
 
     buttonPlot2 = customtkinter.CTkButton(master=framePlots, width=20, text='SHOW PLOT 2', fg_color=c.details, command=lambda: createPlotButtonAll(
         c.dates, framePlots, c.rate, c.eur, c.usd, c.pln, c.cny, codeCurrency))
-    
+
     labelPlot3 = tk.Label(
         master=framePlots, text='Currency rate for the last 30 days', bg=c.bgColor,  fg='white')
     labelPlot3.grid(column=2, row=0, padx=15)
 
     buttonPlot3 = customtkinter.CTkButton(master=framePlots, width=20, text='SHOW PLOT 3', fg_color=c.details,
                                           command=lambda: createPlotButtonLastMonth(baseCurrName, codeCurrency, framePlots))
-    
 
     framePlots.pack()
 
@@ -272,8 +271,6 @@ def loadFrame3():
 
     resized_image = img.resize((300, 300))
     new_image = ImageTk.PhotoImage(resized_image)
-
-
 
     pictureWidget = tk.Label(
         master=frameCheckbutton, image=new_image, width=300, height=300, bg=c.bgColor)
@@ -354,6 +351,9 @@ def loadFrame4():
 windll.shcore.SetProcessDpiAwareness(1)
 
 
+
+        
+
 # INITIALIZATION
 # window
 window = tk.Tk()
@@ -397,3 +397,42 @@ gen = counterFrame1()
 loadFrame1()
 
 window.mainloop()
+
+
+class InitializationFrame(tk.Frame):
+
+    def __init__(self, masterWindow, colorOfBg, **kwargs):
+        super().__init__(master=masterWindow, bg=colorOfBg,
+                         highlightbackground=colorOfBg, highlightcolor=colorOfBg, **kwargs)
+
+class Window(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.title('WanderWisely')
+        self.geometry("918x700")
+        self.minsize(918, 700)
+        self.maxsize(918, 700)
+        self.configure(background=self.bgColor)
+        self.bgColor = '#295873'
+        self.highlight = '#1c3c4f'
+        self.details = '#162f3d'
+        self.start()
+        
+    def start(self):
+        self.frame1 = InitializationFrame(self, self.bgColor)
+        self.frame2 = InitializationFrame(self, self.bgColor)
+        self.frame3 = InitializationFrame(self, self.bgColor)
+        self.frame4 = InitializationFrame(self, self.bgColor)
+        
+        for frame in (self.frame1, self.frame2, self.frame3, self.frame4):
+            
+            frame.grid(row=0, column=0, sticky='nsew')
+        
+        for frame in (self.frame2, self.frame3, self.frame4):
+            clearView(frame)
+            
+        
+    @staticmethod  
+    def clearView(frame):
+        for widget in frame.winfo_children():
+            widget.destroy()
