@@ -79,7 +79,7 @@ def checkingCountry(country):
             return foundCountry
 
 
-def searchInfoAboutDestination():
+'''def searchInfoAboutDestination():
     country = c.countryName.get().capitalize()
     fiveCitiesExamples = dict()
     cnt = 0
@@ -98,7 +98,7 @@ def searchInfoAboutDestination():
                     dictInfo['lat'] = row[2]
                     dictInfo['lng'] = row[3]
         dictInfo['citiesPopulation'] = fiveCitiesExamples
-    return dictInfo
+    return dictInfo'''
 
 
 def savingLandmarks(listAttractions):
@@ -112,7 +112,7 @@ def savingLandmarks(listAttractions):
             landmark.openInTheBrowser()
 
 
-def confirmCountry(strVarCountry, frame, unit):
+'''def confirmCountry(strVarCountry, frame, unit):
     for widget in frame.winfo_children():
         widget.destroy()
     baseCountry = strVarCountry.get().capitalize()
@@ -156,7 +156,7 @@ def confirmCountry(strVarCountry, frame, unit):
                                              command=lambda: savingLandmarks(listOfAttractions))
         buttonSave.pack(pady=10)
         
-        #frame.pack(side=LEFT, pady=10, anchor='nw')
+        #frame.pack(side=LEFT, pady=10, anchor='nw')'''
 
 
 def submitDepartureDate(dateDeparture, cal, labelSelectedDate, buttonFuture, buttonYearAgo,btn1,btn2):

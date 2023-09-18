@@ -4,8 +4,8 @@ import json
 import tkinter as tk
 from currencyFunc import checkingCurrency, checkingBase
 from ctypes import windll
-from partialForms import ThemeSection, InitializationFrame
-from funcBehaviorFrames import counterFrame1, appearance,  confirmCountry, clearView,  confirmButton, submitDepartureDate, clearEntry, multipleFuncButton
+from partialForms import ThemeSection
+from funcBehaviorFrames import counterFrame1, appearance, confirmButton, submitDepartureDate, clearEntry, multipleFuncButton, savingLandmarks, AttractionToSee
 import config as c
 from funcPlots import createPlotButton, createPlotButtonAll, createPlotButtonLastMonth
 from plotsWeather import createPlotWeatherCurrent, createPlotWeatherYearAgo
@@ -21,39 +21,36 @@ import tkinter as tk
 from tkinter import *
 from sqlite3 import *
 import csv
-
+from geoFunc import getDistanceBetweenPoints, searchAttractions
 import webbrowser
 import customtkinter
 import PIL.Image
 from datetime import datetime
 
 
-
-
-
-
 class FrameBase(tk.Frame):
 
-    def __init__(self, masterWindow, colorOfBg, **kwargs):
+    def __init__(self, masterWindow, colorOfBg, countryName, **kwargs):
         super().__init__(master=masterWindow, bg=colorOfBg,
                          highlightbackground=colorOfBg, highlightcolor=colorOfBg, **kwargs)
-    
+        self.countryName=countryName
     def loadFrame(self, frameToLoad):
         # Przełącz się na frame2
         if frameToLoad is not None:
             self.grid_remove()  # Ukryj aktualną ramkę
             frameToLoad.grid()
 
+
 class Frame1(FrameBase):
 
-    def __init__(self, masterWindow, colorOfBg):
-        super().__init__(masterWindow=masterWindow, colorOfBg=colorOfBg)
+    def __init__(self, masterWindow, colorOfBg,countryName):
+        super().__init__(masterWindow=masterWindow, colorOfBg=colorOfBg,countryName=countryName)
         self.gen = counterFrame1()
         self.errorLabel = None
         
 
         self.load()
-        
+
   # Wyświetl frame2
 
     def setFrames(self, frame1, frame2, frame3, frame4):
@@ -64,7 +61,7 @@ class Frame1(FrameBase):
 
     def load(self):
         def searchButton():
-            countryToFind = c.countryName.get().capitalize()
+            countryToFind = self.countryName.get().capitalize()
             global codeCurrency, baseCurrName
             baseCurrName = c.baseCurrency.get().upper()
             codeCurrency = checkingCurrency(countryToFind).upper()
@@ -105,30 +102,30 @@ class Frame1(FrameBase):
 
         # title
         self.labelTitle = tk.Label(master=self, text="Let's prepare for your trip!",
-                              font=c.titleFont, bg=c.bgColor, fg='white')
+                                   font=c.titleFont, bg=c.bgColor, fg='white')
 
         # fields to enter destination and base currency
         self.frameQuestions = tk.Frame(master=self, width=100,  bg=c.bgColor,
-                                  highlightbackground=c.bgColor, highlightcolor=c.bgColor)
+                                       highlightbackground=c.bgColor, highlightcolor=c.bgColor)
 
         self.labelCountry = tk.Label(master=self.frameQuestions, text="What country is your destination?",
-                                width=30, font=c.questionFont, bg=c.bgColor, fg='white', anchor="w")
+                                     width=30, font=c.questionFont, bg=c.bgColor, fg='white', anchor="w")
         self.labelCountry.grid(column=0, row=0, pady=10)
 
         self.entryCountry = tk.Entry(master=self.frameQuestions,
-                                width=20, textvariable=c.countryName)
+                                     width=20, textvariable=self.countryName)
         self.entryCountry.grid(column=1, row=0, pady=10, padx=5)
 
         self.labelBaseCurrency = tk.Label(master=self.frameQuestions, text="What is your base currency?",
-                                     width=30, font=c.questionFont, bg=c.bgColor, fg='white', anchor="w")
+                                          width=30, font=c.questionFont, bg=c.bgColor, fg='white', anchor="w")
         self.labelBaseCurrency.grid(column=0, row=2, pady=10)
 
         self.entryCurrency = tk.Entry(master=self.frameQuestions,
-                                 width=20, textvariable=c.baseCurrency)
+                                      width=20, textvariable=c.baseCurrency)
         self.entryCurrency.grid(column=1, row=2, pady=10, padx=5)
 
         self.frameSections = tk.Frame(master=self, width=300, bg=c.bgColor,
-                                 highlightbackground=c.bgColor, highlightcolor=c.bgColor)
+                                      highlightbackground=c.bgColor, highlightcolor=c.bgColor)
 
         self.frameCurrency = ThemeSection(self.frameSections, 100, 300)
         self.frameCurrency.addTitleLabel(title='Changes in currency')
@@ -152,20 +149,20 @@ class Frame1(FrameBase):
         self.frameWeather.addImage('sun.png')
 
         self.fake1 = customtkinter.CTkButton(master=self.frameCurrency, text='CURRENCY', fg_color=c.details,
-                                        width=20, state=tk.DISABLED)
+                                             width=20, state=tk.DISABLED)
         self.fake2 = customtkinter.CTkButton(master=self.frameFlights, text='GEOGRAPHY', fg_color=c.details,
-                                        width=20, state=tk.DISABLED)
+                                             width=20, state=tk.DISABLED)
         self.fake3 = customtkinter.CTkButton(master=self.frameWeather, text='WEATHER', fg_color=c.details,
-                                        width=20, state=tk.DISABLED)
+                                             width=20, state=tk.DISABLED)
 
         self.buttonLoadFrame2 = customtkinter.CTkButton(master=self.frameCurrency, text='CURRENCY', fg_color=c.details,
-                                                   width=20, command=lambda: self.loadFrame(self.frame2))
+                                                        width=20, command=lambda: self.loadFrame(self.frame2))
         self.buttonLoadFrame3 = customtkinter.CTkButton(master=self.frameFlights, text='GEOGRAPHY', fg_color=c.details,
-                                                   width=20, command=lambda: self.loadFrame(self.frame3))
+                                                        width=20, command=lambda: multipleFuncButton(self.loadFrame(self.frame3),self.preparingLabelCities(self.frame3.frameCities)))
         self.buttonCountrySearch = customtkinter.CTkButton(
             master=self.frameQuestions, width=8, fg_color=c.highlight, text="SEARCH", command=searchButton)
         self.buttonLoadFrame4 = customtkinter.CTkButton(master=self.frameWeather, text='WEATHER', fg_color=c.details,
-                                                   width=20, command=lambda: self.loadFrame(self.frame4))
+                                                        width=20, command=lambda: self.loadFrame(self.frame4))
         self.buttonCountrySearch.grid(column=0, row=3, columnspan=2, pady=10)
 
         for widget in (self.labelTitle, self.frameQuestions, self.labelCurrentRate, self.frameSections):
@@ -179,13 +176,64 @@ class Frame1(FrameBase):
             self.buttonLoadFrame2.pack(side=tk.BOTTOM)
             self.buttonLoadFrame3.pack(side=tk.BOTTOM)
             self.buttonLoadFrame4.pack(side=tk.BOTTOM)
+            
+    
+    def preparingLabelCities(self, frame):
+        self.destinationGeoInfo = self.searchInfoAboutDestination()
+        print(self.destinationGeoInfo)
 
+        capital = self.destinationGeoInfo.get('capital', 'No capital found')
+        cities = [city for city in self.destinationGeoInfo['citiesPopulation']]
+        population = [self.destinationGeoInfo['citiesPopulation'][city]
+                      for city in self.destinationGeoInfo['citiesPopulation']]
+        print(cities)
+        print(capital)
+        print(population)
+
+        self.labelCapital = tk.Label(
+            frame, text=f'Capital: {capital}', font=c.questionFont, bg=c.details, fg='white')
+        if len(cities) >= 5 and len(population) >= 5:
+            self.labelCities = tk.Label(
+                frame, text=f'''The most crowded cities:
+                \n{cities[0]}, population: {population[0]}
+                \n{cities[1]}, population: {population[1]}
+                \n{cities[2]}, population: {population[2]}
+                \n{cities[3]}, population: {population[3]}
+                \n{cities[4]}, population: {population[4]}''', font=c.questionFont, bg=c.highlight, fg='white', justify='left')
+        else:
+            # Obsłuż sytuację, gdy lista nie ma wystarczającej liczby elementów
+            self.labelCities = tk.Label(
+                frame, text="Not enough data available for cities.", font=c.questionFont, bg=c.highlight, fg='white')
+        self.labelCapital.pack(pady=10, padx=30)
+        self.labelCities.pack(pady=10, padx=30)
+
+    def searchInfoAboutDestination(self):
+        country = self.countryName.get().capitalize()
+        self.fiveCitiesExamples = dict()
+        cnt = 0
+        self.dictInfo = dict()
+        print(country)
+        with open('worldcities.csv', encoding='utf8') as csvFile:
+            csvRead = csv.reader(csvFile, delimiter=',')
+            for row in csvRead:
+                if row[4] == country:
+                    self.dictInfo['iso'] = row[5]
+                    if cnt < 5:
+                        self.fiveCitiesExamples[row[1]] = row[9]
+                        cnt += 1
+                    if row[8] == 'primary':
+                        self.dictInfo['capital'] = row[1]
+                        self.dictInfo['lat'] = row[2]
+                        self.dictInfo['lng'] = row[3]
+            self.dictInfo['citiesPopulation'] = self.fiveCitiesExamples
+        return self.dictInfo
+        
 
 class Frame2(FrameBase):
 
-    def __init__(self, masterWindow, colorOfBg,frame1):
-        super().__init__(masterWindow=masterWindow, colorOfBg=colorOfBg)
-        
+    def __init__(self, masterWindow, colorOfBg, frame1,countryName):
+        super().__init__(masterWindow=masterWindow, colorOfBg=colorOfBg,countryName=countryName)
+
         self.frame1 = frame1
         self.load()
 
@@ -193,11 +241,11 @@ class Frame2(FrameBase):
         self.tkraise()
 
         self.backButton = customtkinter.CTkButton(master=self, text='BACK', fg_color=c.details, width=40, height=40,
-                                             command=lambda: multipleFuncButton(clearEntry(entryStart, entryEnd), self.loadFrame(self.frame1)))
+                                                  command=lambda: multipleFuncButton(clearEntry(self.entryStart, self.entryEnd), self.loadFrame(self.frame1)))
         self.backButton.pack(side=TOP, anchor=NW)
 
         self.labelTitle = tk.Label(master=self, text="Analyse currency rate",
-                              font=c.titleFont, bg=c.highlight, fg='white')
+                                   font=c.titleFont, bg=c.highlight, fg='white')
         self.labelTitle.pack()
 
         self.frameEnteringDate = tk.Frame(
@@ -205,30 +253,30 @@ class Frame2(FrameBase):
         self.frameEnteringDate.pack(pady=20)
 
         self.labelStartDate = tk.Label(master=self.frameEnteringDate,
-                                  text='Enter the start date: ', fg='white', bg=c.highlight)
+                                       text='Enter the start date: ', fg='white', bg=c.highlight)
         self.labelStartDate.grid(column=0, row=0)
 
         self.labelEndDate = tk.Label(master=self.frameEnteringDate,
-                                text='Enter the end date: ', fg='white', bg=c.highlight)
+                                     text='Enter the end date: ', fg='white', bg=c.highlight)
         self.labelEndDate.grid(column=1, row=0)
 
         self.buttonConfirmDate = customtkinter.CTkButton(master=self.frameEnteringDate, width=20, text='CONFIRM TIME SPAN', fg_color=c.details,
-                                                    command=lambda: confirmButton(self, c.dateStart, c.dateEnd, baseCurrName, codeCurrency, fake1, fake2, fake3, buttonPlot1, buttonPlot2, buttonPlot3))
+                                                         command=lambda: confirmButton(self, c.dateStart, c.dateEnd, baseCurrName, codeCurrency, self.fake1, self.fake2, self.fake3, self.buttonPlot1, self.buttonPlot2, self.buttonPlot3))
         self.buttonConfirmDate.grid(column=3, row=1, padx=10, pady=5)
 
         self.entryStart = tk.Entry(master=self.frameEnteringDate,
-                              width=28, textvariable=c.dateStart)
+                                   width=28, textvariable=c.dateStart)
         self.entryStart.insert(0, 'YYYY-MM-DD')
         self.entryStart.grid(column=0, row=1, padx=5, pady=5)
 
         self.entryEnd = tk.Entry(master=self.frameEnteringDate,
-                            width=28, textvariable=c.dateEnd)
+                                 width=28, textvariable=c.dateEnd)
 
         self.entryEnd.insert(0, 'YYYY-MM-DD')
         self.entryEnd.grid(column=1, row=1, padx=5, pady=5)
 
         self.framePlots = tk.Frame(master=self, bg=c.bgColor,
-                              highlightbackground=c.bgColor, highlightcolor=c.bgColor)
+                                   highlightbackground=c.bgColor, highlightcolor=c.bgColor)
 
         self.fake1 = customtkinter.CTkButton(
             master=self.framePlots, width=20, state=DISABLED, text='SHOW PLOT 1', fg_color=c.details)
@@ -256,7 +304,7 @@ class Frame2(FrameBase):
         self.labelPlot1.grid(column=0, row=0, padx=15)
 
         self.buttonPlot1 = customtkinter.CTkButton(master=self.framePlots, width=20, text='SHOW PLOT 1', fg_color=c.details,
-                                              command=lambda: createPlotButton(c.dates, c.rate, c.current, self.framePlots))
+                                                   command=lambda: createPlotButton(c.dates, c.rate, c.current, self.framePlots))
 
         self.labelPlot2 = tk.Label(
             master=self.framePlots, text='Rate compared to changes \nin EUR, USD, PLN, GBP', bg=c.bgColor, fg='white')
@@ -270,16 +318,16 @@ class Frame2(FrameBase):
         self.labelPlot3.grid(column=2, row=0, padx=15)
 
         self.buttonPlot3 = customtkinter.CTkButton(master=self.framePlots, width=20, text='SHOW PLOT 3', fg_color=c.details,
-                                              command=lambda: createPlotButtonLastMonth(baseCurrName, codeCurrency, self.framePlots))
+                                                   command=lambda: createPlotButtonLastMonth(baseCurrName, codeCurrency, self.framePlots))
 
         self.framePlots.pack()
 
 
 class Frame3(FrameBase):
 
-    def __init__(self, masterWindow, colorOfBg,frame1):
-        super().__init__(masterWindow=masterWindow, colorOfBg=colorOfBg)
-        
+    def __init__(self, masterWindow, colorOfBg, frame1,countryName):
+        super().__init__(masterWindow=masterWindow, colorOfBg=colorOfBg,countryName=countryName)
+
         self.frame1 = frame1
         self.load()
 
@@ -287,16 +335,16 @@ class Frame3(FrameBase):
         self.tkraise()
         self.frameOptions = tk.Frame(self, bg=c.highlight)
         self.backButton = customtkinter.CTkButton(master=self, text='BACK', fg_color=c.details, width=40, height=40,
-                                             command=lambda: self.loadFrame(self.frame1))
+                                                  command=lambda: self.loadFrame(self.frame1))
         self.backButton.pack(side=TOP, anchor=NW)
 
-        self.labelTitle = tk.Label(master=self, text=f"Discover some geographical facts about {c.countryName.get().capitalize()}",
-                              font=c.titleFont, bg=c.bgColor, fg='white')
+        self.labelTitle = tk.Label(master=self, text=f"Discover some geographical facts about {self.countryName.get().capitalize()}",
+                                   font=c.titleFont, bg=c.bgColor, fg='white')
         self.labelTitle.pack()
-        self.frameOptions.pack()
+        self.frameOptions.pack(anchor='e')
 
         self.labelDepartureCountry = tk.Label(master=self.frameOptions, text="What is your departure country?",
-                                         width=30, font=c.questionFont, bg=c.bgColor, fg='white', anchor="w")
+                                              width=30, font=c.questionFont, bg=c.bgColor, fg='white', anchor="w")
         self.labelDepartureCountry.grid(column=0, row=0)
 
         self.departureCountry = tk.StringVar(value='country')
@@ -306,7 +354,7 @@ class Frame3(FrameBase):
         self.entryDepartureCountry.grid(column=0, row=1)
 
         self.labelUnit = tk.Label(master=self.frameOptions, text='Select the unit in which the distance will be displayed',
-                             font=c.questionFont, bg=c.bgColor, fg='white', anchor="w")
+                                  font=c.questionFont, bg=c.bgColor, fg='white', anchor="w")
         self.labelUnit.grid(column=1, row=0, columnspan=2)
 
         var = tk.StringVar(value='kilometers')
@@ -339,7 +387,7 @@ class Frame3(FrameBase):
         self.frameCheckbutton.pack(side=LEFT, pady=30, anchor='n')
 
         self.buttonConfirmCountry = customtkinter.CTkButton(master=self.frameOptions, text='CONFIRM COUNTRY', fg_color=c.details,
-                                                       command=lambda: confirmCountry(self.departureCountry, self.frameCheckbutton, var.get()))
+                                                            command=lambda: self.confirmCountry(self.departureCountry, self.frameCheckbutton, var.get()))
         self.buttonConfirmCountry.grid(row=2, column=0, columnspan=3, pady=20)
 
     def preparingLabelCities(self, frame):
@@ -349,7 +397,7 @@ class Frame3(FrameBase):
         capital = self.destinationGeoInfo.get('capital', 'No capital found')
         cities = [city for city in self.destinationGeoInfo['citiesPopulation']]
         population = [self.destinationGeoInfo['citiesPopulation'][city]
-                    for city in self.destinationGeoInfo['citiesPopulation']]
+                      for city in self.destinationGeoInfo['citiesPopulation']]
         print(cities)
         print(capital)
         print(population)
@@ -372,7 +420,7 @@ class Frame3(FrameBase):
         self.labelCities.pack(pady=10, padx=30)
 
     def searchInfoAboutDestination(self):
-        country = c.countryName.get().capitalize()
+        country = self.countryName.get().capitalize()
         self.fiveCitiesExamples = dict()
         cnt = 0
         self.dictInfo = dict()
@@ -392,13 +440,67 @@ class Frame3(FrameBase):
             self.dictInfo['citiesPopulation'] = self.fiveCitiesExamples
         return self.dictInfo
 
+    def confirmCountry(self, strVarCountry, frame, unit):
+        for widget in frame.winfo_children():
+            widget.destroy()
+        baseCountry = strVarCountry.get().capitalize()
+        baseCountry = self.checkingCountry(baseCountry)
+        
+        with open('worldcities.csv', encoding='utf8') as csvFile:
+            csvRead = csv.reader(csvFile, delimiter=',')
+            for row in csvRead:
+                if row[4] == baseCountry:
+                    isoBase = row[5]
+                    latBase = row[2]
+                    lngBase = row[3]
+                    break
 
+            destinationGeoInfo = self.searchInfoAboutDestination()
+            print(destinationGeoInfo)
+
+            distance = getDistanceBetweenPoints(
+                latBase, lngBase, destinationGeoInfo['lat'], destinationGeoInfo['lng'], unit)
+
+            distanceLabel = tk.Label(
+                master=frame, text=f'Distance between {baseCountry} and {self.countryName.get().capitalize()} is about \n{distance} {unit}', font=c.questionFont, bg=c.highlight, fg='white', anchor="w")
+            distanceLabel.pack()
+
+            attractions = searchAttractions(
+                destinationGeoInfo['lng'], destinationGeoInfo['lat'])
+
+            listOfAttractions = list()
+
+            for attr in attractions['features']:
+                ds = attr['properties']['datasource']
+                raw = ds.get('raw', {})  # Handle if 'raw' key is missing
+                image_url = raw.get('image', '')
+                landmark = AttractionToSee(attr['properties']['address_line1'],
+                                        attr['properties']['address_line2'],
+                                        image_url)
+                listOfAttractions.append(landmark)
+                landmark.checkboxButton(frame)
+
+            buttonSave = customtkinter.CTkButton(master=frame, text='SAVE IN THE DATABASE', fg_color=c.details,
+                                                command=lambda: savingLandmarks(listOfAttractions))
+            buttonSave.pack(pady=10)
+
+    def checkingCountry(self, country):
+        with open('countries.csv', encoding='utf8') as csvFile:
+            csvRead = csv.reader(csvFile, delimiter=',')
+            for row in csvRead:
+                if row[2] == country:
+                    foundCountry = row[2]
+
+            if 'foundCountry' not in locals():
+                return 'CountryError'
+            else:
+                return foundCountry
 
 class Frame4(FrameBase):
 
-    def __init__(self, masterWindow, colorOfBg,frame1):
-        super().__init__(masterWindow=masterWindow, colorOfBg=colorOfBg)
-        
+    def __init__(self, masterWindow, colorOfBg, frame1,countryName):
+        super().__init__(masterWindow=masterWindow, colorOfBg=colorOfBg,countryName=countryName)
+
         self.frame1 = frame1
         self.load()
 
@@ -406,7 +508,7 @@ class Frame4(FrameBase):
         self.tkraise()
 
         self.backButton = customtkinter.CTkButton(master=self, text='BACK', fg_color=c.details, width=40, height=40,
-                                             command=lambda: self.loadFrame(self.frame1))
+                                                  command=lambda: self.loadFrame(self.frame1))
         self.backButton.grid(column=0, row=0)
 
         futureData = tk.StringVar()
@@ -420,7 +522,7 @@ class Frame4(FrameBase):
             master=self, text=f'Select date of the departure', width=30, font=c.titleFont, bg=c.highlight, fg='white')
 
         self.frameForecast = tk.Frame(master=self, bg=c.bgColor,
-                                 highlightbackground=c.bgColor, highlightcolor=c.bgColor)
+                                      highlightbackground=c.bgColor, highlightcolor=c.bgColor)
 
         img = (PIL.Image.open("fog.png"))
 
@@ -449,8 +551,9 @@ class Frame4(FrameBase):
             master=self.frameForecast, text='NEXT WEEK', fg_color=c.details,  command=lambda: createPlotWeatherCurrent(self.frameForecast, futureData, self.pictureWidget))
 
         self.labelTitle = tk.Label(master=self, text="Check the weather",
-                              font=c.titleFont, bg=c.highlight, fg='white')
-        self.labelTitle.grid(column=2, row=1, columnspan=3, padx=30, sticky='w')
+                                   font=c.titleFont, bg=c.highlight, fg='white')
+        self.labelTitle.grid(
+            column=2, row=1, columnspan=3, padx=30, sticky='w')
 
         self.buttonDateOfDeparture = customtkinter.CTkButton(master=self, text='SUBMIT DATE', fg_color=c.details, command=lambda: submitDepartureDate(
             self.dateDeparture, self.calDateOfDeparture, self.labelSelectedDate, self.buttonFuture, self.buttonYearAgo, self.buttonFake2, self.buttonFake1))
@@ -474,22 +577,23 @@ class Window(tk.Tk):
         self.highlight = '#1c3c4f'
         self.details = '#162f3d'
         self.configure(background=self.bgColor)
-        c.countryName = tk.StringVar(value='your country')
+        self.countryName = tk.StringVar(value='your country')
         c.baseCurrency = tk.StringVar(value='your base currency')
         c.dateStart = tk.StringVar()
         c.dateEnd = tk.StringVar()
 
         c.titleFont = tkinter.font.Font(family="Lato", size=13, weight="bold")
-        c.questionFont = tkinter.font.Font(family="Lato", size=11, weight="bold")
+        c.questionFont = tkinter.font.Font(
+            family="Lato", size=11, weight="bold")
         c.errorFont = tkinter.font.Font(family="Lato", size=9, weight="bold")
         self.start()
         appearance()
 
     def start(self):
-        self.frame1 = Frame1(self, self.bgColor)
-        self.frame2 = Frame2(self, self.bgColor, self.frame1)
-        self.frame3 = Frame3(self, self.bgColor, self.frame1)
-        self.frame4 = Frame4(self, self.bgColor, self.frame1)
+        self.frame1 = Frame1(self, self.bgColor,self.countryName)
+        self.frame2 = Frame2(self, self.bgColor, self.frame1,self.countryName)
+        self.frame3 = Frame3(self, self.bgColor, self.frame1,self.countryName)
+        self.frame4 = Frame4(self, self.bgColor, self.frame1,self.countryName)
 
         self.frame1.setFrames(self.frame1, self.frame2,
                               self.frame3, self.frame4)
@@ -497,18 +601,12 @@ class Window(tk.Tk):
         for frame in (self.frame1, self.frame2, self.frame3, self.frame4):
 
             frame.grid(row=0, column=0, sticky='nsew')
-        
-        
+
         self.frame1.grid(row=0, column=0, sticky='nsew')
-        self.frame2.grid_remove()  # Ukryj ramkę 2
-        self.frame3.grid_remove()  # Ukryj ramkę 3
+        self.frame2.grid_remove()
+        self.frame3.grid_remove()
         self.frame4.grid_remove()
-        '''for frame in (self.frame2, self.frame3, self.frame4):
-            clearView(frame)'''
 
-    
-
-        
     def clearView(self):
         self.frame1.grid_remove()
         self.frame2.grid_remove()
