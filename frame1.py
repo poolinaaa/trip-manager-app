@@ -1,0 +1,215 @@
+import tkinter.font
+import requests
+import json
+import tkinter as tk
+from currencyFunc import checkingCurrency, checkingBase
+from ctypes import windll
+from partialForms import ThemeSection
+from funcBehaviorFrames import counterFrame1, appearance, confirmButton, submitDepartureDate, clearEntry, multipleFuncButton, savingLandmarks, AttractionToSee
+import config as c
+from funcPlots import createPlotButton, createPlotButtonAll, createPlotButtonLastMonth
+from plotsWeather import createPlotWeatherCurrent, createPlotWeatherYearAgo
+from tkcalendar import *
+import customtkinter
+from tkinter import *
+from PIL import ImageTk
+import datetime
+import config as c
+import requests
+import json
+import tkinter as tk
+from tkinter import *
+from sqlite3 import *
+import csv
+from geoFunc import getDistanceBetweenPoints, searchAttractions
+import webbrowser
+import customtkinter
+import PIL.Image
+from datetime import datetime
+from base import FrameBase
+
+class Frame1(FrameBase):
+
+    def __init__(self, masterWindow, colorOfBg, countryName):
+        super().__init__(masterWindow=masterWindow,
+                         colorOfBg=colorOfBg, countryName=countryName)
+        self.gen = counterFrame1()
+        self.errorLabel = None
+
+        self.load()
+
+  # Wyświetl frame2
+
+    def setFrames(self, frame1, frame2, frame3, frame4):
+        self.frame1 = frame1
+        self.frame2 = frame2
+        self.frame3 = frame3
+        self.frame4 = frame4
+
+    def load(self):
+        def searchButton():
+            countryToFind = self.countryName.get().capitalize()
+            global codeCurrency, baseCurrName
+            baseCurrName = c.baseCurrency.get().upper()
+            codeCurrency = checkingCurrency(countryToFind).upper()
+            baseCurrName = checkingBase(baseCurrName)
+
+            if codeCurrency == 'COUNTRYERROR':
+                countryError = 'You have entered wrong name of country. Please try again (check full name of country)'
+                self.errorLabel = tk.Label(
+                    master=self.frameQuestions, text=countryError, font=c.errorFont, bg=c.bgColor, fg='white')
+                self.errorLabel.grid(column=0, row=1, columnspan=2)
+                self.frameQuestions.after(5000, self.errorLabel.destroy)
+            else:
+                self.frameCurrency.title['text'] = f'Analyse changes in {codeCurrency}'
+                self.fake1.destroy()
+                self.fake2.destroy()
+                self.fake3.destroy()
+                self.buttonLoadFrame2.pack(side=tk.BOTTOM)
+
+                self.buttonLoadFrame3.pack(side=tk.BOTTOM)
+
+                self.buttonLoadFrame4.pack(side=tk.BOTTOM)
+
+                if 'baseCurrName' in globals():
+                    params = {'base': baseCurrName, 'symbols': codeCurrency}
+                    r = requests.get(
+                        'https://api.exchangerate.host/latest/', params)
+                    try:
+                        data = r.json()
+                    except json.JSONDecodeError:
+                        print('Wrong format of data.')
+                    else:
+                        c.current = data["rates"][codeCurrency]
+                        self.labelCurrentRate['text'] = f'Current rate: {c.current} {baseCurrName}'
+
+        self.tkraise()
+
+        nr = next(self.gen)
+
+        # title
+        self.labelTitle = tk.Label(master=self, text="Let's prepare for your trip!",
+                                   font=c.titleFont, bg=c.bgColor, fg='white')
+
+        # fields to enter destination and base currency
+        self.frameQuestions = tk.Frame(master=self, width=100,  bg=c.bgColor,
+                                       highlightbackground=c.bgColor, highlightcolor=c.bgColor)
+
+        self.labelCountry = tk.Label(master=self.frameQuestions, text="What country is your destination?",
+                                     width=30, font=c.questionFont, bg=c.bgColor, fg='white', anchor="w")
+        self.labelCountry.grid(column=0, row=0, pady=10)
+
+        self.entryCountry = tk.Entry(master=self.frameQuestions,
+                                     width=20, textvariable=self.countryName)
+        self.entryCountry.grid(column=1, row=0, pady=10, padx=5)
+
+        self.labelBaseCurrency = tk.Label(master=self.frameQuestions, text="What is your base currency?",
+                                          width=30, font=c.questionFont, bg=c.bgColor, fg='white', anchor="w")
+        self.labelBaseCurrency.grid(column=0, row=2, pady=10)
+
+        self.entryCurrency = tk.Entry(master=self.frameQuestions,
+                                      width=20, textvariable=c.baseCurrency)
+        self.entryCurrency.grid(column=1, row=2, pady=10, padx=5)
+
+        self.frameSections = tk.Frame(master=self, width=300, bg=c.bgColor,
+                                      highlightbackground=c.bgColor, highlightcolor=c.bgColor)
+
+        self.frameCurrency = ThemeSection(self.frameSections, 100, 300)
+        self.frameCurrency.addTitleLabel(title='Changes in currency')
+        self.frameCurrency.grid(column=0, row=0, sticky='nsew')
+        self.frameCurrency.addImage('cash.png')
+
+        self.labelCurrentRate = tk.Label(
+            master=self.frameCurrency, text='Current rate:', bg=c.highlight, font=c.errorFont, fg='white')
+
+        # flights
+        self.frameFlights = ThemeSection(self.frameSections, 100, 300)
+
+        self.frameFlights.addTitleLabel(title='Geographical details')
+        self.frameFlights.grid(column=1, row=0, sticky='nsew')
+        self.frameFlights.addImage('plane.png')
+
+        # weather
+        self.frameWeather = ThemeSection(self.frameSections, 100, 300)
+        self.frameWeather.addTitleLabel(title='Check the weather')
+        self.frameWeather.grid(column=2, row=0, sticky='nsew')
+        self.frameWeather.addImage('sun.png')
+
+        self.fake1 = customtkinter.CTkButton(master=self.frameCurrency, text='CURRENCY', fg_color=c.details,
+                                             width=20, state=tk.DISABLED)
+        self.fake2 = customtkinter.CTkButton(master=self.frameFlights, text='GEOGRAPHY', fg_color=c.details,
+                                             width=20, state=tk.DISABLED)
+        self.fake3 = customtkinter.CTkButton(master=self.frameWeather, text='WEATHER', fg_color=c.details,
+                                             width=20, state=tk.DISABLED)
+
+        self.buttonLoadFrame2 = customtkinter.CTkButton(master=self.frameCurrency, text='CURRENCY', fg_color=c.details,
+                                                        width=20, command=lambda: self.loadFrame(self.frame2))
+        self.buttonLoadFrame3 = customtkinter.CTkButton(master=self.frameFlights, text='GEOGRAPHY', fg_color=c.details,
+                                                        width=20, command=lambda: multipleFuncButton(self.loadFrame(self.frame3), self.preparingLabelCities(self.frame3.frameCities)))
+        self.buttonCountrySearch = customtkinter.CTkButton(
+            master=self.frameQuestions, width=8, fg_color=c.highlight, text="SEARCH", command=searchButton)
+        self.buttonLoadFrame4 = customtkinter.CTkButton(master=self.frameWeather, text='WEATHER', fg_color=c.details,
+                                                        width=20, command=lambda: self.loadFrame(self.frame4))
+        self.buttonCountrySearch.grid(column=0, row=3, columnspan=2, pady=10)
+
+        for widget in (self.labelTitle, self.frameQuestions, self.labelCurrentRate, self.frameSections):
+            widget.pack()
+
+        if nr == 1:
+            self.fake1.pack(side=tk.BOTTOM)
+            self.fake2.pack(side=tk.BOTTOM)
+            self.fake3.pack(side=tk.BOTTOM)
+        else:
+            self.buttonLoadFrame2.pack(side=tk.BOTTOM)
+            self.buttonLoadFrame3.pack(side=tk.BOTTOM)
+            self.buttonLoadFrame4.pack(side=tk.BOTTOM)
+
+    def preparingLabelCities(self, frame):
+        self.destinationGeoInfo = self.searchInfoAboutDestination()
+        print(self.destinationGeoInfo)
+
+        capital = self.destinationGeoInfo.get('capital', 'No capital found')
+        cities = [city for city in self.destinationGeoInfo['citiesPopulation']]
+        population = [self.destinationGeoInfo['citiesPopulation'][city]
+                      for city in self.destinationGeoInfo['citiesPopulation']]
+        print(cities)
+        print(capital)
+        print(population)
+
+        self.labelCapital = tk.Label(
+            frame, text=f'Capital: {capital}', font=c.questionFont, bg=c.details, fg='white')
+        if len(cities) >= 5 and len(population) >= 5:
+            self.labelCities = tk.Label(
+                frame, text=f'''The most crowded cities:
+                \n{cities[0]}, population: {population[0]}
+                \n{cities[1]}, population: {population[1]}
+                \n{cities[2]}, population: {population[2]}
+                \n{cities[3]}, population: {population[3]}
+                \n{cities[4]}, population: {population[4]}''', font=c.questionFont, bg=c.highlight, fg='white', justify='left')
+        else:
+            # Obsłuż sytuację, gdy lista nie ma wystarczającej liczby elementów
+            self.labelCities = tk.Label(
+                frame, text="Not enough data available for cities.", font=c.questionFont, bg=c.highlight, fg='white')
+        self.labelCapital.pack(pady=10, padx=30)
+        self.labelCities.pack(pady=10, padx=30)
+
+    def searchInfoAboutDestination(self):
+        country = self.countryName.get().capitalize()
+        self.fiveCitiesExamples = dict()
+        cnt = 0
+        self.dictInfo = dict()
+        print(country)
+        with open('worldcities.csv', encoding='utf8') as csvFile:
+            csvRead = csv.reader(csvFile, delimiter=',')
+            for row in csvRead:
+                if row[4] == country:
+                    self.dictInfo['iso'] = row[5]
+                    if cnt < 5:
+                        self.fiveCitiesExamples[row[1]] = row[9]
+                        cnt += 1
+                    if row[8] == 'primary':
+                        self.dictInfo['capital'] = row[1]
+                        self.dictInfo['lat'] = row[2]
+                        self.dictInfo['lng'] = row[3]
+            self.dictInfo['citiesPopulation'] = self.fiveCitiesExamples
+        return self.dictInfo
