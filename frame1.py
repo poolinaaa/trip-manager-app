@@ -3,7 +3,7 @@ import requests
 import json
 import tkinter as tk
 from currencyFunc import checkingCurrency, checkingBase
-from funcBehaviorFrames import counterFrame1, appearance,  multipleFuncButton
+from funcBehaviorFrames import appearance,  multipleFuncButton
 import config as c
 from tkcalendar import *
 from tkinter import *
@@ -22,19 +22,15 @@ from funcBehaviorFrames import appearance
 appearance()
 
 
-
 class Frame1(FrameBase):
 
     def __init__(self, masterWindow, colorOfBg, countryName, baseCurrency):
         super().__init__(masterWindow=masterWindow,
                          colorOfBg=colorOfBg, countryName=countryName, baseCurrency=baseCurrency)
-        self.gen = counterFrame1()
+        self.gen = self.counterFrame1()
         self.errorLabel = None
         self.colorOfBg = colorOfBg
-        
         self.load()
-
-  # Wyświetl frame2
 
     def setFrames(self, frame1, frame2, frame3, frame4):
         self.frame1 = frame1
@@ -43,10 +39,7 @@ class Frame1(FrameBase):
         self.frame4 = frame4
 
     def load(self):
-
-
         self.tkraise()
-
         nr = next(self.gen)
 
         # title
@@ -106,22 +99,27 @@ class Frame1(FrameBase):
         self.buttonLoadFrame2 = customtkinter.CTkButton(master=self.frameCurrency, text='CURRENCY', fg_color=c.details,
                                                         width=20, command=lambda: self.loadFrame(self.frame2))
         self.buttonLoadFrame3 = customtkinter.CTkButton(master=self.frameFlights, text='GEOGRAPHY', fg_color=c.details,
-                                                        width=20, command=lambda: multipleFuncButton(self.loadFrame(self.frame3), self.preparingLabelCities(self.frame3.frameCities)))
+                                                        width=20, command=lambda: self.multipleFuncButton(self.loadFrame(self.frame3), self.preparingLabelCities(self.frame3.frameCities)))
         self.buttonCountrySearch = customtkinter.CTkButton(
             master=self.frameQuestions, width=8, fg_color=c.highlight, text="SEARCH", command=self.searchButton)
         self.buttonLoadFrame4 = customtkinter.CTkButton(master=self.frameWeather, text='WEATHER', fg_color=c.details,
                                                         width=20, command=lambda: self.loadFrame(self.frame4))
+        
+        
+        
+        
+        
         self.buttonCountrySearch.grid(column=0, row=3, columnspan=2, pady=10)
 
         for widget in (self.labelTitle, self.frameQuestions, self.labelCurrentRate, self.frameSections):
             widget.pack()
 
         if nr == 1:
-            for btn in (self.fake1,self.fake2,self.fake3)
+            for btn in (self.fake1,self.fake2,self.fake3):
                 btn.pack(side=tk.BOTTOM)
 
         else:
-            for btn in (self.buttonLoadFrame2,self.buttonLoadFrame3,self.buttonLoadFrame4)
+            for btn in (self.buttonLoadFrame2,self.buttonLoadFrame3,self.buttonLoadFrame4):
                 btn.pack(side=tk.BOTTOM)
             
     def searchButton(self):
@@ -210,6 +208,13 @@ class Frame1(FrameBase):
                         self.dictInfo['lng'] = row[3]
             self.dictInfo['citiesPopulation'] = self.fiveCitiesExamples
         return self.dictInfo
+    
+    @staticmethod
+    def counterFrame1():
+        i = 1
+        while True:
+            yield i
+            i += 1
     
     
 class ThemeSection(tk.Frame):

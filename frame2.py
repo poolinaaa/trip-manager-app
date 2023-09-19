@@ -1,18 +1,16 @@
 import tkinter as tk
-from funcBehaviorFrames import confirmButton, clearEntry, multipleFuncButton
+from funcBehaviorFrames import confirmButton
 import config as c
 from funcPlots import createPlotButton, createPlotButtonAll, createPlotButtonLastMonth
-from tkcalendar import *
 import customtkinter
 from tkinter import *
 from PIL import ImageTk
 import config as c
-import tkinter as tk
 from tkinter import *
 from sqlite3 import *
-import customtkinter
 import PIL.Image
 from base import FrameBase
+
 
 class Frame2(FrameBase):
 
@@ -28,7 +26,7 @@ class Frame2(FrameBase):
         self.tkraise()
 
         self.backButton = customtkinter.CTkButton(master=self, text='BACK', fg_color=c.details, width=40, height=40,
-                                                  command=lambda: multipleFuncButton(clearEntry(self.entryStart, self.entryEnd), self.loadFrame(self.frame1)))
+                                                  command=lambda: self.multipleFuncButton(self.clearEntry(self.entryStart, self.entryEnd), self.loadFrame(self.frame1)))
         self.backButton.pack(side=TOP, anchor=NW)
 
         self.labelTitle = tk.Label(master=self, text="Analyse currency rate",

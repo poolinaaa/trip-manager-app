@@ -1,11 +1,5 @@
 import tkinter as tk
-from tkcalendar import *
 from tkinter import *
-import tkinter as tk
-from tkinter import *
-from sqlite3 import *
-
-
 
 class FrameBase(tk.Frame):
 
@@ -20,3 +14,20 @@ class FrameBase(tk.Frame):
         if frameToLoad is not None:
             self.grid_remove() 
             frameToLoad.grid()
+    
+    @staticmethod      
+    def multipleFuncButton(*functions):
+        def executingFunctions(*args, **kwargs):
+            for func in functions:
+                func(*args, **kwargs)
+            return executingFunctions
+
+    @staticmethod
+    def clearEntry(*entries):
+        for entry in entries:
+            entry.delete(0, tk.END)
+
+    @staticmethod
+    def clearView(frame):
+        for widget in frame.winfo_children():
+            widget.destroy()

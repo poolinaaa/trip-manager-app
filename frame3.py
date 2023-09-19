@@ -14,11 +14,6 @@ from geoFunc import getDistanceBetweenPoints, searchAttractions
 import customtkinter
 import PIL.Image
 from base import FrameBase
-import tkinter as tk
-from tkinter import *
-from sqlite3 import *
-import csv
-from geoFunc import getDistanceBetweenPoints, searchAttractions
 import webbrowser
 import customtkinter
 

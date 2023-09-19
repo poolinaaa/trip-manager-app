@@ -55,21 +55,7 @@ def submitDepartureDate(dateDeparture, cal, labelSelectedDate, buttonFuture, but
     buttonYearAgo.grid(column=1, row=0, sticky = 'w')
 
 
-def multipleFuncButton(*functions):
-    def executingFunctions(*args, **kwargs):
-        for func in functions:
-            func(*args, **kwargs)
-        return executingFunctions
 
-
-def clearEntry(*entries):
-    for entry in entries:
-        entry.delete(0, tk.END)
-
-
-def clearView(frame):
-    for widget in frame.winfo_children():
-        widget.destroy()
 
 
 
@@ -131,8 +117,4 @@ def confirmButton(frame, dateStart, dateEnd, baseCurrName, codeCurrency,fake1,fa
 
 
 
-def counterFrame1():
-    i = 1
-    while True:
-        yield i
-        i += 1
+
