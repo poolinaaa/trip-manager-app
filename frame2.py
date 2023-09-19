@@ -4,7 +4,7 @@ import json
 import tkinter as tk
 from currencyFunc import checkingCurrency, checkingBase
 from ctypes import windll
-from partialForms import ThemeSection
+
 from funcBehaviorFrames import counterFrame1, appearance, confirmButton, submitDepartureDate, clearEntry, multipleFuncButton, savingLandmarks, AttractionToSee
 import config as c
 from funcPlots import createPlotButton, createPlotButtonAll, createPlotButtonLastMonth

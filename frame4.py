@@ -1,14 +1,11 @@
-import tkinter.font
-import requests
-import json
+
 import tkinter as tk
-from currencyFunc import checkingCurrency, checkingBase
-from ctypes import windll
-from partialForms import ThemeSection
+
+
 from funcBehaviorFrames import counterFrame1, appearance, confirmButton, submitDepartureDate, clearEntry, multipleFuncButton, savingLandmarks, AttractionToSee
 import config as c
-from funcPlots import createPlotButton, createPlotButtonAll, createPlotButtonLastMonth
-from plotsWeather import createPlotWeatherCurrent, createPlotWeatherYearAgo
+
+from plotsWeather import createPlotWeatherCurrent, PlotYearAgo
 from tkcalendar import *
 import customtkinter
 from tkinter import *
@@ -79,7 +76,7 @@ class Frame4(FrameBase):
         self.buttonFake1.grid(column=1, row=0, sticky='w')
 
         self.buttonYearAgo = customtkinter.CTkButton(
-            master=self.frameForecast, text='YEAR AGO', fg_color=c.details, command=lambda: createPlotWeatherYearAgo(self.frameForecast, pastData, self.pictureWidget))
+            master=self.frameForecast, text='YEAR AGO', fg_color=c.details, command=lambda: PlotYearAgo(self.countryName, c.dateFlight).createPlotWeatherYearAgo(self.frameForecast, pastData, self.pictureWidget))
         self.buttonFuture = customtkinter.CTkButton(
             master=self.frameForecast, text='NEXT WEEK', fg_color=c.details,  command=lambda: createPlotWeatherCurrent(self.frameForecast, futureData, self.pictureWidget))
 

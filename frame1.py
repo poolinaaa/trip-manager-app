@@ -4,11 +4,10 @@ import json
 import tkinter as tk
 from currencyFunc import checkingCurrency, checkingBase
 from ctypes import windll
-from partialForms import ThemeSection
+
 from funcBehaviorFrames import counterFrame1, appearance, confirmButton, submitDepartureDate, clearEntry, multipleFuncButton, savingLandmarks, AttractionToSee
 import config as c
-from funcPlots import createPlotButton, createPlotButtonAll, createPlotButtonLastMonth
-from plotsWeather import createPlotWeatherCurrent, createPlotWeatherYearAgo
+
 from tkcalendar import *
 import customtkinter
 from tkinter import *
@@ -27,6 +26,34 @@ import customtkinter
 import PIL.Image
 from datetime import datetime
 from base import FrameBase
+from PIL import ImageTk
+import tkinter as tk
+import tkinter.font
+from funcBehaviorFrames import appearance
+import config as c
+from sqlite3 import *
+appearance()
+
+class ThemeSection(tk.Frame):
+
+    def __init__(self, masterFrame, width, height,**kwargs):
+        super().__init__(master=masterFrame, bg=c.highlight, 
+                          **kwargs)
+        self.headingF = tkinter.font.Font(family="Lato", size=11)
+        self.textF = tkinter.font.Font(family="Lato", size=8)
+        
+
+    def addTitleLabel(self, title: str):
+        self.title = tk.Label(
+            self, text=title, width=30,font=self.headingF, bg=c.details, fg='white')
+        self.title.pack(pady=10)
+
+    def addImage(self, nameOfFile):
+        self.pictureSection = ImageTk.PhotoImage(file=nameOfFile)
+        self.pictureWidget = tk.Label(
+            master=self, image=self.pictureSection, bg=c.details, width=100, height=100)
+        self.pictureWidget.image = self.pictureSection
+        self.pictureWidget.pack(pady=10)
 
 class Frame1(FrameBase):
 
@@ -213,3 +240,5 @@ class Frame1(FrameBase):
                         self.dictInfo['lng'] = row[3]
             self.dictInfo['citiesPopulation'] = self.fiveCitiesExamples
         return self.dictInfo
+    
+    

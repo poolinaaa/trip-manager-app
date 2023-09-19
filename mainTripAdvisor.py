@@ -1,31 +1,22 @@
 import tkinter.font
-import requests
-import json
+
 import tkinter as tk
-from currencyFunc import checkingCurrency, checkingBase
+
 from ctypes import windll
-from partialForms import ThemeSection
+
 from funcBehaviorFrames import counterFrame1, appearance, confirmButton, submitDepartureDate, clearEntry, multipleFuncButton, savingLandmarks, AttractionToSee
 import config as c
-from funcPlots import createPlotButton, createPlotButtonAll, createPlotButtonLastMonth
-from plotsWeather import createPlotWeatherCurrent, createPlotWeatherYearAgo
 from tkcalendar import *
-import customtkinter
+
 from tkinter import *
-from PIL import ImageTk
-import datetime
+
 import config as c
-import requests
-import json
+
 import tkinter as tk
 from tkinter import *
 from sqlite3 import *
-import csv
-from geoFunc import getDistanceBetweenPoints, searchAttractions
-import webbrowser
-import customtkinter
-import PIL.Image
-from datetime import datetime
+
+
 from frame1 import Frame1
 from frame2 import Frame2
 from frame3 import Frame3
