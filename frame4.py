@@ -17,11 +17,12 @@ from base import FrameBase
 
 class Frame4(FrameBase):
 
-    def __init__(self, masterWindow, colorOfBg, frame1, countryName):
+    def __init__(self, masterWindow, colorOfBg, frame1, countryName, baseCurrency):
         super().__init__(masterWindow=masterWindow,
-                         colorOfBg=colorOfBg, countryName=countryName)
+                         colorOfBg=colorOfBg, countryName=countryName, baseCurrency=baseCurrency)
 
         self.frame1 = frame1
+        self.colorOfBg = colorOfBg
         self.load()
 
     def load(self):
@@ -41,18 +42,18 @@ class Frame4(FrameBase):
         self.labelSelectedDate = tk.Label(
             master=self, text=f'Select date of the departure', width=30, font=c.titleFont, bg=c.highlight, fg='white')
 
-        self.frameForecast = tk.Frame(master=self, bg=c.bgColor,
-                                      highlightbackground=c.bgColor, highlightcolor=c.bgColor)
+        self.frameForecast = tk.Frame(master=self, bg=self.colorOfBg,
+                                      highlightbackground=self.colorOfBg, highlightcolor=self.colorOfBg)
 
         img = (PIL.Image.open("fog.png"))
 
         resized_image = img.resize((300, 300))
         new_image = ImageTk.PhotoImage(resized_image)
 
-        self.framePic = tk.Frame(master=self.frameForecast, bg=c.bgColor)
+        self.framePic = tk.Frame(master=self.frameForecast, bg=self.colorOfBg)
 
         self.pictureWidget = tk.Label(
-            master=self.framePic, image=new_image, width=300, height=300, bg=c.bgColor)
+            master=self.framePic, image=new_image, width=300, height=300, bg=self.colorOfBg)
 
         self.pictureWidget.image = new_image
         self.pictureWidget.pack(pady=10)

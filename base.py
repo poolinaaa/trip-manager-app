@@ -9,10 +9,11 @@ from sqlite3 import *
 
 class FrameBase(tk.Frame):
 
-    def __init__(self, masterWindow, colorOfBg, countryName, **kwargs):
+    def __init__(self, masterWindow, colorOfBg, countryName, baseCurrency, **kwargs):
         super().__init__(master=masterWindow, bg=colorOfBg,
                          highlightbackground=colorOfBg, highlightcolor=colorOfBg, **kwargs)
         self.countryName = countryName
+        self.baseCurrency = baseCurrency
 
     def loadFrame(self, frameToLoad):
         

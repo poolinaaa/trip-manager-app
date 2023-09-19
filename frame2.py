@@ -1,40 +1,27 @@
-import tkinter.font
-import requests
-import json
 import tkinter as tk
-from currencyFunc import checkingCurrency, checkingBase
-from ctypes import windll
-
-from funcBehaviorFrames import counterFrame1, appearance, confirmButton, submitDepartureDate, clearEntry, multipleFuncButton, savingLandmarks, AttractionToSee
+from funcBehaviorFrames import confirmButton, clearEntry, multipleFuncButton
 import config as c
 from funcPlots import createPlotButton, createPlotButtonAll, createPlotButtonLastMonth
-
 from tkcalendar import *
 import customtkinter
 from tkinter import *
 from PIL import ImageTk
-import datetime
 import config as c
-import requests
-import json
 import tkinter as tk
 from tkinter import *
 from sqlite3 import *
-import csv
-from geoFunc import getDistanceBetweenPoints, searchAttractions
-import webbrowser
 import customtkinter
 import PIL.Image
-from datetime import datetime
 from base import FrameBase
 
 class Frame2(FrameBase):
 
-    def __init__(self, masterWindow, colorOfBg, frame1, countryName):
+    def __init__(self, masterWindow, colorOfBg, frame1, countryName, baseCurrency):
         super().__init__(masterWindow=masterWindow,
-                         colorOfBg=colorOfBg, countryName=countryName)
+                         colorOfBg=colorOfBg, countryName=countryName, baseCurrency=baseCurrency)
 
         self.frame1 = frame1
+        self.colorOfBg = colorOfBg
         self.load()
 
     def load(self):
@@ -49,7 +36,7 @@ class Frame2(FrameBase):
         self.labelTitle.pack()
 
         self.frameEnteringDate = tk.Frame(
-            master=self, bg=c.highlight, highlightbackground=c.bgColor, highlightcolor=c.bgColor)
+            master=self, bg=c.highlight, highlightbackground=self.colorOfBg, highlightcolor=self.colorOfBg)
         self.frameEnteringDate.pack(pady=20)
 
         self.labelStartDate = tk.Label(master=self.frameEnteringDate,
@@ -75,8 +62,8 @@ class Frame2(FrameBase):
         self.entryEnd.insert(0, 'YYYY-MM-DD')
         self.entryEnd.grid(column=1, row=1, padx=5, pady=5)
 
-        self.framePlots = tk.Frame(master=self, bg=c.bgColor,
-                                   highlightbackground=c.bgColor, highlightcolor=c.bgColor)
+        self.framePlots = tk.Frame(master=self, bg=self.colorOfBg,
+                                   highlightbackground=self.colorOfBg, highlightcolor=self.colorOfBg)
 
         self.fake1 = customtkinter.CTkButton(
             master=self.framePlots, width=20, state=DISABLED, text='SHOW PLOT 1', fg_color=c.details)
@@ -94,27 +81,27 @@ class Frame2(FrameBase):
         new_image = ImageTk.PhotoImage(resized_image)
 
         self.pictureWidget = tk.Label(
-            master=self.framePlots, image=new_image, width=400, height=400, bg=c.bgColor)
+            master=self.framePlots, image=new_image, width=400, height=400, bg=self.colorOfBg)
 
         self.pictureWidget.image = new_image
         self.pictureWidget.grid(column=0, row=2, columnspan=3, pady=10)
 
         self.labelPlot1 = tk.Label(
-            master=self.framePlots, text='Comparison to the current rate', bg=c.bgColor, fg='white')
+            master=self.framePlots, text='Comparison to the current rate', bg=self.colorOfBg, fg='white')
         self.labelPlot1.grid(column=0, row=0, padx=15)
 
         self.buttonPlot1 = customtkinter.CTkButton(master=self.framePlots, width=20, text='SHOW PLOT 1', fg_color=c.details,
                                                    command=lambda: createPlotButton(c.dates, c.rate, c.current, self.framePlots))
 
         self.labelPlot2 = tk.Label(
-            master=self.framePlots, text='Rate compared to changes \nin EUR, USD, PLN, GBP', bg=c.bgColor, fg='white')
+            master=self.framePlots, text='Rate compared to changes \nin EUR, USD, PLN, GBP', bg=self.colorOfBg, fg='white')
         self.labelPlot2.grid(column=1, row=0, padx=15)
 
         self.buttonPlot2 = customtkinter.CTkButton(master=self.framePlots, width=20, text='SHOW PLOT 2', fg_color=c.details, command=lambda: createPlotButtonAll(
             c.dates, self.framePlots, c.rate, c.eur, c.usd, c.pln, c.cny, codeCurrency))
 
         self.labelPlot3 = tk.Label(
-            master=self.framePlots, text='Currency rate for the last 30 days', bg=c.bgColor,  fg='white')
+            master=self.framePlots, text='Currency rate for the last 30 days', bg=self.colorOfBg,  fg='white')
         self.labelPlot3.grid(column=2, row=0, padx=15)
 
         self.buttonPlot3 = customtkinter.CTkButton(master=self.framePlots, width=20, text='SHOW PLOT 3', fg_color=c.details,

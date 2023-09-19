@@ -6,64 +6,14 @@ import tkinter as tk
 from tkinter import *
 from sqlite3 import *
 import csv
-from geoFunc import getDistanceBetweenPoints, searchAttractions, createTable
+from geoFunc import createTable
 import webbrowser
 import customtkinter
 
 from datetime import datetime
 
 
-class AttractionToSee:
-    AttractionToSeeId = 1
 
-    def __init__(self, name, address, link=None):
-        self.name = name
-        self.address = address
-        self.link = link
-
-        self.id = AttractionToSee.AttractionToSeeId
-        AttractionToSee.AttractionToSeeId += 1
-
-    def checkboxButton(self, frame):
-        self.var = tk.IntVar()
-        self.button = tk.Checkbutton(
-            master=frame, text=f'{self.name}', variable=self.var, onvalue=1, offvalue=0, justify='left',bg='#9dc0d1',font=c.errorFont)
-        self.button.pack(anchor='w')
-
-    def insertIntoDatabase(self, table, database):
-        try:
-            con = connect(f'{database}.db')
-            cur = con.cursor()
-            print("connected")
-
-            insertAttraction = f"""INSERT INTO {table}
-                            (nameOfAttraction,address, wantToSee) 
-                            VALUES (?, ?, ?);"""
-            if self.var.get() == 1:
-                data = (self.name, self.address, 'yes')
-            else:
-                data = (self.name, self.address, 'no')
-
-            cur.execute(insertAttraction, data)
-            con.commit()
-            print("success")
-
-            cur.close()
-
-        except Error as error:
-            print("fail", error)
-
-        finally:
-            if con:
-                con.close()
-                print("connection is closed")
-
-    def openInTheBrowser(self):
-        if self.name != None:
-            url = "https://www.google.com.tr/search?q={}".format(self.name)
-            webbrowser.open_new_tab(url)
-        else:
-            print('There is not any link')
 
 
 def checkingCountry(country):
@@ -79,26 +29,6 @@ def checkingCountry(country):
             return foundCountry
 
 
-'''def searchInfoAboutDestination():
-    country = c.countryName.get().capitalize()
-    fiveCitiesExamples = dict()
-    cnt = 0
-    dictInfo = dict()
-    print(country)
-    with open('worldcities.csv', encoding='utf8') as csvFile:
-        csvRead = csv.reader(csvFile, delimiter=',')
-        for row in csvRead:
-            if row[4] == country:
-                dictInfo['iso'] = row[5]
-                if cnt < 5:
-                    fiveCitiesExamples[row[1]] = row[9]
-                    cnt += 1
-                if row[8] == 'primary':
-                    dictInfo['capital'] = row[1]
-                    dictInfo['lat'] = row[2]
-                    dictInfo['lng'] = row[3]
-        dictInfo['citiesPopulation'] = fiveCitiesExamples
-    return dictInfo'''
 
 
 def savingLandmarks(listAttractions):
@@ -112,51 +42,7 @@ def savingLandmarks(listAttractions):
             landmark.openInTheBrowser()
 
 
-'''def confirmCountry(strVarCountry, frame, unit):
-    for widget in frame.winfo_children():
-        widget.destroy()
-    baseCountry = strVarCountry.get().capitalize()
-    baseCountry = checkingCountry(baseCountry)
-    
-    with open('worldcities.csv', encoding='utf8') as csvFile:
-        csvRead = csv.reader(csvFile, delimiter=',')
-        for row in csvRead:
-            if row[4] == baseCountry:
-                isoBase = row[5]
-                latBase = row[2]
-                lngBase = row[3]
-                break
 
-        destinationGeoInfo = searchInfoAboutDestination()
-        print(destinationGeoInfo)
-
-        distance = getDistanceBetweenPoints(
-            latBase, lngBase, destinationGeoInfo['lat'], destinationGeoInfo['lng'], unit)
-
-        distanceLabel = tk.Label(
-            master=frame, text=f'Distance between {baseCountry} and {c.countryName.get().capitalize()} is about \n{distance} {unit}', font=c.questionFont, bg=c.highlight, fg='white', anchor="w")
-        distanceLabel.pack()
-
-        attractions = searchAttractions(
-            destinationGeoInfo['lng'], destinationGeoInfo['lat'])
-
-        listOfAttractions = list()
-
-        for attr in attractions['features']:
-            ds = attr['properties']['datasource']
-            raw = ds.get('raw', {})  # Handle if 'raw' key is missing
-            image_url = raw.get('image', '')
-            landmark = AttractionToSee(attr['properties']['address_line1'],
-                                       attr['properties']['address_line2'],
-                                       image_url)
-            listOfAttractions.append(landmark)
-            landmark.checkboxButton(frame)
-
-        buttonSave = customtkinter.CTkButton(master=frame, text='SAVE IN THE DATABASE', fg_color=c.details,
-                                             command=lambda: savingLandmarks(listOfAttractions))
-        buttonSave.pack(pady=10)
-        
-        #frame.pack(side=LEFT, pady=10, anchor='nw')'''
 
 
 def submitDepartureDate(dateDeparture, cal, labelSelectedDate, buttonFuture, buttonYearAgo,btn1,btn2):
@@ -186,9 +72,7 @@ def clearView(frame):
         widget.destroy()
 
 
-def loadFrame(frameToClear, funcRaisingFrame):
-    clearView(frameToClear)
-    funcRaisingFrame()
+
 
 
 def appearance():
@@ -244,29 +128,7 @@ def confirmButton(frame, dateStart, dateEnd, baseCurrName, codeCurrency,fake1,fa
         frame.after(5000, incorrectDate.destroy)
 
 
-def preparingLabelCities(frame):
-    destinationGeoInfo = searchInfoAboutDestination()
-    print(destinationGeoInfo)
 
-    capital = destinationGeoInfo['capital']
-    cities = [city for city in destinationGeoInfo['citiesPopulation']]
-    population = [destinationGeoInfo['citiesPopulation'][city]
-                  for city in destinationGeoInfo['citiesPopulation']]
-    print(cities)
-    print(capital)
-    print(population)
-
-    labelCapital = tk.Label(
-        frame, text=f'Capital: {capital}', font=c.questionFont, bg=c.details, fg='white')
-    labelCities = tk.Label(
-        frame, text=f'''The most crowded cities:
-        \n{cities[0]}, population: {population[0]}
-        \n{cities[1]}, population: {population[1]}
-        \n{cities[2]}, population: {population[2]}
-        \n{cities[3]}, population: {population[3]}
-        \n{cities[4]}, population: {population[4]}''', font=c.questionFont, bg=c.highlight, fg='white', justify='left')
-    labelCapital.pack(pady=10, padx=30)
-    labelCities.pack(pady=10, padx=30)
 
 
 def counterFrame1():

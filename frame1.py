@@ -3,66 +3,35 @@ import requests
 import json
 import tkinter as tk
 from currencyFunc import checkingCurrency, checkingBase
-from ctypes import windll
-
-from funcBehaviorFrames import counterFrame1, appearance, confirmButton, submitDepartureDate, clearEntry, multipleFuncButton, savingLandmarks, AttractionToSee
+from funcBehaviorFrames import counterFrame1, appearance,  multipleFuncButton
 import config as c
-
 from tkcalendar import *
-import customtkinter
 from tkinter import *
-from PIL import ImageTk
-import datetime
-import config as c
 import requests
 import json
 import tkinter as tk
 from tkinter import *
 from sqlite3 import *
 import csv
-from geoFunc import getDistanceBetweenPoints, searchAttractions
-import webbrowser
 import customtkinter
-import PIL.Image
-from datetime import datetime
 from base import FrameBase
 from PIL import ImageTk
 import tkinter as tk
 import tkinter.font
 from funcBehaviorFrames import appearance
-import config as c
-from sqlite3 import *
 appearance()
 
-class ThemeSection(tk.Frame):
 
-    def __init__(self, masterFrame, width, height,**kwargs):
-        super().__init__(master=masterFrame, bg=c.highlight, 
-                          **kwargs)
-        self.headingF = tkinter.font.Font(family="Lato", size=11)
-        self.textF = tkinter.font.Font(family="Lato", size=8)
-        
-
-    def addTitleLabel(self, title: str):
-        self.title = tk.Label(
-            self, text=title, width=30,font=self.headingF, bg=c.details, fg='white')
-        self.title.pack(pady=10)
-
-    def addImage(self, nameOfFile):
-        self.pictureSection = ImageTk.PhotoImage(file=nameOfFile)
-        self.pictureWidget = tk.Label(
-            master=self, image=self.pictureSection, bg=c.details, width=100, height=100)
-        self.pictureWidget.image = self.pictureSection
-        self.pictureWidget.pack(pady=10)
 
 class Frame1(FrameBase):
 
-    def __init__(self, masterWindow, colorOfBg, countryName):
+    def __init__(self, masterWindow, colorOfBg, countryName, baseCurrency):
         super().__init__(masterWindow=masterWindow,
-                         colorOfBg=colorOfBg, countryName=countryName)
+                         colorOfBg=colorOfBg, countryName=countryName, baseCurrency=baseCurrency)
         self.gen = counterFrame1()
         self.errorLabel = None
-
+        self.colorOfBg = colorOfBg
+        
         self.load()
 
   # Wyświetl frame2
@@ -74,41 +43,7 @@ class Frame1(FrameBase):
         self.frame4 = frame4
 
     def load(self):
-        def searchButton():
-            countryToFind = self.countryName.get().capitalize()
-            global codeCurrency, baseCurrName
-            baseCurrName = c.baseCurrency.get().upper()
-            codeCurrency = checkingCurrency(countryToFind).upper()
-            baseCurrName = checkingBase(baseCurrName)
 
-            if codeCurrency == 'COUNTRYERROR':
-                countryError = 'You have entered wrong name of country. Please try again (check full name of country)'
-                self.errorLabel = tk.Label(
-                    master=self.frameQuestions, text=countryError, font=c.errorFont, bg=c.bgColor, fg='white')
-                self.errorLabel.grid(column=0, row=1, columnspan=2)
-                self.frameQuestions.after(5000, self.errorLabel.destroy)
-            else:
-                self.frameCurrency.title['text'] = f'Analyse changes in {codeCurrency}'
-                self.fake1.destroy()
-                self.fake2.destroy()
-                self.fake3.destroy()
-                self.buttonLoadFrame2.pack(side=tk.BOTTOM)
-
-                self.buttonLoadFrame3.pack(side=tk.BOTTOM)
-
-                self.buttonLoadFrame4.pack(side=tk.BOTTOM)
-
-                if 'baseCurrName' in globals():
-                    params = {'base': baseCurrName, 'symbols': codeCurrency}
-                    r = requests.get(
-                        'https://api.exchangerate.host/latest/', params)
-                    try:
-                        data = r.json()
-                    except json.JSONDecodeError:
-                        print('Wrong format of data.')
-                    else:
-                        c.current = data["rates"][codeCurrency]
-                        self.labelCurrentRate['text'] = f'Current rate: {c.current} {baseCurrName}'
 
         self.tkraise()
 
@@ -116,14 +51,14 @@ class Frame1(FrameBase):
 
         # title
         self.labelTitle = tk.Label(master=self, text="Let's prepare for your trip!",
-                                   font=c.titleFont, bg=c.bgColor, fg='white')
+                                   font=c.titleFont, bg=self.colorOfBg, fg='white')
 
         # fields to enter destination and base currency
-        self.frameQuestions = tk.Frame(master=self, width=100,  bg=c.bgColor,
-                                       highlightbackground=c.bgColor, highlightcolor=c.bgColor)
+        self.frameQuestions = tk.Frame(master=self, width=100,  bg=self.colorOfBg,
+                                       highlightbackground=self.colorOfBg, highlightcolor=self.colorOfBg)
 
         self.labelCountry = tk.Label(master=self.frameQuestions, text="What country is your destination?",
-                                     width=30, font=c.questionFont, bg=c.bgColor, fg='white', anchor="w")
+                                     width=30, font=c.questionFont, bg=self.colorOfBg, fg='white', anchor="w")
         self.labelCountry.grid(column=0, row=0, pady=10)
 
         self.entryCountry = tk.Entry(master=self.frameQuestions,
@@ -131,17 +66,17 @@ class Frame1(FrameBase):
         self.entryCountry.grid(column=1, row=0, pady=10, padx=5)
 
         self.labelBaseCurrency = tk.Label(master=self.frameQuestions, text="What is your base currency?",
-                                          width=30, font=c.questionFont, bg=c.bgColor, fg='white', anchor="w")
+                                          width=30, font=c.questionFont, bg=self.colorOfBg, fg='white', anchor="w")
         self.labelBaseCurrency.grid(column=0, row=2, pady=10)
 
         self.entryCurrency = tk.Entry(master=self.frameQuestions,
-                                      width=20, textvariable=c.baseCurrency)
+                                      width=20, textvariable=self.baseCurrency)
         self.entryCurrency.grid(column=1, row=2, pady=10, padx=5)
 
-        self.frameSections = tk.Frame(master=self, width=300, bg=c.bgColor,
-                                      highlightbackground=c.bgColor, highlightcolor=c.bgColor)
+        self.frameSections = tk.Frame(master=self, width=300, bg=self.colorOfBg,
+                                      highlightbackground=self.colorOfBg, highlightcolor=self.colorOfBg)
 
-        self.frameCurrency = ThemeSection(self.frameSections, 100, 300)
+        self.frameCurrency = ThemeSection(self.frameSections)
         self.frameCurrency.addTitleLabel(title='Changes in currency')
         self.frameCurrency.grid(column=0, row=0, sticky='nsew')
         self.frameCurrency.addImage('cash.png')
@@ -150,14 +85,13 @@ class Frame1(FrameBase):
             master=self.frameCurrency, text='Current rate:', bg=c.highlight, font=c.errorFont, fg='white')
 
         # flights
-        self.frameFlights = ThemeSection(self.frameSections, 100, 300)
-
+        self.frameFlights = ThemeSection(self.frameSections)
         self.frameFlights.addTitleLabel(title='Geographical details')
         self.frameFlights.grid(column=1, row=0, sticky='nsew')
         self.frameFlights.addImage('plane.png')
 
         # weather
-        self.frameWeather = ThemeSection(self.frameSections, 100, 300)
+        self.frameWeather = ThemeSection(self.frameSections)
         self.frameWeather.addTitleLabel(title='Check the weather')
         self.frameWeather.grid(column=2, row=0, sticky='nsew')
         self.frameWeather.addImage('sun.png')
@@ -174,7 +108,7 @@ class Frame1(FrameBase):
         self.buttonLoadFrame3 = customtkinter.CTkButton(master=self.frameFlights, text='GEOGRAPHY', fg_color=c.details,
                                                         width=20, command=lambda: multipleFuncButton(self.loadFrame(self.frame3), self.preparingLabelCities(self.frame3.frameCities)))
         self.buttonCountrySearch = customtkinter.CTkButton(
-            master=self.frameQuestions, width=8, fg_color=c.highlight, text="SEARCH", command=searchButton)
+            master=self.frameQuestions, width=8, fg_color=c.highlight, text="SEARCH", command=self.searchButton)
         self.buttonLoadFrame4 = customtkinter.CTkButton(master=self.frameWeather, text='WEATHER', fg_color=c.details,
                                                         width=20, command=lambda: self.loadFrame(self.frame4))
         self.buttonCountrySearch.grid(column=0, row=3, columnspan=2, pady=10)
@@ -183,14 +117,50 @@ class Frame1(FrameBase):
             widget.pack()
 
         if nr == 1:
-            self.fake1.pack(side=tk.BOTTOM)
-            self.fake2.pack(side=tk.BOTTOM)
-            self.fake3.pack(side=tk.BOTTOM)
+            for btn in (self.fake1,self.fake2,self.fake3)
+                btn.pack(side=tk.BOTTOM)
+
         else:
+            for btn in (self.buttonLoadFrame2,self.buttonLoadFrame3,self.buttonLoadFrame4)
+                btn.pack(side=tk.BOTTOM)
+            
+    def searchButton(self):
+        countryToFind = self.countryName.get().capitalize()
+        global codeCurrency, baseCurrName
+        baseCurrName = self.baseCurrency.get().upper()
+        codeCurrency = checkingCurrency(countryToFind).upper()
+        baseCurrName = checkingBase(baseCurrName)
+
+        if codeCurrency == 'COUNTRY ERROR':
+            countryError = 'You have entered wrong name of country. Please try again (check full name of country)'
+            self.errorLabel = tk.Label(
+                master=self.frameQuestions, text=countryError, font=c.errorFont, bg=self.colorOfBg, fg='white')
+            self.errorLabel.grid(column=0, row=1, columnspan=2)
+            self.frameQuestions.after(5000, self.errorLabel.destroy)
+        else:
+            self.frameCurrency.title['text'] = f'Analyse changes in {codeCurrency}'
+            
+            self.fake1.destroy()
+            self.fake2.destroy()
+            self.fake3.destroy()
             self.buttonLoadFrame2.pack(side=tk.BOTTOM)
+
             self.buttonLoadFrame3.pack(side=tk.BOTTOM)
+
             self.buttonLoadFrame4.pack(side=tk.BOTTOM)
 
+            if 'baseCurrName' in globals():
+                params = {'base': baseCurrName, 'symbols': codeCurrency}
+                r = requests.get(
+                    'https://api.exchangerate.host/latest/', params)
+                try:
+                    data = r.json()
+                except json.JSONDecodeError:
+                    print('Wrong format of data.')
+                else:
+                    c.current = data["rates"][codeCurrency]
+                    self.labelCurrentRate['text'] = f'Current rate: {c.current} {baseCurrName}'
+                    
     def preparingLabelCities(self, frame):
         self.destinationGeoInfo = self.searchInfoAboutDestination()
         print(self.destinationGeoInfo)
@@ -242,3 +212,23 @@ class Frame1(FrameBase):
         return self.dictInfo
     
     
+class ThemeSection(tk.Frame):
+
+    def __init__(self, masterFrame, **kwargs):
+        super().__init__(master=masterFrame, bg=c.highlight, 
+                          **kwargs)
+        self.headingF = tkinter.font.Font(family="Lato", size=11)
+        self.textF = tkinter.font.Font(family="Lato", size=8)
+        
+
+    def addTitleLabel(self, title: str):
+        self.title = tk.Label(
+            self, text=title, width=30,font=self.headingF, bg=c.details, fg='white')
+        self.title.pack(pady=10)
+
+    def addImage(self, nameOfFile):
+        self.pictureSection = ImageTk.PhotoImage(file=nameOfFile)
+        self.pictureWidget = tk.Label(
+            master=self, image=self.pictureSection, bg=c.details, width=100, height=100)
+        self.pictureWidget.image = self.pictureSection
+        self.pictureWidget.pack(pady=10)

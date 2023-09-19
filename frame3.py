@@ -1,21 +1,19 @@
-import tkinter.font
-import requests
-import json
 import tkinter as tk
-from currencyFunc import checkingCurrency, checkingBase
-from ctypes import windll
-
-from funcBehaviorFrames import counterFrame1, appearance, confirmButton, submitDepartureDate, clearEntry, multipleFuncButton, savingLandmarks, AttractionToSee
+from funcBehaviorFrames import  savingLandmarks
 import config as c
-
 from tkcalendar import *
 import customtkinter
 from tkinter import *
 from PIL import ImageTk
-import datetime
 import config as c
-import requests
-import json
+import tkinter as tk
+from tkinter import *
+from sqlite3 import *
+import csv
+from geoFunc import getDistanceBetweenPoints, searchAttractions
+import customtkinter
+import PIL.Image
+from base import FrameBase
 import tkinter as tk
 from tkinter import *
 from sqlite3 import *
@@ -23,17 +21,17 @@ import csv
 from geoFunc import getDistanceBetweenPoints, searchAttractions
 import webbrowser
 import customtkinter
-import PIL.Image
+
 from datetime import datetime
-from base import FrameBase
 
 class Frame3(FrameBase):
 
-    def __init__(self, masterWindow, colorOfBg, frame1, countryName):
+    def __init__(self, masterWindow, colorOfBg, frame1, countryName, baseCurrency):
         super().__init__(masterWindow=masterWindow,
-                         colorOfBg=colorOfBg, countryName=countryName)
+                         colorOfBg=colorOfBg, countryName=countryName, baseCurrency=baseCurrency)
 
         self.frame1 = frame1
+        self.colorOfBg = colorOfBg
         self.load()
 
     def load(self):
@@ -44,12 +42,12 @@ class Frame3(FrameBase):
         self.backButton.pack(side=TOP, anchor=NW)
 
         self.labelTitle = tk.Label(master=self, text=f"Discover some geographical facts about {self.countryName.get().capitalize()}",
-                                   font=c.titleFont, bg=c.bgColor, fg='white')
+                                   font=c.titleFont, bg=self.colorOfBg, fg='white')
         self.labelTitle.pack()
         self.frameOptions.pack(anchor='e')
 
         self.labelDepartureCountry = tk.Label(master=self.frameOptions, text="What is your departure country?",
-                                              width=30, font=c.questionFont, bg=c.bgColor, fg='white', anchor="w")
+                                              width=30, font=c.questionFont, bg=self.colorOfBg, fg='white', anchor="w")
         self.labelDepartureCountry.grid(column=0, row=0)
 
         self.departureCountry = tk.StringVar(value='country')
@@ -59,7 +57,7 @@ class Frame3(FrameBase):
         self.entryDepartureCountry.grid(column=0, row=1)
 
         self.labelUnit = tk.Label(master=self.frameOptions, text='Select the unit in which the distance will be displayed',
-                                  font=c.questionFont, bg=c.bgColor, fg='white', anchor="w")
+                                  font=c.questionFont, bg=self.colorOfBg, fg='white', anchor="w")
         self.labelUnit.grid(column=1, row=0, columnspan=2)
 
         var = tk.StringVar(value='kilometers')
@@ -84,7 +82,7 @@ class Frame3(FrameBase):
         new_image = ImageTk.PhotoImage(resized_image)
 
         self.pictureWidget = tk.Label(
-            master=self.frameCheckbutton, image=new_image, width=300, height=300, bg=c.bgColor)
+            master=self.frameCheckbutton, image=new_image, width=300, height=300, bg=self.colorOfBg)
 
         self.pictureWidget.image = new_image
         self.pictureWidget.pack()
@@ -200,3 +198,55 @@ class Frame3(FrameBase):
                 return 'CountryError'
             else:
                 return foundCountry
+            
+class AttractionToSee:
+    AttractionToSeeId = 1
+
+    def __init__(self, name, address, link=None):
+        self.name = name
+        self.address = address
+        self.link = link
+
+        self.id = AttractionToSee.AttractionToSeeId
+        AttractionToSee.AttractionToSeeId += 1
+
+    def checkboxButton(self, frame):
+        self.var = tk.IntVar()
+        self.button = tk.Checkbutton(
+            master=frame, text=f'{self.name}', variable=self.var, onvalue=1, offvalue=0, justify='left',bg='#9dc0d1',font=c.errorFont)
+        self.button.pack(anchor='w')
+
+    def insertIntoDatabase(self, table, database):
+        try:
+            con = connect(f'{database}.db')
+            cur = con.cursor()
+            print("connected")
+
+            insertAttraction = f"""INSERT INTO {table}
+                            (nameOfAttraction,address, wantToSee) 
+                            VALUES (?, ?, ?);"""
+            if self.var.get() == 1:
+                data = (self.name, self.address, 'yes')
+            else:
+                data = (self.name, self.address, 'no')
+
+            cur.execute(insertAttraction, data)
+            con.commit()
+            print("success")
+
+            cur.close()
+
+        except Error as error:
+            print("fail", error)
+
+        finally:
+            if con:
+                con.close()
+                print("connection is closed")
+
+    def openInTheBrowser(self):
+        if self.name != None:
+            url = "https://www.google.com.tr/search?q={}".format(self.name)
+            webbrowser.open_new_tab(url)
+        else:
+            print('There is not any link')

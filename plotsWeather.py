@@ -14,7 +14,7 @@ import csv
 
 class WeatherData():
     
-    def __init__(self, countryName, dateFlight='0000-00-00'):
+    def __init__(self, countryName, dateFlight='2000-02-02'):
         self.countryName = countryName
         self.dateFlight = dateFlight
     

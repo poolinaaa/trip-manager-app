@@ -49,7 +49,7 @@ class Window(tk.Tk):
         self.details = '#162f3d'
         self.configure(background=self.bgColor)
         self.countryName = tk.StringVar(value='your country')
-        c.baseCurrency = tk.StringVar(value='your base currency')
+        self.baseCurrency = tk.StringVar(value='your base currency')
         c.dateStart = tk.StringVar()
         c.dateEnd = tk.StringVar()
 
@@ -61,10 +61,10 @@ class Window(tk.Tk):
         appearance()
 
     def start(self):
-        self.frame1 = Frame1(self, self.bgColor, self.countryName)
-        self.frame2 = Frame2(self, self.bgColor, self.frame1, self.countryName)
-        self.frame3 = Frame3(self, self.bgColor, self.frame1, self.countryName)
-        self.frame4 = Frame4(self, self.bgColor, self.frame1, self.countryName)
+        self.frame1 = Frame1(self, self.bgColor, self.countryName, self.baseCurrency)
+        self.frame2 = Frame2(self, self.bgColor, self.frame1, self.countryName, self.baseCurrency)
+        self.frame3 = Frame3(self, self.bgColor, self.frame1, self.countryName, self.baseCurrency)
+        self.frame4 = Frame4(self, self.bgColor, self.frame1, self.countryName, self.baseCurrency)
 
         self.frame1.setFrames(self.frame1, self.frame2,
                               self.frame3, self.frame4)
