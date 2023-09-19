@@ -7,8 +7,7 @@ from ctypes import windll
 
 from funcBehaviorFrames import counterFrame1, appearance, confirmButton, submitDepartureDate, clearEntry, multipleFuncButton, savingLandmarks, AttractionToSee
 import config as c
-from funcPlots import createPlotButton, createPlotButtonAll, createPlotButtonLastMonth
-from plotsWeather import createPlotWeatherCurrent, createPlotWeatherYearAgo
+
 from tkcalendar import *
 import customtkinter
 from tkinter import *

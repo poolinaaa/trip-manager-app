@@ -15,7 +15,7 @@ class FrameBase(tk.Frame):
         self.countryName = countryName
 
     def loadFrame(self, frameToLoad):
-        # Przełącz się na frame2
+        
         if frameToLoad is not None:
-            self.grid_remove()  # Ukryj aktualną ramkę
+            self.grid_remove() 
             frameToLoad.grid()

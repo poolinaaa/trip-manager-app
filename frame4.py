@@ -1,28 +1,18 @@
 
 import tkinter as tk
-
-
-from funcBehaviorFrames import counterFrame1, appearance, confirmButton, submitDepartureDate, clearEntry, multipleFuncButton, savingLandmarks, AttractionToSee
+from funcBehaviorFrames import submitDepartureDate
 import config as c
-
-from plotsWeather import createPlotWeatherCurrent, PlotYearAgo
+from plotsWeather import PlotNextWeek, PlotYearAgo
 from tkcalendar import *
 import customtkinter
 from tkinter import *
 from PIL import ImageTk
-import datetime
 import config as c
-import requests
-import json
 import tkinter as tk
 from tkinter import *
 from sqlite3 import *
-import csv
-from geoFunc import getDistanceBetweenPoints, searchAttractions
-import webbrowser
 import customtkinter
 import PIL.Image
-from datetime import datetime
 from base import FrameBase
 
 class Frame4(FrameBase):
@@ -78,7 +68,7 @@ class Frame4(FrameBase):
         self.buttonYearAgo = customtkinter.CTkButton(
             master=self.frameForecast, text='YEAR AGO', fg_color=c.details, command=lambda: PlotYearAgo(self.countryName, c.dateFlight).createPlotWeatherYearAgo(self.frameForecast, pastData, self.pictureWidget))
         self.buttonFuture = customtkinter.CTkButton(
-            master=self.frameForecast, text='NEXT WEEK', fg_color=c.details,  command=lambda: createPlotWeatherCurrent(self.frameForecast, futureData, self.pictureWidget))
+            master=self.frameForecast, text='NEXT WEEK', fg_color=c.details,  command=lambda: PlotNextWeek(self.countryName).createPlotWeatherCurrent(self.frameForecast, futureData, self.pictureWidget))
 
         self.labelTitle = tk.Label(master=self, text="Check the weather",
                                    font=c.titleFont, bg=c.highlight, fg='white')
