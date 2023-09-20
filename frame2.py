@@ -10,7 +10,7 @@ from tkinter import *
 from sqlite3 import *
 import PIL.Image
 from base import FrameBase
-
+import tkinter.font
 
 class Frame2(FrameBase):
 
@@ -30,7 +30,7 @@ class Frame2(FrameBase):
         self.backButton.pack(side=TOP, anchor=NW)
 
         self.labelTitle = tk.Label(master=self, text="Analyse currency rate",
-                                   font=c.titleFont, bg=c.highlight, fg='white')
+                                   font=tkinter.font.Font(**self.titleFont), bg=c.highlight, fg='white')
         self.labelTitle.pack()
 
         self.frameEnteringDate = tk.Frame(

@@ -3,7 +3,7 @@ import requests
 import json
 import tkinter as tk
 from currencyFunc import checkingCurrency, checkingBase
-from funcBehaviorFrames import appearance,  multipleFuncButton
+from funcBehaviorFrames import appearance
 import config as c
 from tkcalendar import *
 from tkinter import *
@@ -44,7 +44,7 @@ class Frame1(FrameBase):
 
         # title
         self.labelTitle = tk.Label(master=self, text="Let's prepare for your trip!",
-                                   font=c.titleFont, bg=self.colorOfBg, fg='white')
+                                   font=tkinter.font.Font(**self.titleFont), bg=self.colorOfBg, fg='white')
 
         # fields to enter destination and base currency
         self.frameQuestions = tk.Frame(master=self, width=100,  bg=self.colorOfBg,

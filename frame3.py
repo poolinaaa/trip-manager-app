@@ -16,7 +16,7 @@ import PIL.Image
 from base import FrameBase
 import webbrowser
 import customtkinter
-
+import tkinter.font
 from datetime import datetime
 
 class Frame3(FrameBase):
@@ -37,7 +37,7 @@ class Frame3(FrameBase):
         self.backButton.pack(side=TOP, anchor=NW)
 
         self.labelTitle = tk.Label(master=self, text=f"Discover some geographical facts about {self.countryName.get().capitalize()}",
-                                   font=c.titleFont, bg=self.colorOfBg, fg='white')
+                                   font=tkinter.font.Font(**self.titleFont), bg=self.colorOfBg, fg='white')
         self.labelTitle.pack()
         self.frameOptions.pack(anchor='e')
 

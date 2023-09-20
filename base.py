@@ -8,6 +8,10 @@ class FrameBase(tk.Frame):
                          highlightbackground=colorOfBg, highlightcolor=colorOfBg, **kwargs)
         self.countryName = countryName
         self.baseCurrency = baseCurrency
+        self.titleFont = {'family':"Lato", 'size':13, 'weight':"bold"}
+        self.questionFont = {'family':"Lato", 'size':11, 'weight':"bold"}
+        self.errorFont = {'family':"Lato", 'size':9, 'weight':"bold"}
+
 
     def loadFrame(self, frameToLoad):
         

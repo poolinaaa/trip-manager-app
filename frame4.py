@@ -1,4 +1,4 @@
-
+import tkinter.font
 import tkinter as tk
 from funcBehaviorFrames import submitDepartureDate
 import config as c
@@ -40,7 +40,7 @@ class Frame4(FrameBase):
         self.calDateOfDeparture.grid(column=1, row=1, rowspan=3, padx=50)
         self.dateDeparture = tk.StringVar(value='YYYY-MM-DD')
         self.labelSelectedDate = tk.Label(
-            master=self, text=f'Select date of the departure', width=30, font=c.titleFont, bg=c.highlight, fg='white')
+            master=self, text=f'Select date of the departure', width=30, font=tkinter.font.Font(**self.titleFont), bg=c.highlight, fg='white')
 
         self.frameForecast = tk.Frame(master=self, bg=self.colorOfBg,
                                       highlightbackground=self.colorOfBg, highlightcolor=self.colorOfBg)
@@ -72,7 +72,7 @@ class Frame4(FrameBase):
             master=self.frameForecast, text='NEXT WEEK', fg_color=c.details,  command=lambda: PlotNextWeek(self.countryName).createPlotWeatherCurrent(self.frameForecast, futureData, self.pictureWidget))
 
         self.labelTitle = tk.Label(master=self, text="Check the weather",
-                                   font=c.titleFont, bg=c.highlight, fg='white')
+                                   font=tkinter.font.Font(**self.titleFont), bg=c.highlight, fg='white')
         self.labelTitle.grid(
             column=2, row=1, columnspan=3, padx=30, sticky='w')
 
