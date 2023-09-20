@@ -17,7 +17,8 @@ class Frame2(FrameBase):
     def __init__(self, masterWindow, colorOfBg, colorDetails, colorHighlight, frame1, countryName, baseCurrency):
         super().__init__(masterWindow=masterWindow,
                          colorOfBg=colorOfBg, colorDetails=colorDetails, colorHighlight=colorHighlight, countryName=countryName, baseCurrency=baseCurrency)
-
+        self.dateStart = tk.StringVar()
+        self.dateEnd = tk.StringVar()
         self.frame1 = frame1
         self.colorOfBg = colorOfBg
         self.load()
@@ -34,7 +35,7 @@ class Frame2(FrameBase):
         self.labelTitle.pack()
 
         self.frameEnteringDate = tk.Frame(
-            master=self, bg=c.highlight, highlightbackground=self.colorOfBg, highlightcolor=self.colorOfBg)
+            master=self, bg=self.colorHighlight, highlightbackground=self.colorOfBg, highlightcolor=self.colorOfBg)
         self.frameEnteringDate.pack(pady=20)
 
         self.labelStartDate = tk.Label(master=self.frameEnteringDate,
@@ -46,16 +47,16 @@ class Frame2(FrameBase):
         self.labelEndDate.grid(column=1, row=0)
 
         self.buttonConfirmDate = customtkinter.CTkButton(master=self.frameEnteringDate, width=20, text='CONFIRM TIME SPAN', fg_color=self.colorDetails,
-                                                         command=lambda: confirmButton(self, c.dateStart, c.dateEnd, baseCurrName, codeCurrency, self.fake1, self.fake2, self.fake3, self.buttonPlot1, self.buttonPlot2, self.buttonPlot3))
+                                                         command=lambda: confirmButton(self, self.dateStart, self.dateEnd, baseCurrName, codeCurrency, self.fake1, self.fake2, self.fake3, self.buttonPlot1, self.buttonPlot2, self.buttonPlot3))
         self.buttonConfirmDate.grid(column=3, row=1, padx=10, pady=5)
 
         self.entryStart = tk.Entry(master=self.frameEnteringDate,
-                                   width=28, textvariable=c.dateStart)
+                                   width=28, textvariable=self.dateStart)
         self.entryStart.insert(0, 'YYYY-MM-DD')
         self.entryStart.grid(column=0, row=1, padx=5, pady=5)
 
         self.entryEnd = tk.Entry(master=self.frameEnteringDate,
-                                 width=28, textvariable=c.dateEnd)
+                                 width=28, textvariable=self.dateEnd)
 
         self.entryEnd.insert(0, 'YYYY-MM-DD')
         self.entryEnd.grid(column=1, row=1, padx=5, pady=5)

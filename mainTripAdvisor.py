@@ -1,11 +1,9 @@
-import tkinter.font
 
 import tkinter as tk
 
 from ctypes import windll
 
 from funcBehaviorFrames import appearance
-import config as c
 from tkcalendar import *
 
 from tkinter import *
@@ -16,20 +14,6 @@ from frame1 import Frame1
 from frame2 import Frame2
 from frame3 import Frame3
 from frame4 import Frame4
-
-
-class FrameBase(tk.Frame):
-
-    def __init__(self, masterWindow, colorOfBg, countryName, **kwargs):
-        super().__init__(master=masterWindow, bg=colorOfBg,
-                         highlightbackground=colorOfBg, highlightcolor=colorOfBg, **kwargs)
-        self.countryName = countryName
-
-    def loadFrame(self, frameToLoad):
-
-        if frameToLoad is not None:
-            self.grid_remove()
-            frameToLoad.grid()
 
 
 class Window(tk.Tk):
@@ -45,21 +29,16 @@ class Window(tk.Tk):
         self.configure(background=self.bgColor)
         self.countryName = tk.StringVar(value='your country')
         self.baseCurrency = tk.StringVar(value='your base currency')
-        c.dateStart = tk.StringVar()
-        c.dateEnd = tk.StringVar()
 
-        c.titleFont = tkinter.font.Font(family="Lato", size=13, weight="bold")
-        c.questionFont = tkinter.font.Font(
-            family="Lato", size=11, weight="bold")
-        
+    
         self.start()
         appearance()
 
     def start(self):
-        self.frame1 = Frame1(self, self.bgColor, self.countryName, self.baseCurrency)
-        self.frame2 = Frame2(self, self.bgColor, self.frame1, self.countryName, self.baseCurrency)
-        self.frame3 = Frame3(self, self.bgColor, self.frame1, self.countryName, self.baseCurrency)
-        self.frame4 = Frame4(self, self.bgColor, self.frame1, self.countryName, self.baseCurrency)
+        self.frame1 = Frame1(self, self.bgColor, self.details, self.highlight, self.countryName, self.baseCurrency)
+        self.frame2 = Frame2(self, self.bgColor, self.details, self.highlight, self.frame1, self.countryName, self.baseCurrency)
+        self.frame3 = Frame3(self, self.bgColor, self.details, self.highlight, self.frame1, self.countryName, self.baseCurrency)
+        self.frame4 = Frame4(self, self.bgColor, self.details, self.highlight, self.frame1, self.countryName, self.baseCurrency)
 
         self.frame1.setFrames(self.frame1, self.frame2,
                               self.frame3, self.frame4)
@@ -80,8 +59,9 @@ class Window(tk.Tk):
         self.frame4.grid_remove()
 
 
-windll.shcore.SetProcessDpiAwareness(1)
 
+
+windll.shcore.SetProcessDpiAwareness(1)
 
 app = Window()
 

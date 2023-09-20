@@ -108,7 +108,8 @@ class Frame3(FrameBase):
                 \n{cities[2]}, population: {population[2]}
                 \n{cities[3]}, population: {population[3]}
                 \n{cities[4]}, population: {population[4]}''', font=tkinter.font.Font(**self.questionFont), bg=self.colorHighlight, fg='white', justify='left')
-        
+        else:
+            self.labelCities = tk.Label(frame)
         self.labelCapital.pack(pady=10, padx=30)
         self.labelCities.pack(pady=10, padx=30)
 

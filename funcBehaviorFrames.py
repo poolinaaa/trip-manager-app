@@ -7,13 +7,8 @@ from tkinter import *
 from sqlite3 import *
 import csv
 from geoFunc import createTable
-import webbrowser
-import customtkinter
 
 from datetime import datetime
-
-
-
 
 
 def checkingCountry(country):
@@ -29,8 +24,6 @@ def checkingCountry(country):
             return foundCountry
 
 
-
-
 def savingLandmarks(listAttractions):
     createTable('attractionsDatabase', 'attractionsTable')
     for enum, landmark in enumerate(listAttractions):
@@ -42,23 +35,14 @@ def savingLandmarks(listAttractions):
             landmark.openInTheBrowser()
 
 
-
-
-
-def submitDepartureDate(dateDeparture, cal, labelSelectedDate, buttonFuture, buttonYearAgo,btn1,btn2):
+def submitDepartureDate(dateDeparture, cal, labelSelectedDate, buttonFuture, buttonYearAgo, btn1, btn2):
     btn1.destroy()
     btn2.destroy()
     c.dateFlight = cal.get_date()
     print(c.dateFlight)
     labelSelectedDate['text'] = f'Selected date of departure: {c.dateFlight}'
     buttonFuture.grid(column=0, row=0, sticky='e')
-    buttonYearAgo.grid(column=1, row=0, sticky = 'w')
-
-
-
-
-
-
+    buttonYearAgo.grid(column=1, row=0, sticky='w')
 
 
 def appearance():
@@ -84,7 +68,7 @@ def checkDate(date):
         return False
 
 
-def confirmButton(frame, dateStart, dateEnd, baseCurrName, codeCurrency,fake1,fake2,fake3,btn1,btn2,btn3):
+def confirmButton(frame, dateStart, dateEnd, baseCurrName, codeCurrency, fake1, fake2, fake3, btn1, btn2, btn3):
 
     start = dateStart.get()
     end = dateEnd.get()
@@ -112,9 +96,3 @@ def confirmButton(frame, dateStart, dateEnd, baseCurrName, codeCurrency,fake1,fa
             master=frame, text='wrong format of date, try again', font=c.errorFont, bg=c.highlight, fg='white')
         incorrectDate.pack()
         frame.after(5000, incorrectDate.destroy)
-
-
-
-
-
-

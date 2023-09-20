@@ -215,7 +215,7 @@ class Frame1(FrameBase):
 class ThemeSection(tk.Frame):
 
     def __init__(self, masterFrame, colorDetails, colorHighlight, **kwargs):
-        super().__init__(master=masterFrame, bg=self.colorHighlight, 
+        super().__init__(master=masterFrame, bg=colorHighlight, 
                           **kwargs)
         self.headingF = tkinter.font.Font(family="Lato", size=11)
         self.textF = tkinter.font.Font(family="Lato", size=8)
