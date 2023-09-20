@@ -21,9 +21,9 @@ from datetime import datetime
 
 class Frame3(FrameBase):
 
-    def __init__(self, masterWindow, colorOfBg, frame1, countryName, baseCurrency):
+    def __init__(self, masterWindow, colorOfBg, colorDetails, colorHighlight, frame1, countryName, baseCurrency):
         super().__init__(masterWindow=masterWindow,
-                         colorOfBg=colorOfBg, countryName=countryName, baseCurrency=baseCurrency)
+                         colorOfBg=colorOfBg, colorDetails=colorDetails, colorHighlight=colorHighlight, countryName=countryName, baseCurrency=baseCurrency)
 
         self.frame1 = frame1
         self.colorOfBg = colorOfBg
@@ -31,8 +31,8 @@ class Frame3(FrameBase):
 
     def load(self):
         self.tkraise()
-        self.frameOptions = tk.Frame(self, bg=c.highlight)
-        self.backButton = customtkinter.CTkButton(master=self, text='BACK', fg_color=c.details, width=40, height=40,
+        self.frameOptions = tk.Frame(self, bg=self.colorHighlight)
+        self.backButton = customtkinter.CTkButton(master=self, text='BACK', fg_color=self.colorDetails, width=40, height=40,
                                                   command=lambda: self.loadFrame(self.frame1))
         self.backButton.pack(side=TOP, anchor=NW)
 
@@ -42,7 +42,7 @@ class Frame3(FrameBase):
         self.frameOptions.pack(anchor='e')
 
         self.labelDepartureCountry = tk.Label(master=self.frameOptions, text="What is your departure country?",
-                                              width=30, font=c.questionFont, bg=self.colorOfBg, fg='white', anchor="w")
+                                              width=30, font=tkinter.font.Font(**self.questionFont), bg=self.colorOfBg, fg='white', anchor="w")
         self.labelDepartureCountry.grid(column=0, row=0)
 
         self.departureCountry = tk.StringVar(value='country')
@@ -52,7 +52,7 @@ class Frame3(FrameBase):
         self.entryDepartureCountry.grid(column=0, row=1)
 
         self.labelUnit = tk.Label(master=self.frameOptions, text='Select the unit in which the distance will be displayed',
-                                  font=c.questionFont, bg=self.colorOfBg, fg='white', anchor="w")
+                                  font=tkinter.font.Font(**self.questionFont), bg=self.colorOfBg, fg='white', anchor="w")
         self.labelUnit.grid(column=1, row=0, columnspan=2)
 
         var = tk.StringVar(value='kilometers')
@@ -65,7 +65,7 @@ class Frame3(FrameBase):
         self.kmButton.grid(column=1, row=1, pady=5)
         self.milesButton.grid(column=2, row=1, pady=5)
 
-        self.frameCities = tk.Frame(self, bg=c.highlight, height=450)
+        self.frameCities = tk.Frame(self, bg=self.colorHighlight, height=450)
         self.frameCities.pack(side=LEFT, anchor='n', padx=55, pady=10)
         self.preparingLabelCities(self.frameCities)
         self.frameCheckbutton = tk.Frame(
@@ -84,7 +84,7 @@ class Frame3(FrameBase):
 
         self.frameCheckbutton.pack(side=LEFT, pady=30, anchor='n')
 
-        self.buttonConfirmCountry = customtkinter.CTkButton(master=self.frameOptions, text='CONFIRM COUNTRY', fg_color=c.details,
+        self.buttonConfirmCountry = customtkinter.CTkButton(master=self.frameOptions, text='CONFIRM COUNTRY', fg_color=self.colorDetails,
                                                             command=lambda: self.confirmCountry(self.departureCountry, self.frameCheckbutton, var.get()))
         self.buttonConfirmCountry.grid(row=2, column=0, columnspan=3, pady=20)
 
@@ -96,12 +96,10 @@ class Frame3(FrameBase):
         cities = [city for city in self.destinationGeoInfo['citiesPopulation']]
         population = [self.destinationGeoInfo['citiesPopulation'][city]
                       for city in self.destinationGeoInfo['citiesPopulation']]
-        print(cities)
-        print(capital)
-        print(population)
+
 
         self.labelCapital = tk.Label(
-            frame, text=f'Capital: {capital}', font=c.questionFont, bg=c.details, fg='white')
+            frame, text=f'Capital: {capital}', font=tkinter.font.Font(**self.questionFont), bg=self.colorDetails, fg='white')
         if len(cities) >= 5 and len(population) >= 5:
             self.labelCities = tk.Label(
                 frame, text=f'''The most crowded cities:
@@ -109,11 +107,8 @@ class Frame3(FrameBase):
                 \n{cities[1]}, population: {population[1]}
                 \n{cities[2]}, population: {population[2]}
                 \n{cities[3]}, population: {population[3]}
-                \n{cities[4]}, population: {population[4]}''', font=c.questionFont, bg=c.highlight, fg='white', justify='left')
-        else:
-            # Obsłuż sytuację, gdy lista nie ma wystarczającej liczby elementów
-            self.labelCities = tk.Label(
-                frame, text="Not enough data available for cities.", font=c.questionFont, bg=c.highlight, fg='white')
+                \n{cities[4]}, population: {population[4]}''', font=tkinter.font.Font(**self.questionFont), bg=self.colorHighlight, fg='white', justify='left')
+        
         self.labelCapital.pack(pady=10, padx=30)
         self.labelCities.pack(pady=10, padx=30)
 
@@ -178,7 +173,7 @@ class Frame3(FrameBase):
                 listOfAttractions.append(landmark)
                 landmark.checkboxButton(frame)
 
-            buttonSave = customtkinter.CTkButton(master=frame, text='SAVE IN THE DATABASE', fg_color=c.details,
+            buttonSave = customtkinter.CTkButton(master=frame, text='SAVE IN THE DATABASE', fg_color=self.colorDetails,
                                                  command=lambda: savingLandmarks(listOfAttractions))
             buttonSave.pack(pady=10)
 
@@ -201,14 +196,14 @@ class AttractionToSee:
         self.name = name
         self.address = address
         self.link = link
-
+        self.errorFont = {'family':"Lato", 'size':9, 'weight':"bold"}
         self.id = AttractionToSee.AttractionToSeeId
         AttractionToSee.AttractionToSeeId += 1
 
     def checkboxButton(self, frame):
         self.var = tk.IntVar()
         self.button = tk.Checkbutton(
-            master=frame, text=f'{self.name}', variable=self.var, onvalue=1, offvalue=0, justify='left',bg='#9dc0d1',font=c.errorFont)
+            master=frame, text=f'{self.name}', variable=self.var, onvalue=1, offvalue=0, justify='left',bg='#9dc0d1',font=tkinter.font.Font(**self.errorFont))
         self.button.pack(anchor='w')
 
     def insertIntoDatabase(self, table, database):

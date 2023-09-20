@@ -15,11 +15,12 @@ import customtkinter
 import PIL.Image
 from base import FrameBase
 
+
 class Frame4(FrameBase):
 
-    def __init__(self, masterWindow, colorOfBg, frame1, countryName, baseCurrency):
+    def __init__(self, masterWindow, colorOfBg, colorDetails, colorHighlight, frame1, countryName, baseCurrency):
         super().__init__(masterWindow=masterWindow,
-                         colorOfBg=colorOfBg, countryName=countryName, baseCurrency=baseCurrency)
+                         colorOfBg=colorOfBg, colorDetails=colorDetails, colorHighlight=colorHighlight, countryName=countryName, baseCurrency=baseCurrency)
 
         self.frame1 = frame1
         self.colorOfBg = colorOfBg
@@ -28,7 +29,7 @@ class Frame4(FrameBase):
     def load(self):
         self.tkraise()
 
-        self.backButton = customtkinter.CTkButton(master=self, text='BACK', fg_color=c.details, width=40, height=40,
+        self.backButton = customtkinter.CTkButton(master=self, text='BACK', fg_color=self.colorDetails, width=40, height=40,
                                                   command=lambda: self.loadFrame(self.frame1))
         self.backButton.grid(column=0, row=0)
 
@@ -40,7 +41,7 @@ class Frame4(FrameBase):
         self.calDateOfDeparture.grid(column=1, row=1, rowspan=3, padx=50)
         self.dateDeparture = tk.StringVar(value='YYYY-MM-DD')
         self.labelSelectedDate = tk.Label(
-            master=self, text=f'Select date of the departure', width=30, font=tkinter.font.Font(**self.titleFont), bg=c.highlight, fg='white')
+            master=self, text=f'Select date of the departure', width=30, font=tkinter.font.Font(**self.titleFont), bg=self.colorHighlight, fg='white')
 
         self.frameForecast = tk.Frame(master=self, bg=self.colorOfBg,
                                       highlightbackground=self.colorOfBg, highlightcolor=self.colorOfBg)
@@ -60,23 +61,23 @@ class Frame4(FrameBase):
         self.framePic.grid(column=0, row=1, columnspan=2)
 
         self.buttonFake1 = customtkinter.CTkButton(
-            master=self.frameForecast, text='YEAR AGO', fg_color=c.details, state=tk.DISABLED)
+            master=self.frameForecast, text='YEAR AGO', fg_color=self.colorDetails, state=tk.DISABLED)
         self.buttonFake2 = customtkinter.CTkButton(
-            master=self.frameForecast, text='NEXT WEEK', fg_color=c.details, state=tk.DISABLED)
+            master=self.frameForecast, text='NEXT WEEK', fg_color=self.colorDetails, state=tk.DISABLED)
         self.buttonFake2.grid(column=0, row=0, sticky='w')
         self.buttonFake1.grid(column=1, row=0, sticky='w')
 
         self.buttonYearAgo = customtkinter.CTkButton(
-            master=self.frameForecast, text='YEAR AGO', fg_color=c.details, command=lambda: PlotYearAgo(self.countryName, c.dateFlight).createPlotWeatherYearAgo(self.frameForecast, pastData, self.pictureWidget))
+            master=self.frameForecast, text='YEAR AGO', fg_color=self.colorDetails, command=lambda: PlotYearAgo(self.countryName, c.dateFlight).createPlotWeatherYearAgo(self.frameForecast, pastData, self.pictureWidget))
         self.buttonFuture = customtkinter.CTkButton(
-            master=self.frameForecast, text='NEXT WEEK', fg_color=c.details,  command=lambda: PlotNextWeek(self.countryName).createPlotWeatherCurrent(self.frameForecast, futureData, self.pictureWidget))
+            master=self.frameForecast, text='NEXT WEEK', fg_color=self.colorDetails,  command=lambda: PlotNextWeek(self.countryName).createPlotWeatherCurrent(self.frameForecast, futureData, self.pictureWidget))
 
         self.labelTitle = tk.Label(master=self, text="Check the weather",
-                                   font=tkinter.font.Font(**self.titleFont), bg=c.highlight, fg='white')
+                                   font=tkinter.font.Font(**self.titleFont), bg=self.colorHighlight, fg='white')
         self.labelTitle.grid(
             column=2, row=1, columnspan=3, padx=30, sticky='w')
 
-        self.buttonDateOfDeparture = customtkinter.CTkButton(master=self, text='SUBMIT DATE', fg_color=c.details, command=lambda: submitDepartureDate(
+        self.buttonDateOfDeparture = customtkinter.CTkButton(master=self, text='SUBMIT DATE', fg_color=self.colorDetails, command=lambda: submitDepartureDate(
             self.dateDeparture, self.calDateOfDeparture, self.labelSelectedDate, self.buttonFuture, self.buttonYearAgo, self.buttonFake2, self.buttonFake1))
         self.buttonDateOfDeparture.grid(
             column=2, row=2, columnspan=3, padx=30, sticky='w')

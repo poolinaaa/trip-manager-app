@@ -24,12 +24,11 @@ appearance()
 
 class Frame1(FrameBase):
 
-    def __init__(self, masterWindow, colorOfBg, countryName, baseCurrency):
+    def __init__(self, masterWindow, colorOfBg, colorDetails, colorHighlight, countryName, baseCurrency):
         super().__init__(masterWindow=masterWindow,
-                         colorOfBg=colorOfBg, countryName=countryName, baseCurrency=baseCurrency)
+                         colorOfBg=colorOfBg, colorDetails=colorDetails, colorHighlight=colorHighlight, countryName=countryName, baseCurrency=baseCurrency)
         self.gen = self.counterFrame1()
         self.errorLabel = None
-        self.colorOfBg = colorOfBg
         self.load()
 
     def setFrames(self, frame1, frame2, frame3, frame4):
@@ -51,7 +50,7 @@ class Frame1(FrameBase):
                                        highlightbackground=self.colorOfBg, highlightcolor=self.colorOfBg)
 
         self.labelCountry = tk.Label(master=self.frameQuestions, text="What country is your destination?",
-                                     width=30, font=c.questionFont, bg=self.colorOfBg, fg='white', anchor="w")
+                                     width=30, font=tkinter.font.Font(**self.questionFont), bg=self.colorOfBg, fg='white', anchor="w")
         self.labelCountry.grid(column=0, row=0, pady=10)
 
         self.entryCountry = tk.Entry(master=self.frameQuestions,
@@ -59,7 +58,7 @@ class Frame1(FrameBase):
         self.entryCountry.grid(column=1, row=0, pady=10, padx=5)
 
         self.labelBaseCurrency = tk.Label(master=self.frameQuestions, text="What is your base currency?",
-                                          width=30, font=c.questionFont, bg=self.colorOfBg, fg='white', anchor="w")
+                                          width=30, font=tkinter.font.Font(**self.questionFont), bg=self.colorOfBg, fg='white', anchor="w")
         self.labelBaseCurrency.grid(column=0, row=2, pady=10)
 
         self.entryCurrency = tk.Entry(master=self.frameQuestions,
@@ -69,45 +68,41 @@ class Frame1(FrameBase):
         self.frameSections = tk.Frame(master=self, width=300, bg=self.colorOfBg,
                                       highlightbackground=self.colorOfBg, highlightcolor=self.colorOfBg)
 
-        self.frameCurrency = ThemeSection(self.frameSections)
+        self.frameCurrency = ThemeSection(self.frameSections, self.colorDetails, self.colorHighlight)
         self.frameCurrency.addTitleLabel(title='Changes in currency')
         self.frameCurrency.grid(column=0, row=0, sticky='nsew')
         self.frameCurrency.addImage('cash.png')
 
         self.labelCurrentRate = tk.Label(
-            master=self.frameCurrency, text='Current rate:', bg=c.highlight, font=c.errorFont, fg='white')
+            master=self.frameCurrency, text='Current rate:', bg=self.colorHighlight, font=tkinter.font.Font(**self.errorFont), fg='white')
 
         # flights
-        self.frameFlights = ThemeSection(self.frameSections)
+        self.frameFlights = ThemeSection(self.frameSections, self.colorDetails, self.colorHighlight)
         self.frameFlights.addTitleLabel(title='Geographical details')
         self.frameFlights.grid(column=1, row=0, sticky='nsew')
         self.frameFlights.addImage('plane.png')
 
         # weather
-        self.frameWeather = ThemeSection(self.frameSections)
+        self.frameWeather = ThemeSection(self.frameSections, self.colorDetails, self.colorHighlight)
         self.frameWeather.addTitleLabel(title='Check the weather')
         self.frameWeather.grid(column=2, row=0, sticky='nsew')
         self.frameWeather.addImage('sun.png')
 
-        self.fake1 = customtkinter.CTkButton(master=self.frameCurrency, text='CURRENCY', fg_color=c.details,
+        self.fake1 = customtkinter.CTkButton(master=self.frameCurrency, text='CURRENCY', fg_color=self.colorDetails,
                                              width=20, state=tk.DISABLED)
-        self.fake2 = customtkinter.CTkButton(master=self.frameFlights, text='GEOGRAPHY', fg_color=c.details,
+        self.fake2 = customtkinter.CTkButton(master=self.frameFlights, text='GEOGRAPHY', fg_color=self.colorDetails,
                                              width=20, state=tk.DISABLED)
-        self.fake3 = customtkinter.CTkButton(master=self.frameWeather, text='WEATHER', fg_color=c.details,
+        self.fake3 = customtkinter.CTkButton(master=self.frameWeather, text='WEATHER', fg_color=self.colorDetails,
                                              width=20, state=tk.DISABLED)
 
-        self.buttonLoadFrame2 = customtkinter.CTkButton(master=self.frameCurrency, text='CURRENCY', fg_color=c.details,
+        self.buttonLoadFrame2 = customtkinter.CTkButton(master=self.frameCurrency, text='CURRENCY', fg_color=self.colorDetails,
                                                         width=20, command=lambda: self.loadFrame(self.frame2))
-        self.buttonLoadFrame3 = customtkinter.CTkButton(master=self.frameFlights, text='GEOGRAPHY', fg_color=c.details,
+        self.buttonLoadFrame3 = customtkinter.CTkButton(master=self.frameFlights, text='GEOGRAPHY', fg_color=self.colorDetails,
                                                         width=20, command=lambda: self.multipleFuncButton(self.loadFrame(self.frame3), self.preparingLabelCities(self.frame3.frameCities)))
         self.buttonCountrySearch = customtkinter.CTkButton(
-            master=self.frameQuestions, width=8, fg_color=c.highlight, text="SEARCH", command=self.searchButton)
-        self.buttonLoadFrame4 = customtkinter.CTkButton(master=self.frameWeather, text='WEATHER', fg_color=c.details,
+            master=self.frameQuestions, width=8, fg_color=self.colorHighlight, text="SEARCH", command=self.searchButton)
+        self.buttonLoadFrame4 = customtkinter.CTkButton(master=self.frameWeather, text='WEATHER', fg_color=self.colorDetails,
                                                         width=20, command=lambda: self.loadFrame(self.frame4))
-        
-        
-        
-        
         
         self.buttonCountrySearch.grid(column=0, row=3, columnspan=2, pady=10)
 
@@ -132,7 +127,7 @@ class Frame1(FrameBase):
         if codeCurrency == 'COUNTRY ERROR':
             countryError = 'You have entered wrong name of country. Please try again (check full name of country)'
             self.errorLabel = tk.Label(
-                master=self.frameQuestions, text=countryError, font=c.errorFont, bg=self.colorOfBg, fg='white')
+                master=self.frameQuestions, text=countryError, font=tkinter.font.Font(**self.errorFont), bg=self.colorOfBg, fg='white')
             self.errorLabel.grid(column=0, row=1, columnspan=2)
             self.frameQuestions.after(5000, self.errorLabel.destroy)
         else:
@@ -172,7 +167,7 @@ class Frame1(FrameBase):
         print(population)
 
         self.labelCapital = tk.Label(
-            frame, text=f'Capital: {capital}', font=c.questionFont, bg=c.details, fg='white')
+            frame, text=f'Capital: {capital}', font=tkinter.font.Font(**self.questionFont), bg=self.colorDetails, fg='white')
         if len(cities) >= 5 and len(population) >= 5:
             self.labelCities = tk.Label(
                 frame, text=f'''The most crowded cities:
@@ -180,11 +175,11 @@ class Frame1(FrameBase):
                 \n{cities[1]}, population: {population[1]}
                 \n{cities[2]}, population: {population[2]}
                 \n{cities[3]}, population: {population[3]}
-                \n{cities[4]}, population: {population[4]}''', font=c.questionFont, bg=c.highlight, fg='white', justify='left')
+                \n{cities[4]}, population: {population[4]}''', font=tkinter.font.Font(**self.questionFont), bg=self.colorHighlight, fg='white', justify='left')
         else:
             # Obsłuż sytuację, gdy lista nie ma wystarczającej liczby elementów
             self.labelCities = tk.Label(
-                frame, text="Not enough data available for cities.", font=c.questionFont, bg=c.highlight, fg='white')
+                frame, text="Not enough data available for cities.", font=tkinter.font.Font(**self.questionFont), bg=self.colorHighlight, fg='white')
         self.labelCapital.pack(pady=10, padx=30)
         self.labelCities.pack(pady=10, padx=30)
 
@@ -219,21 +214,23 @@ class Frame1(FrameBase):
     
 class ThemeSection(tk.Frame):
 
-    def __init__(self, masterFrame, **kwargs):
-        super().__init__(master=masterFrame, bg=c.highlight, 
+    def __init__(self, masterFrame, colorDetails, colorHighlight, **kwargs):
+        super().__init__(master=masterFrame, bg=self.colorHighlight, 
                           **kwargs)
         self.headingF = tkinter.font.Font(family="Lato", size=11)
         self.textF = tkinter.font.Font(family="Lato", size=8)
+        self.colorDetails = colorDetails
+        self.colorHighlight = colorHighlight
         
 
     def addTitleLabel(self, title: str):
         self.title = tk.Label(
-            self, text=title, width=30,font=self.headingF, bg=c.details, fg='white')
+            self, text=title, width=30,font=self.headingF, bg=self.colorDetails, fg='white')
         self.title.pack(pady=10)
 
     def addImage(self, nameOfFile):
         self.pictureSection = ImageTk.PhotoImage(file=nameOfFile)
         self.pictureWidget = tk.Label(
-            master=self, image=self.pictureSection, bg=c.details, width=100, height=100)
+            master=self, image=self.pictureSection, bg=self.colorDetails, width=100, height=100)
         self.pictureWidget.image = self.pictureSection
         self.pictureWidget.pack(pady=10)

@@ -3,7 +3,7 @@ from tkinter import *
 
 class FrameBase(tk.Frame):
 
-    def __init__(self, masterWindow, colorOfBg, countryName, baseCurrency, **kwargs):
+    def __init__(self, masterWindow, colorOfBg, colorDetails, colorHighlight, countryName, baseCurrency, **kwargs):
         super().__init__(master=masterWindow, bg=colorOfBg,
                          highlightbackground=colorOfBg, highlightcolor=colorOfBg, **kwargs)
         self.countryName = countryName
@@ -11,6 +11,9 @@ class FrameBase(tk.Frame):
         self.titleFont = {'family':"Lato", 'size':13, 'weight':"bold"}
         self.questionFont = {'family':"Lato", 'size':11, 'weight':"bold"}
         self.errorFont = {'family':"Lato", 'size':9, 'weight':"bold"}
+        self.colorOfBg = colorOfBg
+        self.colorDetails = colorDetails
+        self.colorHighlight = colorHighlight
 
 
     def loadFrame(self, frameToLoad):

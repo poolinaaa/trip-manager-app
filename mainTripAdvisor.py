@@ -4,15 +4,10 @@ import tkinter as tk
 
 from ctypes import windll
 
-from funcBehaviorFrames import counterFrame1, appearance, confirmButton, submitDepartureDate, clearEntry, multipleFuncButton, savingLandmarks, AttractionToSee
+from funcBehaviorFrames import appearance
 import config as c
 from tkcalendar import *
 
-from tkinter import *
-
-import config as c
-
-import tkinter as tk
 from tkinter import *
 from sqlite3 import *
 
@@ -56,7 +51,7 @@ class Window(tk.Tk):
         c.titleFont = tkinter.font.Font(family="Lato", size=13, weight="bold")
         c.questionFont = tkinter.font.Font(
             family="Lato", size=11, weight="bold")
-        c.errorFont = tkinter.font.Font(family="Lato", size=9, weight="bold")
+        
         self.start()
         appearance()
 
