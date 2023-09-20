@@ -6,7 +6,6 @@ import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 import requests
 import json
-import config as c
 from datetime import timedelta, datetime
 import csv
 

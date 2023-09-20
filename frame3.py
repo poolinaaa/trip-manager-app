@@ -10,7 +10,7 @@ import tkinter as tk
 from tkinter import *
 from sqlite3 import *
 import csv
-from geoFunc import getDistanceBetweenPoints, searchAttractions
+from geoFunc import GeographyData
 import customtkinter
 import PIL.Image
 from base import FrameBase
@@ -89,7 +89,7 @@ class Frame3(FrameBase):
         self.buttonConfirmCountry.grid(row=2, column=0, columnspan=3, pady=20)
 
     def preparingLabelCities(self, frame):
-        self.destinationGeoInfo = self.searchInfoAboutDestination()
+        self.destinationGeoInfo = GeographyData().searchInfoAboutDestination(self.countryName)
         print(self.destinationGeoInfo)
 
         capital = self.destinationGeoInfo.get('capital', 'No capital found')
@@ -113,26 +113,7 @@ class Frame3(FrameBase):
         self.labelCapital.pack(pady=10, padx=30)
         self.labelCities.pack(pady=10, padx=30)
 
-    def searchInfoAboutDestination(self):
-        country = self.countryName.get().capitalize()
-        self.fiveCitiesExamples = dict()
-        cnt = 0
-        self.dictInfo = dict()
-        print(country)
-        with open('worldcities.csv', encoding='utf8') as csvFile:
-            csvRead = csv.reader(csvFile, delimiter=',')
-            for row in csvRead:
-                if row[4] == country:
-                    self.dictInfo['iso'] = row[5]
-                    if cnt < 5:
-                        self.fiveCitiesExamples[row[1]] = row[9]
-                        cnt += 1
-                    if row[8] == 'primary':
-                        self.dictInfo['capital'] = row[1]
-                        self.dictInfo['lat'] = row[2]
-                        self.dictInfo['lng'] = row[3]
-            self.dictInfo['citiesPopulation'] = self.fiveCitiesExamples
-        return self.dictInfo
+
 
     def confirmCountry(self, strVarCountry, frame, unit):
         for widget in frame.winfo_children():
@@ -149,17 +130,17 @@ class Frame3(FrameBase):
                     lngBase = row[3]
                     break
 
-            destinationGeoInfo = self.searchInfoAboutDestination()
+            destinationGeoInfo = GeographyData().searchInfoAboutDestination(self.countryName)
             print(destinationGeoInfo)
 
-            distance = getDistanceBetweenPoints(
+            distance = GeographyData().getDistanceBetweenPoints(
                 latBase, lngBase, destinationGeoInfo['lat'], destinationGeoInfo['lng'], unit)
 
             distanceLabel = tk.Label(
                 master=frame, text=f'Distance between {baseCountry} and {self.countryName.get().capitalize()} is about \n{distance} {unit}', font=c.questionFont, bg=c.highlight, fg='white', anchor="w")
             distanceLabel.pack()
 
-            attractions = searchAttractions(
+            attractions = GeographyData().searchAttractions(
                 destinationGeoInfo['lng'], destinationGeoInfo['lat'])
 
             listOfAttractions = list()

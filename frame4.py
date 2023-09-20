@@ -68,7 +68,7 @@ class Frame4(FrameBase):
         self.buttonFake1.grid(column=1, row=0, sticky='w')
 
         self.buttonYearAgo = customtkinter.CTkButton(
-            master=self.frameForecast, text='YEAR AGO', fg_color=self.colorDetails, command=lambda: PlotYearAgo(self.countryName, c.dateFlight).createPlotWeatherYearAgo(self.frameForecast, pastData, self.pictureWidget))
+            master=self.frameForecast, text='YEAR AGO', fg_color=self.colorDetails, command=lambda: PlotYearAgo(self.countryName, self.dateDeparture).createPlotWeatherYearAgo(self.frameForecast, pastData, self.pictureWidget))
         self.buttonFuture = customtkinter.CTkButton(
             master=self.frameForecast, text='NEXT WEEK', fg_color=self.colorDetails,  command=lambda: PlotNextWeek(self.countryName).createPlotWeatherCurrent(self.frameForecast, futureData, self.pictureWidget))
 
@@ -86,3 +86,11 @@ class Frame4(FrameBase):
             column=2, row=3, columnspan=3, padx=30, sticky='w')
 
         self.frameForecast.grid(row=4, column=0, columnspan=5, pady=15)
+
+    def submitDepartureDate(self, cal, labelSelectedDate, buttonFuture, buttonYearAgo, btn1, btn2):
+        btn1.destroy()
+        btn2.destroy()
+        self.dateDeparture = cal.get_date()
+        labelSelectedDate['text'] = f'Selected date of departure: {self.dateDeparture}'
+        buttonFuture.grid(column=0, row=0, sticky='e')
+        buttonYearAgo.grid(column=1, row=0, sticky='w')

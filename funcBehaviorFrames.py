@@ -6,7 +6,10 @@ import tkinter as tk
 from tkinter import *
 from sqlite3 import *
 import csv
-from geoFunc import createTable
+
+import sqlite3 as sql
+import json
+import requests
 
 from datetime import datetime
 
@@ -24,31 +27,14 @@ def checkingCountry(country):
             return foundCountry
 
 
-def savingLandmarks(listAttractions):
-    createTable('attractionsDatabase', 'attractionsTable')
-    for enum, landmark in enumerate(listAttractions):
-
-        landmark.insertIntoDatabase('attractionsTable', 'attractionsDatabase')
-        print(enum)
-        print('saved')
-        if landmark.var.get() == 1:
-            landmark.openInTheBrowser()
 
 
-def submitDepartureDate(dateDeparture, cal, labelSelectedDate, buttonFuture, buttonYearAgo, btn1, btn2):
-    btn1.destroy()
-    btn2.destroy()
-    c.dateFlight = cal.get_date()
-    print(c.dateFlight)
-    labelSelectedDate['text'] = f'Selected date of departure: {c.dateFlight}'
-    buttonFuture.grid(column=0, row=0, sticky='e')
-    buttonYearAgo.grid(column=1, row=0, sticky='w')
 
 
-def appearance():
-    c.bgColor = '#295873'
-    c.highlight = '#1c3c4f'
-    c.details = '#162f3d'
+
+
+
+
 
 
 def preparingData(data: dict, codeCurrency):
