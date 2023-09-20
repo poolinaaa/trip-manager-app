@@ -1,6 +1,6 @@
 import tkinter.font
 import tkinter as tk
-from funcBehaviorFrames import submitDepartureDate
+
 import config as c
 from plotsWeather import PlotNextWeek, PlotYearAgo
 from tkcalendar import *
@@ -77,8 +77,7 @@ class Frame4(FrameBase):
         self.labelTitle.grid(
             column=2, row=1, columnspan=3, padx=30, sticky='w')
 
-        self.buttonDateOfDeparture = customtkinter.CTkButton(master=self, text='SUBMIT DATE', fg_color=self.colorDetails, command=lambda: submitDepartureDate(
-            self.dateDeparture, self.calDateOfDeparture, self.labelSelectedDate, self.buttonFuture, self.buttonYearAgo, self.buttonFake2, self.buttonFake1))
+        self.buttonDateOfDeparture = customtkinter.CTkButton(master=self, text='SUBMIT DATE', fg_color=self.colorDetails, command=self.submitDepartureDate)
         self.buttonDateOfDeparture.grid(
             column=2, row=2, columnspan=3, padx=30, sticky='w')
 
@@ -87,10 +86,10 @@ class Frame4(FrameBase):
 
         self.frameForecast.grid(row=4, column=0, columnspan=5, pady=15)
 
-    def submitDepartureDate(self, cal, labelSelectedDate, buttonFuture, buttonYearAgo, btn1, btn2):
-        btn1.destroy()
-        btn2.destroy()
-        self.dateDeparture = cal.get_date()
-        labelSelectedDate['text'] = f'Selected date of departure: {self.dateDeparture}'
-        buttonFuture.grid(column=0, row=0, sticky='e')
-        buttonYearAgo.grid(column=1, row=0, sticky='w')
+    def submitDepartureDate(self):
+        self.buttonFake1.destroy()
+        self.buttonFake2.destroy()
+        self.dateDeparture = self.calDateOfDeparture.get_date()
+        self.labelSelectedDate['text'] = f'Selected date of departure: {self.dateDeparture}'
+        self.buttonFuture.grid(column=0, row=0, sticky='e')
+        self.buttonYearAgo.grid(column=1, row=0, sticky='w')

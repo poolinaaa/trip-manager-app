@@ -2,11 +2,12 @@ import tkinter as tk
 
 class FrameBase(tk.Frame):
 
-    def __init__(self, masterWindow, colorOfBg, colorDetails, colorHighlight, countryName, baseCurrency, **kwargs):
+    def __init__(self, masterWindow, colorOfBg, colorDetails, colorHighlight, countryName, baseCurrency, codeCurrency=None, **kwargs):
         super().__init__(master=masterWindow, bg=colorOfBg,
                          highlightbackground=colorOfBg, highlightcolor=colorOfBg, **kwargs)
         self.countryName = countryName
         self.baseCurrency = baseCurrency
+        self.codeCurrency = codeCurrency
         self.titleFont = {'family':"Lato", 'size':13, 'weight':"bold"}
         self.questionFont = {'family':"Lato", 'size':11, 'weight':"bold"}
         self.errorFont = {'family':"Lato", 'size':9, 'weight':"bold"}

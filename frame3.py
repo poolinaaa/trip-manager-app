@@ -1,5 +1,5 @@
 import tkinter as tk
-from funcBehaviorFrames import  savingLandmarks
+
 import config as c
 from tkcalendar import *
 import customtkinter
@@ -17,7 +17,7 @@ from base import FrameBase
 import webbrowser
 import customtkinter
 import tkinter.font
-from datetime import datetime
+
 
 class Frame3(FrameBase):
 
@@ -137,7 +137,7 @@ class Frame3(FrameBase):
                 latBase, lngBase, destinationGeoInfo['lat'], destinationGeoInfo['lng'], unit)
 
             distanceLabel = tk.Label(
-                master=frame, text=f'Distance between {baseCountry} and {self.countryName.get().capitalize()} is about \n{distance} {unit}', font=c.questionFont, bg=c.highlight, fg='white', anchor="w")
+                master=frame, text=f'Distance between {baseCountry} and {self.countryName.get().capitalize()} is about \n{distance} {unit}', font=tkinter.font.Font(**self.questionFont), bg=self.colorHighlight, fg='white', anchor="w")
             distanceLabel.pack()
 
             attractions = GeographyData().searchAttractions(
@@ -156,7 +156,7 @@ class Frame3(FrameBase):
                 landmark.checkboxButton(frame)
 
             buttonSave = customtkinter.CTkButton(master=frame, text='SAVE IN THE DATABASE', fg_color=self.colorDetails,
-                                                 command=lambda: savingLandmarks(listOfAttractions))
+                                                 command=lambda: GeographyData().savingLandmarks(listOfAttractions))
             buttonSave.pack(pady=10)
 
     def checkingCountry(self, country):

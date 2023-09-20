@@ -1,13 +1,5 @@
-
 import tkinter as tk
-
 from ctypes import windll
-
-from funcBehaviorFrames import appearance
-from tkcalendar import *
-
-from tkinter import *
-from sqlite3 import *
 
 
 from frame1 import Frame1
@@ -29,14 +21,13 @@ class Window(tk.Tk):
         self.configure(background=self.bgColor)
         self.countryName = tk.StringVar(value='your country')
         self.baseCurrency = tk.StringVar(value='your base currency')
-
-    
+        self.codeCurrency = 'currency'
         self.start()
-        appearance()
+        
 
     def start(self):
-        self.frame1 = Frame1(self, self.bgColor, self.details, self.highlight, self.countryName, self.baseCurrency)
-        self.frame2 = Frame2(self, self.bgColor, self.details, self.highlight, self.frame1, self.countryName, self.baseCurrency)
+        self.frame1 = Frame1(self, self.bgColor, self.details, self.highlight, self.countryName, self.baseCurrency, self.codeCurrency)
+        self.frame2 = Frame2(self, self.bgColor, self.details, self.highlight, self.frame1, self.countryName, self.baseCurrency, self.codeCurrency)
         self.frame3 = Frame3(self, self.bgColor, self.details, self.highlight, self.frame1, self.countryName, self.baseCurrency)
         self.frame4 = Frame4(self, self.bgColor, self.details, self.highlight, self.frame1, self.countryName, self.baseCurrency)
 
@@ -57,7 +48,6 @@ class Window(tk.Tk):
         self.frame2.grid_remove()
         self.frame3.grid_remove()
         self.frame4.grid_remove()
-
 
 
 

@@ -14,9 +14,9 @@ import tkinter.font
 
 class Frame2(FrameBase):
 
-    def __init__(self, masterWindow, colorOfBg, colorDetails, colorHighlight, frame1, countryName, baseCurrency):
+    def __init__(self, masterWindow, colorOfBg, colorDetails, colorHighlight, frame1, countryName, baseCurrency, codeCurrency):
         super().__init__(masterWindow=masterWindow,
-                         colorOfBg=colorOfBg, colorDetails=colorDetails, colorHighlight=colorHighlight, countryName=countryName, baseCurrency=baseCurrency)
+                         colorOfBg=colorOfBg, colorDetails=colorDetails, colorHighlight=colorHighlight, countryName=countryName, baseCurrency=baseCurrency, codeCurrency=codeCurrency)
         self.dateStart = tk.StringVar()
         self.dateEnd = tk.StringVar()
         self.frame1 = frame1
@@ -47,7 +47,7 @@ class Frame2(FrameBase):
         self.labelEndDate.grid(column=1, row=0)
 
         self.buttonConfirmDate = customtkinter.CTkButton(master=self.frameEnteringDate, width=20, text='CONFIRM TIME SPAN', fg_color=self.colorDetails,
-                                                         command=lambda: confirmButton(self, self.dateStart, self.dateEnd, baseCurrName, codeCurrency, self.fake1, self.fake2, self.fake3, self.buttonPlot1, self.buttonPlot2, self.buttonPlot3))
+                                                         command=lambda: confirmButton(self, self.dateStart, self.dateEnd, self.baseCurrency, self.codeCurrency, self.fake1, self.fake2, self.fake3, self.buttonPlot1, self.buttonPlot2, self.buttonPlot3))
         self.buttonConfirmDate.grid(column=3, row=1, padx=10, pady=5)
 
         self.entryStart = tk.Entry(master=self.frameEnteringDate,
@@ -97,13 +97,13 @@ class Frame2(FrameBase):
         self.labelPlot2.grid(column=1, row=0, padx=15)
 
         self.buttonPlot2 = customtkinter.CTkButton(master=self.framePlots, width=20, text='SHOW PLOT 2', fg_color=self.colorDetails, command=lambda: createPlotButtonAll(
-            c.dates, self.framePlots, c.rate, c.eur, c.usd, c.pln, c.cny, codeCurrency))
+            c.dates, self.framePlots, c.rate, c.eur, c.usd, c.pln, c.cny, self.codeCurrency))
 
         self.labelPlot3 = tk.Label(
             master=self.framePlots, text='Currency rate for the last 30 days', bg=self.colorOfBg,  fg='white')
         self.labelPlot3.grid(column=2, row=0, padx=15)
 
         self.buttonPlot3 = customtkinter.CTkButton(master=self.framePlots, width=20, text='SHOW PLOT 3', fg_color=self.colorDetails,
-                                                   command=lambda: createPlotButtonLastMonth(baseCurrName, codeCurrency, self.framePlots))
+                                                   command=lambda: createPlotButtonLastMonth(self.baseCurrency, self.codeCurrency, self.framePlots))
 
         self.framePlots.pack()

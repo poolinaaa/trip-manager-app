@@ -3,7 +3,7 @@ import requests
 import json
 import tkinter as tk
 from currencyFunc import checkingCurrency, checkingBase
-from funcBehaviorFrames import appearance
+
 import config as c
 from tkcalendar import *
 from tkinter import *
@@ -18,15 +18,15 @@ from base import FrameBase
 from PIL import ImageTk
 import tkinter as tk
 import tkinter.font
-from funcBehaviorFrames import appearance
-appearance()
+
+
 
 
 class Frame1(FrameBase):
 
-    def __init__(self, masterWindow, colorOfBg, colorDetails, colorHighlight, countryName, baseCurrency):
+    def __init__(self, masterWindow, colorOfBg, colorDetails, colorHighlight, countryName, baseCurrency, codeCurrency):
         super().__init__(masterWindow=masterWindow,
-                         colorOfBg=colorOfBg, colorDetails=colorDetails, colorHighlight=colorHighlight, countryName=countryName, baseCurrency=baseCurrency)
+                         colorOfBg=colorOfBg, colorDetails=colorDetails, colorHighlight=colorHighlight, countryName=countryName, baseCurrency=baseCurrency, codeCurrency=codeCurrency)
         self.gen = self.counterFrame1()
         self.errorLabel = None
         self.load()
@@ -119,19 +119,19 @@ class Frame1(FrameBase):
             
     def searchButton(self):
         countryToFind = self.countryName.get().capitalize()
-        global codeCurrency, baseCurrName
-        baseCurrName = self.baseCurrency.get().upper()
-        codeCurrency = checkingCurrency(countryToFind).upper()
-        baseCurrName = checkingBase(baseCurrName)
+        
+        self.baseCurrency = self.baseCurrency.get().upper()
+        self.codeCurrency = checkingCurrency(countryToFind).upper()
+        self.baseCurrency = checkingBase(self.baseCurrency)
 
-        if codeCurrency == 'COUNTRY ERROR':
+        if self.codeCurrency == 'COUNTRY ERROR':
             countryError = 'You have entered wrong name of country. Please try again (check full name of country)'
             self.errorLabel = tk.Label(
                 master=self.frameQuestions, text=countryError, font=tkinter.font.Font(**self.errorFont), bg=self.colorOfBg, fg='white')
             self.errorLabel.grid(column=0, row=1, columnspan=2)
             self.frameQuestions.after(5000, self.errorLabel.destroy)
         else:
-            self.frameCurrency.title['text'] = f'Analyse changes in {codeCurrency}'
+            self.frameCurrency.title['text'] = f'Analyse changes in {self.codeCurrency}'
             
             self.fake1.destroy()
             self.fake2.destroy()
@@ -143,7 +143,7 @@ class Frame1(FrameBase):
             self.buttonLoadFrame4.pack(side=tk.BOTTOM)
 
             if 'baseCurrName' in globals():
-                params = {'base': baseCurrName, 'symbols': codeCurrency}
+                params = {'base':self.baseCurrency, 'symbols': self.codeCurrency}
                 r = requests.get(
                     'https://api.exchangerate.host/latest/', params)
                 try:
@@ -151,8 +151,8 @@ class Frame1(FrameBase):
                 except json.JSONDecodeError:
                     print('Wrong format of data.')
                 else:
-                    c.current = data["rates"][codeCurrency]
-                    self.labelCurrentRate['text'] = f'Current rate: {c.current} {baseCurrName}'
+                    c.current = data["rates"][self.codeCurrency]
+                    self.labelCurrentRate['text'] = f'Current rate: {c.current} {self.baseCurrency}'
                     
     def preparingLabelCities(self, frame):
         self.destinationGeoInfo = self.searchInfoAboutDestination()
@@ -177,7 +177,7 @@ class Frame1(FrameBase):
                 \n{cities[3]}, population: {population[3]}
                 \n{cities[4]}, population: {population[4]}''', font=tkinter.font.Font(**self.questionFont), bg=self.colorHighlight, fg='white', justify='left')
         else:
-            # Obsłuż sytuację, gdy lista nie ma wystarczającej liczby elementów
+            
             self.labelCities = tk.Label(
                 frame, text="Not enough data available for cities.", font=tkinter.font.Font(**self.questionFont), bg=self.colorHighlight, fg='white')
         self.labelCapital.pack(pady=10, padx=30)

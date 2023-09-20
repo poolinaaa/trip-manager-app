@@ -2,7 +2,6 @@ import json
 import requests
 from numpy import sin, cos, arccos, pi, round
 
-import config as c
 import requests
 import json
 

@@ -14,27 +14,6 @@ import requests
 from datetime import datetime
 
 
-def checkingCountry(country):
-    with open('countries.csv', encoding='utf8') as csvFile:
-        csvRead = csv.reader(csvFile, delimiter=',')
-        for row in csvRead:
-            if row[2] == country:
-                foundCountry = row[2]
-
-        if 'foundCountry' not in locals():
-            return 'CountryError'
-        else:
-            return foundCountry
-
-
-
-
-
-
-
-
-
-
 
 
 def preparingData(data: dict, codeCurrency):
