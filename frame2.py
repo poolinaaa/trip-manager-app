@@ -1,9 +1,8 @@
 import tkinter as tk
-from funcBehaviorFrames import confirmButton
+
 import config as c
-from funcPlots import createPlotButton, createPlotButtonAll, createPlotButtonLastMonth
+from funcPlots import PlotsCurrency
 import customtkinter
-from tkinter import *
 from PIL import ImageTk
 import config as c
 from tkinter import *
@@ -11,6 +10,19 @@ from sqlite3 import *
 import PIL.Image
 from base import FrameBase
 import tkinter.font
+
+import config as c
+import requests
+import json
+import tkinter as tk
+from tkinter import *
+from sqlite3 import *
+
+import sqlite3 as sql
+import json
+import requests
+
+from datetime import datetime
 
 class Frame2(FrameBase):
 
@@ -47,7 +59,7 @@ class Frame2(FrameBase):
         self.labelEndDate.grid(column=1, row=0)
 
         self.buttonConfirmDate = customtkinter.CTkButton(master=self.frameEnteringDate, width=20, text='CONFIRM TIME SPAN', fg_color=self.colorDetails,
-                                                         command=lambda: confirmButton(self, self.dateStart, self.dateEnd, self.baseCurrency, self.codeCurrency, self.fake1, self.fake2, self.fake3, self.buttonPlot1, self.buttonPlot2, self.buttonPlot3))
+                                                         command=self.confirmButton)
         self.buttonConfirmDate.grid(column=3, row=1, padx=10, pady=5)
 
         self.entryStart = tk.Entry(master=self.frameEnteringDate,
@@ -90,20 +102,63 @@ class Frame2(FrameBase):
         self.labelPlot1.grid(column=0, row=0, padx=15)
 
         self.buttonPlot1 = customtkinter.CTkButton(master=self.framePlots, width=20, text='SHOW PLOT 1', fg_color=self.colorDetails,
-                                                   command=lambda: createPlotButton(c.dates, c.rate, c.current, self.framePlots))
+                                                   command=lambda: PlotsCurrency.createPlotButton(self.dates, self.rate, self.currentRate, self.framePlots))
 
         self.labelPlot2 = tk.Label(
             master=self.framePlots, text='Rate compared to changes \nin EUR, USD, PLN, GBP', bg=self.colorOfBg, fg='white')
         self.labelPlot2.grid(column=1, row=0, padx=15)
 
-        self.buttonPlot2 = customtkinter.CTkButton(master=self.framePlots, width=20, text='SHOW PLOT 2', fg_color=self.colorDetails, command=lambda: createPlotButtonAll(
-            c.dates, self.framePlots, c.rate, c.eur, c.usd, c.pln, c.cny, self.codeCurrency))
+        self.buttonPlot2 = customtkinter.CTkButton(master=self.framePlots, width=20, text='SHOW PLOT 2', fg_color=self.colorDetails, command=lambda: PlotsCurrency.createPlotButtonAll(
+            self.dates, self.framePlots, self.rate, self.eur, self.usd, self.pln, self.cny, self.codeCurrency))
 
         self.labelPlot3 = tk.Label(
             master=self.framePlots, text='Currency rate for the last 30 days', bg=self.colorOfBg,  fg='white')
         self.labelPlot3.grid(column=2, row=0, padx=15)
 
         self.buttonPlot3 = customtkinter.CTkButton(master=self.framePlots, width=20, text='SHOW PLOT 3', fg_color=self.colorDetails,
-                                                   command=lambda: createPlotButtonLastMonth(self.baseCurrency, self.codeCurrency, self.framePlots))
+                                                   command=lambda: PlotsCurrency.createPlotButtonLastMonth(self.baseCurrency, self.codeCurrency, self.framePlots))
 
         self.framePlots.pack()
+
+    def confirmButton(self):
+
+        start = self.dateStart.get()
+        end = self.dateEnd.get()
+        if (self.checkDate(start) and self.checkDate(end)):
+            params = {'start_date': start, 'end_date': end,
+                    'base': self.baseCurrency, 'symbols': f'{self.codeCurrency},EUR,USD,PLN,CNY'}
+            r = requests.get('https://api.exchangerate.host/timeseries/', params)
+            print(r)
+            try:
+                self.currencyData = r.json()
+            except json.JSONDecodeError:
+                print('Wrong format of c.currencyData.')
+            else:
+                self.preparingData()
+                self.fake1.destroy()
+                self.fake2.destroy()
+                self.fake3.destroy()
+                self.buttonPlot1.grid(column=0, row=1, padx=15, pady=10)
+                self.buttonPlot2.grid(column=0, row=1, padx=15, pady=10)
+                self.buttonPlot3.grid(column=0, row=1, padx=15, pady=10)
+
+        else:
+            incorrectDate = tk.Label(
+                master=self, text='wrong format of date, try again', font=tkinter.font.Font(**self.errorFont), bg=self.colorHighlight, fg='white')
+            incorrectDate.pack()
+            self.after(5000, incorrectDate.destroy)
+            
+    def checkDate(self, date):
+        try:
+            isDateCorrect = datetime.strptime(date, '%Y-%m-%d')
+            return True
+        except:
+            return False
+        
+    def preparingData(self):
+        self.dates = [date for date in self.currencyData['rates']]
+        self.rate = [self.currencyData['rates'][date][self.codeCurrency] for date in self.currencyData['rates']]
+        self.eur = [self.currencyData['rates'][date]['EUR'] for date in self.currencyData['rates']]
+        self.usd = [self.currencyData['rates'][date]['USD'] for date in self.currencyData['rates']]
+        self.pln = [self.currencyData['rates'][date]['PLN'] for date in self.currencyData['rates']]
+        self.cny = [self.currencyData['rates'][date]['CNY'] for date in self.currencyData['rates']]

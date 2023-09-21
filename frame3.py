@@ -1,21 +1,18 @@
 import tkinter as tk
-
-import config as c
 from tkcalendar import *
 import customtkinter
-from tkinter import *
 from PIL import ImageTk
-import config as c
+
 import tkinter as tk
 from tkinter import *
 from sqlite3 import *
 import csv
 from geoFunc import GeographyData
-import customtkinter
+
 import PIL.Image
 from base import FrameBase
 import webbrowser
-import customtkinter
+
 import tkinter.font
 
 

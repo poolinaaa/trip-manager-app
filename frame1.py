@@ -118,9 +118,12 @@ class Frame1(FrameBase):
                 btn.pack(side=tk.BOTTOM)
             
     def searchButton(self):
-        countryToFind = self.countryName.get().capitalize()
         
-        self.baseCurrency = self.baseCurrency.get().upper()
+        countryToFind = self.countryName.get().capitalize()
+        if type(self.baseCurrency) != str:
+            self.baseCurrency = self.baseCurrency.get().upper()
+        else:
+            self.baseCurrency = self.baseCurrency.upper()
         self.codeCurrency = checkingCurrency(countryToFind).upper()
         self.baseCurrency = checkingBase(self.baseCurrency)
 

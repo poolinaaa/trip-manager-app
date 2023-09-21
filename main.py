@@ -21,7 +21,7 @@ class Window(tk.Tk):
         self.configure(background=self.bgColor)
         self.countryName = tk.StringVar(value='your country')
         self.baseCurrency = tk.StringVar(value='your base currency')
-        self.codeCurrency = 'currency'
+        self.codeCurrency = tk.StringVar(value='codeCurrency')
         self.start()
         
 

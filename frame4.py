@@ -1,17 +1,15 @@
 import tkinter.font
-import tkinter as tk
 
-import config as c
 from plotsWeather import PlotNextWeek, PlotYearAgo
 from tkcalendar import *
 import customtkinter
-from tkinter import *
+
 from PIL import ImageTk
-import config as c
+
 import tkinter as tk
 from tkinter import *
 from sqlite3 import *
-import customtkinter
+
 import PIL.Image
 from base import FrameBase
 

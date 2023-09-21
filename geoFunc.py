@@ -1,17 +1,11 @@
 import json
 import requests
 from numpy import sin, cos, arccos, pi, round
-
-import requests
-import json
-
 from tkinter import *
 from sqlite3 import *
 import csv
-
 import sqlite3 as sql
-import json
-import requests
+
 
 
 
