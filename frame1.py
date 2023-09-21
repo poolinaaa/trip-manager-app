@@ -2,22 +2,13 @@ import tkinter.font
 import requests
 import json
 import tkinter as tk
-from currencyFunc import checkingCurrency, checkingBase
 
-import config as c
-from tkcalendar import *
-from tkinter import *
-import requests
-import json
-import tkinter as tk
-from tkinter import *
-from sqlite3 import *
+
 import csv
 import customtkinter
 from base import FrameBase
 from PIL import ImageTk
-import tkinter as tk
-import tkinter.font
+
 
 
 
@@ -28,7 +19,7 @@ class Frame1(FrameBase):
         super().__init__(masterWindow=masterWindow,
                          colorOfBg=colorOfBg, colorDetails=colorDetails, colorHighlight=colorHighlight, countryName=countryName, baseCurrency=baseCurrency, codeCurrency=codeCurrency)
         self.gen = self.counterFrame1()
-        self.errorLabel = None
+        
         self.load()
 
     def setFrames(self, frame1, frame2, frame3, frame4):
@@ -119,13 +110,13 @@ class Frame1(FrameBase):
             
     def searchButton(self):
         
-        countryToFind = self.countryName.get().capitalize()
+        self.countryToFind = self.countryName.get().capitalize()
         if type(self.baseCurrency) != str:
             self.baseCurrency = self.baseCurrency.get().upper()
         else:
             self.baseCurrency = self.baseCurrency.upper()
-        self.codeCurrency = checkingCurrency(countryToFind).upper()
-        self.baseCurrency = checkingBase(self.baseCurrency)
+        self.codeCurrency = self.checkingCurrency().upper()
+        self.baseCurrency = self.checkingBase()
 
         if self.codeCurrency == 'COUNTRY ERROR':
             countryError = 'You have entered wrong name of country. Please try again (check full name of country)'
@@ -154,8 +145,8 @@ class Frame1(FrameBase):
                 except json.JSONDecodeError:
                     print('Wrong format of data.')
                 else:
-                    c.current = data["rates"][self.codeCurrency]
-                    self.labelCurrentRate['text'] = f'Current rate: {c.current} {self.baseCurrency}'
+                    self.currentRate = data["rates"][self.codeCurrency]
+                    self.labelCurrentRate['text'] = f'Current rate: {self.currentRate} {self.baseCurrency}'
                     
     def preparingLabelCities(self, frame):
         self.destinationGeoInfo = self.searchInfoAboutDestination()
@@ -206,6 +197,29 @@ class Frame1(FrameBase):
                         self.dictInfo['lng'] = row[3]
             self.dictInfo['citiesPopulation'] = self.fiveCitiesExamples
         return self.dictInfo
+    
+    def checkingCurrency(self):
+        with open('countryCurrency.csv') as csvFile:
+            csvRead = csv.reader(csvFile, delimiter=',')
+            for row in csvRead:
+                if row[0] == self.countryToFind:
+                    currencyCode = row[3]
+            if 'currencyCode' not in locals():
+                return 'CountryError'
+            else:
+                return currencyCode
+
+
+    def checkingBase(self):
+        with open('countryCurrency.csv') as csvFile:
+            csvRead = csv.reader(csvFile, delimiter=',')
+            for row in csvRead:
+                if row[3] == self.baseCurrency:
+                    return self.baseCurrency
+            if 'result' not in locals():
+                print(
+                    'BaseCurrencyError: correct base currency name, current base is set default (EUR)')
+                return 'EUR'
     
     @staticmethod
     def counterFrame1():

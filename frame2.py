@@ -1,27 +1,17 @@
 import tkinter as tk
-
-import config as c
 from funcPlots import PlotsCurrency
 import customtkinter
 from PIL import ImageTk
-import config as c
+
 from tkinter import *
 from sqlite3 import *
 import PIL.Image
 from base import FrameBase
 import tkinter.font
 
-import config as c
+
 import requests
 import json
-import tkinter as tk
-from tkinter import *
-from sqlite3 import *
-
-import sqlite3 as sql
-import json
-import requests
-
 from datetime import datetime
 
 class Frame2(FrameBase):
