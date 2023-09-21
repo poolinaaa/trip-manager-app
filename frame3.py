@@ -21,20 +21,23 @@ class Frame3(FrameBase):
     def __init__(self, masterWindow, colorOfBg, colorDetails, colorHighlight, frame1, countryName, baseCurrency):
         super().__init__(masterWindow=masterWindow,
                          colorOfBg=colorOfBg, colorDetails=colorDetails, colorHighlight=colorHighlight, countryName=countryName, baseCurrency=baseCurrency)
-
+        
         self.frame1 = frame1
         self.colorOfBg = colorOfBg
         self.load()
 
     def load(self):
         self.tkraise()
+        
         self.frameOptions = tk.Frame(self, bg=self.colorHighlight)
         self.backButton = customtkinter.CTkButton(master=self, text='BACK', fg_color=self.colorDetails, width=40, height=40,
                                                   command=lambda: self.loadFrame(self.frame1))
-
-        self.labelTitle = tk.Label(master=self, text=f"Discover some geographical facts about {self.countryName.get().capitalize()}",
-                                   font=tkinter.font.Font(**self.titleFont), bg=self.colorOfBg, fg='white')
-
+        
+        
+        
+        self.labelTitle = tk.Label(master=self, text=f"Discover some geographical facts",
+                                          font=tkinter.font.Font(**self.titleFont), bg=self.colorOfBg, fg='white')
+        
 
         self.labelDepartureCountry = tk.Label(master=self.frameOptions, text="What is your departure country?",
                                               width=30, font=tkinter.font.Font(**self.questionFont), bg=self.colorOfBg, fg='white', anchor="w")
@@ -61,7 +64,7 @@ class Frame3(FrameBase):
 
         self.frameCities = tk.Frame(self, bg=self.colorHighlight, height=450)
 
-        self.preparingLabelCities(self.frameCities)
+        #self.preparingLabelCities(self.frameCities)
         self.frameCheckbutton = tk.Frame(
             master=self, bg='#9dc0d1', width=300, height=450)
 
@@ -79,29 +82,39 @@ class Frame3(FrameBase):
 
 
 
-        self.backButton.pack(side=TOP, anchor=NW)
-        self.labelTitle.pack()
-        self.frameOptions.pack(anchor='e')
+        self.backButton.grid(column=0, row=0)
+
+        self.labelTitle.grid(column=1, row=1,columnspan=2)
+        
+        
+        
+        self.frameOptions.grid(column=1, row=2,columnspan=2)
+        
+        
         self.labelDepartureCountry.grid(column=0, row=0)
         self.entryDepartureCountry.grid(column=0, row=1)       
         self.labelUnit.grid(column=1, row=0, columnspan=2)
         self.kmButton.grid(column=1, row=1, pady=5)
         self.milesButton.grid(column=2, row=1, pady=5)
-        self.frameCities.pack(side=LEFT, anchor='n', padx=55, pady=10)               
+        
+        self.frameCities.grid(column=1, row=3, pady=20, sticky='n')               
+        
         self.pictureWidget.pack()
 
-        self.frameCheckbutton.pack(side=LEFT, pady=30, anchor='n')
+        self.frameCheckbutton.grid(column=2,row=3, pady=20, sticky='n')
         self.buttonConfirmCountry.grid(row=2, column=0, columnspan=3, pady=20)
 
                
     def preparingLabelCities(self, frame):
+        self.labelTitle['text'] = f'Discover some geographical facts {self.countryName.get()}'
+
         self.destinationGeoInfo = GeographyData().searchInfoAboutDestination(self.countryName)
         print(self.destinationGeoInfo)
         try:            
             capital = self.destinationGeoInfo['capital']
             self.labelCapital = tk.Label(
                 frame, text=f'Capital: {capital}', font=tkinter.font.Font(**self.questionFont), bg=self.colorDetails, fg='white')
-            self.labelCapital.pack(pady=10, padx=30)
+            self.labelCapital.grid(column=0,row=0,pady=10, padx=30)
         except:
             pass
         
@@ -121,7 +134,7 @@ class Frame3(FrameBase):
                 \n{cities[4]}, population: {population[4]}''', font=tkinter.font.Font(**self.questionFont), bg=self.colorHighlight, fg='white', justify='left')
 
         
-            self.labelCities.pack(pady=10, padx=30)
+            self.labelCities.grid(column=0,row=1,pady=10, padx=30)
 
 
 
@@ -180,6 +193,7 @@ class Frame3(FrameBase):
                 return 'CountryError'
             else:
                 return foundCountry
+
             
 class AttractionToSee:
     AttractionToSeeId = 1

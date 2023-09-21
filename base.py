@@ -22,6 +22,7 @@ class FrameBase(tk.Frame):
         if frameToLoad is not None:
             self.grid_remove() 
             frameToLoad.grid()
+            
     
     @staticmethod      
     def multipleFuncButton(*functions):

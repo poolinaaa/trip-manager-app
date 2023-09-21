@@ -28,7 +28,7 @@ class Frame1(FrameBase):
 
     def load(self):
         self.tkraise()
-        nr = next(self.gen)
+        self.nr = next(self.gen)
 
         # title
         self.labelTitle = tk.Label(master=self, text="Let's prepare for your trip!",
@@ -98,7 +98,7 @@ class Frame1(FrameBase):
         for widget in (self.labelTitle, self.frameQuestions, self.labelCurrentRate, self.frameSections):
             widget.pack()
 
-        if nr == 1:
+        if self.nr == 1:
             for btn in (self.fake1,self.fake2,self.fake3):
                 btn.pack(side=tk.BOTTOM)
 
@@ -149,6 +149,7 @@ class Frame1(FrameBase):
     def preparingLabelCities(self, frame):
         self.destinationGeoInfo = self.searchInfoAboutDestination()
         print(self.destinationGeoInfo)
+        self.frame3.labelTitle['text'] = f'Discover some geographical facts about {self.countryName.get().capitalize()}'
 
         capital = self.destinationGeoInfo.get('capital', 'No capital found')
         cities = [city for city in self.destinationGeoInfo['citiesPopulation']]
@@ -172,8 +173,8 @@ class Frame1(FrameBase):
             
             self.labelCities = tk.Label(
                 frame, text="Not enough data available for cities.", font=tkinter.font.Font(**self.questionFont), bg=self.colorHighlight, fg='white')
-        self.labelCapital.pack(pady=10, padx=30)
-        self.labelCities.pack(pady=10, padx=30)
+        self.labelCapital.grid(column=0,row=0,pady=10, padx=30)
+        self.labelCities.grid(column=0,row=1,pady=10, padx=30)
 
     def searchInfoAboutDestination(self):
         country = self.countryName.get().capitalize()
@@ -219,6 +220,11 @@ class Frame1(FrameBase):
                     'BaseCurrencyError: correct base currency name, current base is set default (EUR)')
                 return 'EUR'
     
+
+
+        
+
+        
     @staticmethod
     def counterFrame1():
         i = 1
