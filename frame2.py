@@ -104,24 +104,31 @@ class Frame2(FrameBase):
                                                    command=lambda: PlotsCurrency.createPlotButtonLastMonth(self.baseCurrency, self.codeCurrency, self.framePlots))
         
         
-        self.backButton.pack(side=TOP, anchor=NW)
-        self.labelTitle.pack()
-        self.frameEnteringDate.pack(pady=20)
+        self.backButton.grid(column=0,row=0)
+        self.labelTitle.grid(column=1,row=1, padx=60,sticky='ew')
+        self.frameEnteringDate.grid(column=1, row=2,pady=20,padx=60, sticky='ew')
+        
         self.labelStartDate.grid(column=0, row=0)
         self.labelEndDate.grid(column=1, row=0)
+        
         self.buttonConfirmDate.grid(column=3, row=1, padx=10, pady=5)
+        
         self.entryStart.grid(column=0, row=1, padx=5, pady=5)
         self.entryEnd.grid(column=1, row=1, padx=5, pady=5)
+        
         self.fake1.grid(column=0, row=1, padx=15, pady=10)
         self.fake2.grid(column=1, row=1, padx=15, pady=10)
         self.fake3.grid(column=2, row=1, padx=15, pady=10)
-        self.pictureWidget.grid(column=0, row=2, columnspan=3, pady=10)
+        
+        
+        self.pictureWidget.grid(column=0, row=2, columnspan=3, pady=10, sticky='ew')
+        
         self.labelPlot1.grid(column=0, row=0, padx=15)
         self.labelPlot2.grid(column=1, row=0, padx=15)
         self.labelPlot3.grid(column=2, row=0, padx=15)
         
 
-        self.framePlots.pack()
+        self.framePlots.grid(column=1,row=4, padx=60,sticky='ew')
 
     def confirmButton(self):
 
@@ -135,7 +142,7 @@ class Frame2(FrameBase):
             try:
                 self.currencyData = r.json()
             except json.JSONDecodeError:
-                print('Wrong format of c.currencyData.')
+                print('Wrong format of currencyData.')
             else:
                 self.preparingData()
                 self.fake1.destroy()
@@ -148,7 +155,7 @@ class Frame2(FrameBase):
         else:
             incorrectDate = tk.Label(
                 master=self, text='wrong format of date, try again', font=tkinter.font.Font(**self.errorFont), bg=self.colorHighlight, fg='white')
-            incorrectDate.pack()
+            incorrectDate.grid(column=1,row=3, padx=60,sticky='ew')
             self.after(5000, incorrectDate.destroy)
             
     def checkDate(self, date):

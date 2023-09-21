@@ -64,7 +64,7 @@ class Frame3(FrameBase):
 
         self.frameCities = tk.Frame(self, bg=self.colorHighlight, height=450)
 
-        #self.preparingLabelCities(self.frameCities)
+        
         self.frameCheckbutton = tk.Frame(
             master=self, bg='#9dc0d1', width=300, height=450)
 
@@ -103,38 +103,6 @@ class Frame3(FrameBase):
 
         self.frameCheckbutton.grid(column=2,row=3, pady=20, sticky='n')
         self.buttonConfirmCountry.grid(row=2, column=0, columnspan=3, pady=20)
-
-               
-    def preparingLabelCities(self, frame):
-        self.labelTitle['text'] = f'Discover some geographical facts {self.countryName.get()}'
-
-        self.destinationGeoInfo = GeographyData().searchInfoAboutDestination(self.countryName)
-        print(self.destinationGeoInfo)
-        try:            
-            capital = self.destinationGeoInfo['capital']
-            self.labelCapital = tk.Label(
-                frame, text=f'Capital: {capital}', font=tkinter.font.Font(**self.questionFont), bg=self.colorDetails, fg='white')
-            self.labelCapital.grid(column=0,row=0,pady=10, padx=30)
-        except:
-            pass
-        
-        cities = [city for city in self.destinationGeoInfo['citiesPopulation']]
-        population = [self.destinationGeoInfo['citiesPopulation'][city]
-                    for city in self.destinationGeoInfo['citiesPopulation']]
-
-
-        
-        if len(cities) >= 5 and len(population) >= 5:
-            self.labelCities = tk.Label(
-                frame, text=f'''The most crowded cities:
-                \n{cities[0]}, population: {population[0]}
-                \n{cities[1]}, population: {population[1]}
-                \n{cities[2]}, population: {population[2]}
-                \n{cities[3]}, population: {population[3]}
-                \n{cities[4]}, population: {population[4]}''', font=tkinter.font.Font(**self.questionFont), bg=self.colorHighlight, fg='white', justify='left')
-
-        
-            self.labelCities.grid(column=0,row=1,pady=10, padx=30)
 
 
 
