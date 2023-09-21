@@ -2,7 +2,6 @@ import requests
 import json
 from tkinter import *
 import matplotlib.pyplot as plt
-from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from datetime import date, timedelta
 import datetime as dt

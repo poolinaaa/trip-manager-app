@@ -31,26 +31,24 @@ class Frame3(FrameBase):
         self.frameOptions = tk.Frame(self, bg=self.colorHighlight)
         self.backButton = customtkinter.CTkButton(master=self, text='BACK', fg_color=self.colorDetails, width=40, height=40,
                                                   command=lambda: self.loadFrame(self.frame1))
-        self.backButton.pack(side=TOP, anchor=NW)
 
         self.labelTitle = tk.Label(master=self, text=f"Discover some geographical facts about {self.countryName.get().capitalize()}",
                                    font=tkinter.font.Font(**self.titleFont), bg=self.colorOfBg, fg='white')
-        self.labelTitle.pack()
-        self.frameOptions.pack(anchor='e')
+
 
         self.labelDepartureCountry = tk.Label(master=self.frameOptions, text="What is your departure country?",
                                               width=30, font=tkinter.font.Font(**self.questionFont), bg=self.colorOfBg, fg='white', anchor="w")
-        self.labelDepartureCountry.grid(column=0, row=0)
+
 
         self.departureCountry = tk.StringVar(value='country')
 
         self.entryDepartureCountry = tk.Entry(
             master=self.frameOptions, textvariable=self.departureCountry)
-        self.entryDepartureCountry.grid(column=0, row=1)
+
 
         self.labelUnit = tk.Label(master=self.frameOptions, text='Select the unit in which the distance will be displayed',
                                   font=tkinter.font.Font(**self.questionFont), bg=self.colorOfBg, fg='white', anchor="w")
-        self.labelUnit.grid(column=1, row=0, columnspan=2)
+
 
         var = tk.StringVar(value='kilometers')
 
@@ -59,44 +57,60 @@ class Frame3(FrameBase):
         self.milesButton = tk.Radiobutton(
             master=self.frameOptions, text='miles', variable=var, value='miles', bg='#9dc0d1')
 
-        self.kmButton.grid(column=1, row=1, pady=5)
-        self.milesButton.grid(column=2, row=1, pady=5)
+
 
         self.frameCities = tk.Frame(self, bg=self.colorHighlight, height=450)
-        self.frameCities.pack(side=LEFT, anchor='n', padx=55, pady=10)
+
         self.preparingLabelCities(self.frameCities)
         self.frameCheckbutton = tk.Frame(
             master=self, bg='#9dc0d1', width=300, height=450)
 
+        #globe picture
         img = (PIL.Image.open("globe.png"))
-
         resized_image = img.resize((300, 300))
         new_image = ImageTk.PhotoImage(resized_image)
-
         self.pictureWidget = tk.Label(
             master=self.frameCheckbutton, image=new_image, width=300, height=300, bg=self.colorOfBg)
-
         self.pictureWidget.image = new_image
-        self.pictureWidget.pack()
 
-        self.frameCheckbutton.pack(side=LEFT, pady=30, anchor='n')
 
         self.buttonConfirmCountry = customtkinter.CTkButton(master=self.frameOptions, text='CONFIRM COUNTRY', fg_color=self.colorDetails,
                                                             command=lambda: self.confirmCountry(self.departureCountry, self.frameCheckbutton, var.get()))
+
+
+
+        self.backButton.pack(side=TOP, anchor=NW)
+        self.labelTitle.pack()
+        self.frameOptions.pack(anchor='e')
+        self.labelDepartureCountry.grid(column=0, row=0)
+        self.entryDepartureCountry.grid(column=0, row=1)       
+        self.labelUnit.grid(column=1, row=0, columnspan=2)
+        self.kmButton.grid(column=1, row=1, pady=5)
+        self.milesButton.grid(column=2, row=1, pady=5)
+        self.frameCities.pack(side=LEFT, anchor='n', padx=55, pady=10)               
+        self.pictureWidget.pack()
+
+        self.frameCheckbutton.pack(side=LEFT, pady=30, anchor='n')
         self.buttonConfirmCountry.grid(row=2, column=0, columnspan=3, pady=20)
 
+               
     def preparingLabelCities(self, frame):
         self.destinationGeoInfo = GeographyData().searchInfoAboutDestination(self.countryName)
         print(self.destinationGeoInfo)
-
-        capital = self.destinationGeoInfo.get('capital', 'No capital found')
+        try:            
+            capital = self.destinationGeoInfo['capital']
+            self.labelCapital = tk.Label(
+                frame, text=f'Capital: {capital}', font=tkinter.font.Font(**self.questionFont), bg=self.colorDetails, fg='white')
+            self.labelCapital.pack(pady=10, padx=30)
+        except:
+            pass
+        
         cities = [city for city in self.destinationGeoInfo['citiesPopulation']]
         population = [self.destinationGeoInfo['citiesPopulation'][city]
-                      for city in self.destinationGeoInfo['citiesPopulation']]
+                    for city in self.destinationGeoInfo['citiesPopulation']]
 
 
-        self.labelCapital = tk.Label(
-            frame, text=f'Capital: {capital}', font=tkinter.font.Font(**self.questionFont), bg=self.colorDetails, fg='white')
+        
         if len(cities) >= 5 and len(population) >= 5:
             self.labelCities = tk.Label(
                 frame, text=f'''The most crowded cities:
@@ -105,10 +119,9 @@ class Frame3(FrameBase):
                 \n{cities[2]}, population: {population[2]}
                 \n{cities[3]}, population: {population[3]}
                 \n{cities[4]}, population: {population[4]}''', font=tkinter.font.Font(**self.questionFont), bg=self.colorHighlight, fg='white', justify='left')
-        else:
-            self.labelCities = tk.Label(frame)
-        self.labelCapital.pack(pady=10, padx=30)
-        self.labelCities.pack(pady=10, padx=30)
+
+        
+            self.labelCities.pack(pady=10, padx=30)
 
 
 

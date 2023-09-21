@@ -1,7 +1,6 @@
 import tkinter as tk
 from ctypes import windll
 
-
 from frame1 import Frame1
 from frame2 import Frame2
 from frame3 import Frame3

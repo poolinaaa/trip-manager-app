@@ -2,8 +2,6 @@ import tkinter.font
 import requests
 import json
 import tkinter as tk
-
-
 import csv
 import customtkinter
 from base import FrameBase
