@@ -119,7 +119,7 @@ class Frame1(FrameBase):
         self.baseCurrency = self.baseCurrency.get().upper()
 
         self.codeCurrency = self.checkingCurrency().upper()
-        baseCurrName = self.checkingBase()
+        self.baseCurrName = self.checkingBase()
 
         if self.codeCurrency == 'COUNTRY ERROR':
             countryError = 'You have entered wrong name of country. Please try again (check full name of country)'
@@ -138,18 +138,18 @@ class Frame1(FrameBase):
             self.buttonLoadFrame3.pack(side=tk.BOTTOM)
 
             self.buttonLoadFrame4.pack(side=tk.BOTTOM)
-            print(baseCurrName)
+            print(self.baseCurrName)
             print(self.baseCurrency)
             
 
             
             
-            if baseCurrName == self.baseCurrency or baseCurrName == 'EUR':
+            if self.baseCurrName == self.baseCurrency or self.baseCurrName == 'EUR':
                 
                 headers= {
                 "apikey": "uk5pSwPkDIdeHqRIJbOTBWjr9YT3T73E"
                 }
-                params = {'from': baseCurrName,
+                params = {'from': self.baseCurrName,
                           'amount':'1',
                           'to': self.codeCurrency}
                 r = requests.get(
@@ -162,7 +162,7 @@ class Frame1(FrameBase):
                     print(data)
                     self.currentRate = data["rates"][self.codeCurrency]
 
-                    self.labelCurrentRate['text'] = f'Current rate: {self.currentRate} {baseCurrName}'
+                    self.labelCurrentRate['text'] = f'Current rate: {self.currentRate} {self.baseCurrName}'
 
     def preparingLabelCities(self, frame):
         self.destinationGeoInfo = self.searchInfoAboutDestination()

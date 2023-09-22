@@ -93,10 +93,16 @@ class PlotsCurrency():
 
         today = date.today()
         monthAgo = today - timedelta(days=30)
-
+        
+        headers = {
+            "apikey": "uk5pSwPkDIdeHqRIJbOTBWjr9YT3T73E"
+        }
         params = {'start_date': monthAgo, 'end_date': today,
-                'base': baseCurrName, 'symbols': codeCurrency}
-        r = requests.get('https://api.exchangerate.host/timeseries/', params)
+                    'base': baseCurrName, 'symbols': f'{codeCurrency},EUR,USD,PLN,CNY'}
+        r = requests.get(
+            'https://api.apilayer.com/fixer/timeseries', params=params, headers=headers)
+            
+
         print(r)
         try:
             currencyData = r.json()
