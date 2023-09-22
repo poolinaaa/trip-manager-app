@@ -116,7 +116,7 @@ class Frame1(FrameBase):
 
         self.countryToFind = self.countryName.get().capitalize()
 
-        self.baseCurrency = self.baseCurrency.get().upper()
+        self.base = self.baseCurrency.get().upper()
 
         self.codeCurrency = self.checkingCurrency().upper()
         self.baseCurrName = self.checkingBase()
@@ -139,12 +139,12 @@ class Frame1(FrameBase):
 
             self.buttonLoadFrame4.pack(side=tk.BOTTOM)
             print(self.baseCurrName)
-            print(self.baseCurrency)
+            print(self.base)
             
 
             
             
-            if self.baseCurrName == self.baseCurrency or self.baseCurrName == 'EUR':
+            if self.baseCurrName == self.base or self.baseCurrName == 'EUR':
                 
                 headers= {
                 "apikey": "uk5pSwPkDIdeHqRIJbOTBWjr9YT3T73E"
@@ -192,7 +192,7 @@ class Frame1(FrameBase):
 
             self.labelCities = tk.Label(
                 frame, text="Not enough data available for cities.", font=tkinter.font.Font(**self.questionFont), bg=self.colorHighlight, fg='white')
-        self.labelCapital.grid(column=0, row=0, pady=10, padx=30)
+        self.labelCapital.grid(column=0, row=0, pady=10, padx=30, sticky='ew')
         self.labelCities.grid(column=0, row=1, pady=10, padx=30)
 
     def searchInfoAboutDestination(self):
@@ -232,8 +232,8 @@ class Frame1(FrameBase):
         with open('countryCurrency.csv') as csvFile:
             csvRead = csv.reader(csvFile, delimiter=',')
             for row in csvRead:
-                if row[3] == self.baseCurrency:
-                    result = self.baseCurrency
+                if row[3] == self.base:
+                    result = self.base
                     print(result)
                     print('evr ok')
                     return result

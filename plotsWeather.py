@@ -152,7 +152,7 @@ class PlotNextWeek():
         ax3.set_ylabel(
             'Precipitation probability [%]', color=color, fontsize=7)
         ax3.margins(x=0, y=0.05)
-        ax3.spines['right'].set_position(('outward', 30))
+        ax3.spines['right'].set_position(('outward', 40))
         plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
         plt.gca().xaxis.set_major_locator(mdates.DayLocator())
         plt.gca().xaxis.set_minor_locator(mdates.HourLocator())
