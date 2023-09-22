@@ -136,11 +136,12 @@ class Frame2(FrameBase):
         end = self.dateEnd.get()
         if (self.checkDate(start) and self.checkDate(end)):
             params = {'start_date': start, 'end_date': end,
-                    'base': self.baseCurrency, 'symbols': f'{self.codeCurrency},EUR,USD,PLN,CNY'}
-            r = requests.get('https://api.exchangerate.host/timeseries/', params)
+                    'base': self.baseCurrency, 'symbols': f'{self.codeCurrency},EUR,USD,PLN,CNY', 'access_key' : '6c2a58ed16c1e3fa8ed8f4a467447114'}
+            r = requests.get('http://api.exchangeratesapi.io/v1/timeseries', params)
             print(r)
             try:
                 self.currencyData = r.json()
+                print(self.currencyData)
             except json.JSONDecodeError:
                 print('Wrong format of currencyData.')
             else:

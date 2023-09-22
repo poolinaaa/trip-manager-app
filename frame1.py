@@ -73,7 +73,7 @@ class Frame1(FrameBase):
 
         self.frameWeather.addImage('sun.png')
 
-        #fake buttons (entries to the frames because changing state of customtkinter buttons did not work)
+        # fake buttons (entries to the frames because changing state of customtkinter buttons did not work)
         self.fake1 = customtkinter.CTkButton(master=self.frameCurrency, text='CURRENCY', fg_color=self.colorDetails,
                                              width=20, state=tk.DISABLED)
         self.fake2 = customtkinter.CTkButton(master=self.frameFlights, text='GEOGRAPHY', fg_color=self.colorDetails,
@@ -81,16 +81,16 @@ class Frame1(FrameBase):
         self.fake3 = customtkinter.CTkButton(master=self.frameWeather, text='WEATHER', fg_color=self.colorDetails,
                                              width=20, state=tk.DISABLED)
 
-        #real buttons (shown after entering destination)
+        # real buttons (shown after entering destination)
         self.buttonLoadFrame2 = customtkinter.CTkButton(master=self.frameCurrency, text='CURRENCY', fg_color=self.colorDetails,
                                                         width=20, command=lambda: self.loadFrame(self.frame2))
         self.buttonLoadFrame3 = customtkinter.CTkButton(master=self.frameFlights, text='GEOGRAPHY', fg_color=self.colorDetails,
                                                         width=20, command=lambda: self.multipleFuncButton(self.loadFrame(self.frame3), self.preparingLabelCities(self.frame3.frameCities)))
-        self.buttonCountrySearch = customtkinter.CTkButton(master=self.frameQuestions, width=8, 
+        self.buttonCountrySearch = customtkinter.CTkButton(master=self.frameQuestions, width=8,
                                                            fg_color=self.colorHighlight, text="SEARCH", command=self.searchButton)
         self.buttonLoadFrame4 = customtkinter.CTkButton(master=self.frameWeather, text='WEATHER', fg_color=self.colorDetails,
                                                         width=20, command=lambda: self.loadFrame(self.frame4))
-        #PACKING
+        # PACKING
         self.labelCountry.grid(column=0, row=0, pady=10)
         self.entryCountry.grid(column=1, row=0, pady=10, padx=5)
         self.labelBaseCurrency.grid(column=0, row=2, pady=10)
@@ -115,9 +115,9 @@ class Frame1(FrameBase):
     def searchButton(self):
 
         self.countryToFind = self.countryName.get().capitalize()
-    
+
         self.baseCurrency = self.baseCurrency.get().upper()
-        
+
         self.codeCurrency = self.checkingCurrency().upper()
         baseCurrName = self.checkingBase()
 
@@ -140,18 +140,25 @@ class Frame1(FrameBase):
             self.buttonLoadFrame4.pack(side=tk.BOTTOM)
             print(baseCurrName)
             print(self.baseCurrency)
-            if baseCurrName == self.baseCurrency:
-                params = {'base': baseCurrName,
-                          'symbols': self.codeCurrency}
+            
+
+            
+            
+            if baseCurrName == self.baseCurrency or baseCurrName == 'EUR':
+                params = {'from': baseCurrName,
+                          'amount':'1',
+                          'to': self.codeCurrency,
+                          'apikey' : 'uk5pSwPkDIdeHqRIJbOTBWjr9YT3T73E'}
                 r = requests.get(
-                    'https://api.exchangerate.host/latest/', params)
+                    'https://api.apilayer.com/fixer/latest', params)
                 try:
                     data = r.json()
                 except json.JSONDecodeError:
                     print('Wrong format of data.')
                 else:
+                    print(data)
                     self.currentRate = data["rates"][self.codeCurrency]
-                    
+
                     self.labelCurrentRate['text'] = f'Current rate: {self.currentRate} {baseCurrName}'
 
     def preparingLabelCities(self, frame):
@@ -213,7 +220,8 @@ class Frame1(FrameBase):
                 if row[0] == self.countryToFind:
                     currencyCode = row[3]
             if 'currencyCode' not in locals():
-                return 'CountryError'
+                labelErr = tk.Label(self.frameCurrency, text='')
+                return 'COUNTRY ERROR'
             else:
                 return currencyCode
 
@@ -223,6 +231,8 @@ class Frame1(FrameBase):
             for row in csvRead:
                 if row[3] == self.baseCurrency:
                     result = self.baseCurrency
+                    print(result)
+                    print('evr ok')
                     return result
             if 'result' not in locals():
                 print(
