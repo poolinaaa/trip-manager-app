@@ -131,13 +131,17 @@ class Frame2(FrameBase):
         self.framePlots.grid(column=1,row=4, padx=60,sticky='ew')
 
     def confirmButton(self):
-
+        print(f'self base currency {self.baseCurrency}')
         start = self.dateStart.get()
         end = self.dateEnd.get()
         if (self.checkDate(start) and self.checkDate(end)):
+
+            headers= {
+            "apikey": "uk5pSwPkDIdeHqRIJbOTBWjr9YT3T73E"
+            }
             params = {'start_date': start, 'end_date': end,
-                    'base': self.baseCurrency, 'symbols': f'{self.codeCurrency},EUR,USD,PLN,CNY', 'access_key' : '6c2a58ed16c1e3fa8ed8f4a467447114'}
-            r = requests.get('http://api.exchangeratesapi.io/v1/timeseries', params)
+                    'base': 'EUR', 'symbols': f'{self.codeCurrency},EUR,USD,PLN,CNY'}
+            r = requests.get('https://api.apilayer.com/fixer/latest', params=params,headers=headers)
             print(r)
             try:
                 self.currencyData = r.json()
@@ -173,3 +177,20 @@ class Frame2(FrameBase):
         self.usd = [self.currencyData['rates'][date]['USD'] for date in self.currencyData['rates']]
         self.pln = [self.currencyData['rates'][date]['PLN'] for date in self.currencyData['rates']]
         self.cny = [self.currencyData['rates'][date]['CNY'] for date in self.currencyData['rates']]
+        
+        aud_rates = []
+        cad_rates = []
+        usd_rates = []
+
+        # Pobieranie dat początkowej i końcowej
+        start_date = self.currencyData["start_date"]
+        end_date = self.currencyData["end_date"]
+
+        # Przechodzenie przez daty i dodawanie wartości do odpowiednich list
+        current_date = start_date
+        while current_date <= end_date:
+            rates_for_date = self.currencyData["rates"][current_date]
+            aud_rates.append(rates_for_date["AUD"])
+            cad_rates.append(rates_for_date["CAD"])
+            usd_rates.append(rates_for_date["USD"])
+            current_date = (datetime.strptime(current_date, "%Y-%m-%d") + timedelta(days=1)).strftime("%Y-%m-%d")

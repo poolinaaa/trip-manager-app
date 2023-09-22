@@ -145,12 +145,15 @@ class Frame1(FrameBase):
             
             
             if baseCurrName == self.baseCurrency or baseCurrName == 'EUR':
+                
+                headers= {
+                "apikey": "uk5pSwPkDIdeHqRIJbOTBWjr9YT3T73E"
+                }
                 params = {'from': baseCurrName,
                           'amount':'1',
-                          'to': self.codeCurrency,
-                          'apikey' : 'uk5pSwPkDIdeHqRIJbOTBWjr9YT3T73E'}
+                          'to': self.codeCurrency}
                 r = requests.get(
-                    'https://api.apilayer.com/fixer/latest', params)
+                    'https://api.apilayer.com/fixer/latest', params=params, headers=headers)
                 try:
                     data = r.json()
                 except json.JSONDecodeError:
