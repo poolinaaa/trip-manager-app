@@ -8,11 +8,11 @@ from sqlite3 import *
 import PIL.Image
 from base import FrameBase
 import tkinter.font
-
+from datetime import datetime, timedelta
 
 import requests
 import json
-from datetime import datetime
+
 
 class Frame2(FrameBase):
 
@@ -132,6 +132,7 @@ class Frame2(FrameBase):
 
     def confirmButton(self):
         print(f'self base currency {self.baseCurrency}')
+        print(self.codeCurrency)
         start = self.dateStart.get()
         end = self.dateEnd.get()
         if (self.checkDate(start) and self.checkDate(end)):
@@ -141,7 +142,7 @@ class Frame2(FrameBase):
             }
             params = {'start_date': start, 'end_date': end,
                     'base': 'EUR', 'symbols': f'{self.codeCurrency},EUR,USD,PLN,CNY'}
-            r = requests.get('https://api.apilayer.com/fixer/latest', params=params,headers=headers)
+            r = requests.get('https://api.apilayer.com/fixer/timeseries', params=params,headers=headers)
             print(r)
             try:
                 self.currencyData = r.json()
@@ -171,16 +172,12 @@ class Frame2(FrameBase):
             return False
         
     def preparingData(self):
-        self.dates = [date for date in self.currencyData['rates']]
-        self.rate = [self.currencyData['rates'][date][self.codeCurrency] for date in self.currencyData['rates']]
-        self.eur = [self.currencyData['rates'][date]['EUR'] for date in self.currencyData['rates']]
-        self.usd = [self.currencyData['rates'][date]['USD'] for date in self.currencyData['rates']]
-        self.pln = [self.currencyData['rates'][date]['PLN'] for date in self.currencyData['rates']]
-        self.cny = [self.currencyData['rates'][date]['CNY'] for date in self.currencyData['rates']]
-        
-        aud_rates = []
-        cad_rates = []
-        usd_rates = []
+        self.dates = []
+        self.rate = []
+        self.eur = []
+        self.usd = []
+        self.pln = []
+        self.cny = []
 
         # Pobieranie dat początkowej i końcowej
         start_date = self.currencyData["start_date"]
@@ -190,7 +187,10 @@ class Frame2(FrameBase):
         current_date = start_date
         while current_date <= end_date:
             rates_for_date = self.currencyData["rates"][current_date]
-            aud_rates.append(rates_for_date["AUD"])
-            cad_rates.append(rates_for_date["CAD"])
-            usd_rates.append(rates_for_date["USD"])
+            self.eur.append(rates_for_date["EUR"])
+            self.usd.append(rates_for_date["USD"])
+            self.pln.append(rates_for_date["PLN"])
+            self.cny.append(rates_for_date["CNY"])
+            self.rate.append(rates_for_date[self.codeCurrency])
+            self.dates.append(current_date)
             current_date = (datetime.strptime(current_date, "%Y-%m-%d") + timedelta(days=1)).strftime("%Y-%m-%d")
