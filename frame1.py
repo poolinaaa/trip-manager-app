@@ -14,7 +14,7 @@ class Frame1(FrameBase):
         super().__init__(masterWindow=masterWindow,
                          colorOfBg=colorOfBg, colorDetails=colorDetails, colorHighlight=colorHighlight, countryName=countryName, baseCurrency=baseCurrency, codeCurrency=codeCurrency)
         self.gen = self.counterFrame1()
-
+        self.masterWindow = masterWindow
         self.load()
 
     def setFrames(self, frame1, frame2, frame3, frame4):
@@ -90,6 +90,9 @@ class Frame1(FrameBase):
                                                            fg_color=self.colorHighlight, text="SEARCH", command=self.searchButton)
         self.buttonLoadFrame4 = customtkinter.CTkButton(master=self.frameWeather, text='WEATHER', fg_color=self.colorDetails,
                                                         width=20, command=lambda: self.loadFrame(self.frame4))
+        
+        self.exitButton = customtkinter.CTkButton(master=self, text='EXIT', fg_color=self.colorDetails,
+                                                        width=100, command=self.masterWindow.destroy) 
         # PACKING
         self.labelCountry.grid(column=0, row=0, pady=10)
         self.entryCountry.grid(column=1, row=0, pady=10, padx=5)
@@ -111,6 +114,8 @@ class Frame1(FrameBase):
         else:
             for btn in (self.buttonLoadFrame2, self.buttonLoadFrame3, self.buttonLoadFrame4):
                 btn.pack(side=tk.BOTTOM)
+                
+        self.exitButton.pack(pady=50)
 
     def searchButton(self):
 
