@@ -17,6 +17,7 @@ class Frame1(FrameBase):
         self.masterWindow = masterWindow
         self.load()
 
+    # connect frames with each other
     def setFrames(self, frame1, frame2, frame3, frame4):
         self.frame1 = frame1
         self.frame2 = frame2
@@ -25,6 +26,8 @@ class Frame1(FrameBase):
 
     def load(self):
         self.tkraise()
+
+        # counter which controls if fake or real button should be packed
         self.nr = next(self.gen)
 
         # title
@@ -35,48 +38,49 @@ class Frame1(FrameBase):
         self.frameQuestions = tk.Frame(master=self, width=100,  bg=self.colorOfBg,
                                        highlightbackground=self.colorOfBg, highlightcolor=self.colorOfBg)
 
+        # country
         self.labelCountry = tk.Label(master=self.frameQuestions, text="What country is your destination?",
                                      width=30, font=tkinter.font.Font(**self.questionFont), bg=self.colorOfBg, fg='white', anchor="w")
 
         self.entryCountry = tk.Entry(master=self.frameQuestions,
                                      width=20, textvariable=self.countryName)
 
+        # base currency
         self.labelBaseCurrency = tk.Label(master=self.frameQuestions, text="What is your base currency?",
                                           width=30, font=tkinter.font.Font(**self.questionFont), bg=self.colorOfBg, fg='white', anchor="w")
 
         self.entryCurrency = tk.Entry(master=self.frameQuestions,
                                       width=20, textvariable=self.baseCurrency)
 
+        # frame with 3 sections: currency, geography and weather
         self.frameSections = tk.Frame(master=self, width=300, bg=self.colorOfBg,
                                       highlightbackground=self.colorOfBg, highlightcolor=self.colorOfBg)
 
+        # frame currency: create, add title and image
         self.frameCurrency = ThemeSection(
             self.frameSections, self.colorDetails, self.colorHighlight)
         self.frameCurrency.addTitleLabel(title='Changes in currency')
-
         self.frameCurrency.addImage('cash.png')
 
         self.labelCurrentRate = tk.Label(
             master=self.frameCurrency, text='Current rate:', bg=self.colorHighlight, font=tkinter.font.Font(**self.errorFont), fg='white')
 
-        # flights
-        self.frameFlights = ThemeSection(
+        # frame geography: create, add title and image
+        self.frameGeography = ThemeSection(
             self.frameSections, self.colorDetails, self.colorHighlight)
-        self.frameFlights.addTitleLabel(title='Geographical details')
+        self.frameGeography.addTitleLabel(title='Geographical details')
+        self.frameGeography.addImage('plane.png')
 
-        self.frameFlights.addImage('plane.png')
-
-        # weather
+        # frame weather: create, add title and image
         self.frameWeather = ThemeSection(
             self.frameSections, self.colorDetails, self.colorHighlight)
         self.frameWeather.addTitleLabel(title='Check the weather')
-
         self.frameWeather.addImage('sun.png')
 
         # fake buttons (entries to the frames because changing state of customtkinter buttons did not work)
         self.fake1 = customtkinter.CTkButton(master=self.frameCurrency, text='CURRENCY', fg_color=self.colorDetails,
                                              width=20, state=tk.DISABLED)
-        self.fake2 = customtkinter.CTkButton(master=self.frameFlights, text='GEOGRAPHY', fg_color=self.colorDetails,
+        self.fake2 = customtkinter.CTkButton(master=self.frameGeography, text='GEOGRAPHY', fg_color=self.colorDetails,
                                              width=20, state=tk.DISABLED)
         self.fake3 = customtkinter.CTkButton(master=self.frameWeather, text='WEATHER', fg_color=self.colorDetails,
                                              width=20, state=tk.DISABLED)
@@ -84,37 +88,39 @@ class Frame1(FrameBase):
         # real buttons (shown after entering destination)
         self.buttonLoadFrame2 = customtkinter.CTkButton(master=self.frameCurrency, text='CURRENCY', fg_color=self.colorDetails,
                                                         width=20, command=lambda: self.loadFrame(self.frame2))
-        self.buttonLoadFrame3 = customtkinter.CTkButton(master=self.frameFlights, text='GEOGRAPHY', fg_color=self.colorDetails,
+        self.buttonLoadFrame3 = customtkinter.CTkButton(master=self.frameGeography, text='GEOGRAPHY', fg_color=self.colorDetails,
                                                         width=20, command=lambda: self.multipleFuncButton(self.loadFrame(self.frame3), self.preparingLabelCities(self.frame3.frameCities)))
         self.buttonCountrySearch = customtkinter.CTkButton(master=self.frameQuestions, width=8,
                                                            fg_color=self.colorHighlight, text="SEARCH", command=self.searchButton)
         self.buttonLoadFrame4 = customtkinter.CTkButton(master=self.frameWeather, text='WEATHER', fg_color=self.colorDetails,
                                                         width=20, command=lambda: self.loadFrame(self.frame4))
-        
+        # exit whole app button
         self.exitButton = customtkinter.CTkButton(master=self, text='EXIT', fg_color=self.colorDetails,
-                                                        width=100, command=self.masterWindow.destroy) 
+                                                  width=100, command=self.masterWindow.destroy)
         # PACKING
+        # entries, their labels and button search
         self.labelCountry.grid(column=0, row=0, pady=10)
         self.entryCountry.grid(column=1, row=0, pady=10, padx=5)
         self.labelBaseCurrency.grid(column=0, row=2, pady=10)
         self.entryCurrency.grid(column=1, row=2, pady=10, padx=5)
-        self.frameCurrency.grid(column=0, row=0, sticky='nsew')
-        self.frameFlights.grid(column=1, row=0, sticky='nsew')
-        self.frameWeather.grid(column=2, row=0, sticky='nsew')
-
         self.buttonCountrySearch.grid(column=0, row=3, columnspan=2, pady=10)
 
+        # sections
+        for nr, frame in enumerate([self.frameCurrency, self.frameGeography, self.frameWeather], start=0):
+            frame.grid(column=nr, row=0, sticky='nsew')
+
+        # main parts: title, frames (options and sections)
         for widget in (self.labelTitle, self.frameQuestions, self.labelCurrentRate, self.frameSections):
             widget.pack()
 
+        # buttons of sections
         if self.nr == 1:
             for btn in (self.fake1, self.fake2, self.fake3):
                 btn.pack(side=tk.BOTTOM)
-
         else:
             for btn in (self.buttonLoadFrame2, self.buttonLoadFrame3, self.buttonLoadFrame4):
                 btn.pack(side=tk.BOTTOM)
-                
+
         self.exitButton.pack(pady=50)
 
     def searchButton(self):
@@ -145,17 +151,14 @@ class Frame1(FrameBase):
             self.buttonLoadFrame4.pack(side=tk.BOTTOM)
             print(self.baseCurrName)
             print(self.base)
-            
 
-            
-            
             if self.baseCurrName == self.base or self.baseCurrName == 'EUR':
-                
-                headers= {
-                "apikey": "uk5pSwPkDIdeHqRIJbOTBWjr9YT3T73E"
+
+                headers = {
+                    "apikey": "uk5pSwPkDIdeHqRIJbOTBWjr9YT3T73E"
                 }
                 params = {'from': self.baseCurrName,
-                          'amount':'1',
+                          'amount': '1',
                           'to': self.codeCurrency}
                 r = requests.get(
                     'https://api.apilayer.com/fixer/latest', params=params, headers=headers)

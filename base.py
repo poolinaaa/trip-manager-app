@@ -2,7 +2,8 @@ import tkinter as tk
 
 class FrameBase(tk.Frame):
 
-    def __init__(self, masterWindow, colorOfBg, colorDetails, colorHighlight, countryName, baseCurrency, codeCurrency='', currentRate='unavailable data', **kwargs):
+    def __init__(self, masterWindow, colorOfBg, colorDetails, colorHighlight, countryName, 
+                 baseCurrency, codeCurrency='', currentRate='unavailable data', **kwargs):
         super().__init__(master=masterWindow, bg=colorOfBg,
                          highlightbackground=colorOfBg, highlightcolor=colorOfBg, **kwargs)
         self.countryName = countryName

@@ -37,7 +37,6 @@ class Window(tk.Tk):
                               self.frame3, self.frame4)
 
         for frame in (self.frame1, self.frame2, self.frame3, self.frame4):
-
             frame.grid(row=0, column=0, sticky='nsew')
 
         self.frame1.grid(row=0, column=0, sticky='nsew')
@@ -50,8 +49,9 @@ class Window(tk.Tk):
             frame.grid_remove()
 
 
-windll.shcore.SetProcessDpiAwareness(1)
 
-app = Window()
-
-app.mainloop()
+if __name__ == '__main__':
+    windll.shcore.SetProcessDpiAwareness(1)
+    
+    app = Window()
+    app.mainloop()

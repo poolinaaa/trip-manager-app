@@ -119,18 +119,20 @@ class Frame2(FrameBase):
 
         self.framePlots.grid(column=1, row=4, padx=60, sticky='ew')
 
+    #button - confirm entered dates
     def confirmButton(self):
+        #get code of base currency and currency of the destination country
         self.base = self.frame1.baseCurrName
-        print('base:',self.base)
         self.code = self.frame1.codeCurrency
-        print(self.code)
+        
+        #cut-off dates
         start = self.dateStart.get()
         end = self.dateEnd.get()
+        
+        #get rates of currencies in chosen range of dates
         if (self.checkDate(start) and self.checkDate(end)):
 
-            headers = {
-                "apikey": "uk5pSwPkDIdeHqRIJbOTBWjr9YT3T73E"
-            }
+            headers = {"apikey": "uk5pSwPkDIdeHqRIJbOTBWjr9YT3T73E"}
             params = {'start_date': start, 'end_date': end,
                       'base': self.base, 'symbols': f'{self.code},EUR,USD,PLN,CNY'}
             r = requests.get(
@@ -138,24 +140,27 @@ class Frame2(FrameBase):
             print(r)
             try:
                 self.currencyData = r.json()
-                print(self.currencyData)
             except json.JSONDecodeError:
                 print('Wrong format of currencyData.')
             else:
+                #prepare data for the plots
                 self.preparingData(self.code)
-                self.fake1.destroy()
-                self.fake2.destroy()
-                self.fake3.destroy()
-                self.buttonPlot1.grid(column=0, row=1, padx=15, pady=10)
-                self.buttonPlot2.grid(column=1, row=1, padx=15, pady=10)
-                self.buttonPlot3.grid(column=2, row=1, padx=15, pady=10)
+                
+                #replacing fake buttons with real ones
+                for btn in (self.fake1,self.fake2,self.fake3):
+                    btn.destroy()
+                for nr, btn in enumerate([self.buttonPlot1,self.buttonPlot2, self.buttonPlot3],start=0):
+                    btn.grid(column=nr, row=1, padx=15, pady=10)
+                
 
         else:
+            #warning : incorrect date
             incorrectDate = tk.Label(
                 master=self, text='wrong format of date, try again', font=tkinter.font.Font(**self.errorFont), bg=self.colorHighlight, fg='white')
             incorrectDate.grid(column=1, row=3, padx=60, sticky='ew')
             self.after(5000, incorrectDate.destroy)
 
+    #checking format of entered date
     def checkDate(self, date):
         try:
             isDateCorrect = datetime.strptime(date, '%Y-%m-%d')
@@ -163,6 +168,7 @@ class Frame2(FrameBase):
         except:
             return False
 
+    #preparing data for plots
     def preparingData(self, code):
         self.dates = []
         self.rate = []
@@ -171,11 +177,11 @@ class Frame2(FrameBase):
         self.pln = []
         self.cny = []
 
-        # Pobieranie dat początkowej i końcowej
+        #get start and end date in range
         start_date = self.currencyData["start_date"]
         end_date = self.currencyData["end_date"]
 
-        # Przechodzenie przez daty i dodawanie wartości do odpowiednich list
+        #go through every date and append every currency rate (from everyday in chosen range)
         current_date = start_date
         while current_date <= end_date:
             rates_for_date = self.currencyData["rates"][current_date]
