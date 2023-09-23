@@ -21,38 +21,34 @@ class Frame3(FrameBase):
     def __init__(self, masterWindow, colorOfBg, colorDetails, colorHighlight, frame1, countryName, baseCurrency):
         super().__init__(masterWindow=masterWindow,
                          colorOfBg=colorOfBg, colorDetails=colorDetails, colorHighlight=colorHighlight, countryName=countryName, baseCurrency=baseCurrency)
-        
+
         self.frame1 = frame1
         self.colorOfBg = colorOfBg
         self.load()
 
     def load(self):
         self.tkraise()
-        
-        self.frameOptions = tk.Frame(self, bg=self.colorHighlight)
+
+        # title and back button
+        self.labelTitle = tk.Label(master=self, text=f"Discover some geographical facts",
+                                   font=tkinter.font.Font(**self.titleFont), bg=self.colorOfBg, fg='white')
         self.backButton = customtkinter.CTkButton(master=self, text='BACK', fg_color=self.colorDetails, width=40, height=40,
                                                   command=lambda: self.loadFrame(self.frame1))
-        
-        
-        
-        self.labelTitle = tk.Label(master=self, text=f"Discover some geographical facts",
-                                          font=tkinter.font.Font(**self.titleFont), bg=self.colorOfBg, fg='white')
-        
+
+        # options to choose section
+        # departure country
+        self.frameOptions = tk.Frame(self, bg=self.colorHighlight)
 
         self.labelDepartureCountry = tk.Label(master=self.frameOptions, text="What is your departure country?",
                                               width=30, font=tkinter.font.Font(**self.questionFont), bg=self.colorOfBg, fg='white', anchor="w")
 
-
         self.departureCountry = tk.StringVar(value='country')
-
         self.entryDepartureCountry = tk.Entry(
             master=self.frameOptions, textvariable=self.departureCountry)
 
-
+        # unit of distance
         self.labelUnit = tk.Label(master=self.frameOptions, text='Select the unit in which the distance will be displayed',
                                   font=tkinter.font.Font(**self.questionFont), bg=self.colorOfBg, fg='white', anchor="w")
-
-
         var = tk.StringVar(value='kilometers')
 
         self.kmButton = tk.Radiobutton(
@@ -60,15 +56,16 @@ class Frame3(FrameBase):
         self.milesButton = tk.Radiobutton(
             master=self.frameOptions, text='miles', variable=var, value='miles', bg='#9dc0d1')
 
+        # confirm choices
+        self.buttonConfirmCountry = customtkinter.CTkButton(master=self.frameOptions, text='CONFIRM COUNTRY', fg_color=self.colorDetails,
+                                                            command=lambda: self.confirmCountry(var.get()))
 
-
+        # frames with facts
         self.frameCities = tk.Frame(self, bg=self.colorHighlight, height=450)
-
-        
         self.frameCheckbutton = tk.Frame(
             master=self, bg='#9dc0d1', width=300, height=450)
 
-        #globe picture
+        # globe picture
         img = (PIL.Image.open("globe.png"))
         resized_image = img.resize((300, 300))
         new_image = ImageTk.PhotoImage(resized_image)
@@ -76,47 +73,37 @@ class Frame3(FrameBase):
             master=self.frameCheckbutton, image=new_image, width=300, height=300, bg=self.colorOfBg)
         self.pictureWidget.image = new_image
 
-
-        self.buttonConfirmCountry = customtkinter.CTkButton(master=self.frameOptions, text='CONFIRM COUNTRY', fg_color=self.colorDetails,
-                                                            command=lambda: self.confirmCountry(self.departureCountry, self.frameCheckbutton, var.get()))
-
-
-
+        # packing widgets
+        # options, title, back button
         self.backButton.grid(column=0, row=0)
+        self.labelTitle.grid(column=1, row=1, columnspan=2)
+        self.frameOptions.grid(column=1, row=2, columnspan=2)
+        self.buttonConfirmCountry.grid(row=2, column=0, columnspan=3, pady=20)
 
-        self.labelTitle.grid(column=1, row=1,columnspan=2)
-        
-        
-        
-        self.frameOptions.grid(column=1, row=2,columnspan=2)
-        
-        
+        # everything inside options section
         self.labelDepartureCountry.grid(column=0, row=0)
-        self.entryDepartureCountry.grid(column=0, row=1)       
+        self.entryDepartureCountry.grid(column=0, row=1)
         self.labelUnit.grid(column=1, row=0, columnspan=2)
         self.kmButton.grid(column=1, row=1, pady=5)
         self.milesButton.grid(column=2, row=1, pady=5)
-        
-        self.frameCities.grid(column=1, row=3, pady=20, sticky='n')               
-        
+
+        # frames with facts
+        self.frameCities.grid(column=1, row=3, pady=20, sticky='n')
         self.pictureWidget.pack()
+        self.frameCheckbutton.grid(column=2, row=3, pady=20, sticky='n')
 
-        self.frameCheckbutton.grid(column=2,row=3, pady=20, sticky='n')
-        self.buttonConfirmCountry.grid(row=2, column=0, columnspan=3, pady=20)
-
-
-
-    def confirmCountry(self, strVarCountry, frame, unit):
-        for widget in frame.winfo_children():
+    def confirmCountry(self, unit):
+        for widget in self.frameCheckbutton.winfo_children():
             widget.destroy()
-        baseCountry = strVarCountry.get().capitalize()
+        baseCountry = self.departureCountry.get().capitalize()
         baseCountry = self.checkingCountry(baseCountry)
 
         with open('worldcities.csv', encoding='utf8') as csvFile:
             csvRead = csv.reader(csvFile, delimiter=',')
+            latBase = None
+            lngBase = None
             for row in csvRead:
                 if row[4] == baseCountry:
-                    isoBase = row[5]
                     latBase = row[2]
                     lngBase = row[3]
                     break
@@ -128,7 +115,9 @@ class Frame3(FrameBase):
                 latBase, lngBase, destinationGeoInfo['lat'], destinationGeoInfo['lng'], unit)
 
             distanceLabel = tk.Label(
-                master=frame, text=f'Distance between {baseCountry} and {self.countryName.get().capitalize()} is about \n{distance} {unit}', font=tkinter.font.Font(**self.questionFont), bg=self.colorHighlight, fg='white', anchor="w")
+                master=self.frameCheckbutton,
+                text=f'Distance between {baseCountry} and {self.countryName.get().capitalize()} is about \n{distance} {unit}',
+                font=tkinter.font.Font(**self.questionFont), bg=self.colorHighlight, fg='white', anchor="w")
             distanceLabel.pack()
 
             attractions = GeographyData().searchAttractions(
@@ -138,15 +127,15 @@ class Frame3(FrameBase):
 
             for attr in attractions['features']:
                 ds = attr['properties']['datasource']
-                raw = ds.get('raw', {})  # Handle if 'raw' key is missing
+                raw = ds.get('raw', {})
                 image_url = raw.get('image', '')
                 landmark = AttractionToSee(attr['properties']['address_line1'],
                                            attr['properties']['address_line2'],
                                            image_url)
                 listOfAttractions.append(landmark)
-                landmark.checkboxButton(frame)
+                landmark.checkboxButton(self.frameCheckbutton)
 
-            buttonSave = customtkinter.CTkButton(master=frame, text='SAVE IN THE DATABASE', fg_color=self.colorDetails,
+            buttonSave = customtkinter.CTkButton(master=self.frameCheckbutton, text='SAVE IN THE DATABASE', fg_color=self.colorDetails,
                                                  command=lambda: GeographyData().savingLandmarks(listOfAttractions))
             buttonSave.pack(pady=10)
 
@@ -162,7 +151,7 @@ class Frame3(FrameBase):
             else:
                 return foundCountry
 
-            
+
 class AttractionToSee:
     AttractionToSeeId = 1
 
@@ -170,14 +159,14 @@ class AttractionToSee:
         self.name = name
         self.address = address
         self.link = link
-        self.errorFont = {'family':"Lato", 'size':9, 'weight':"bold"}
+        self.errorFont = {'family': "Lato", 'size': 9, 'weight': "bold"}
         self.id = AttractionToSee.AttractionToSeeId
         AttractionToSee.AttractionToSeeId += 1
 
     def checkboxButton(self, frame):
         self.var = tk.IntVar()
         self.button = tk.Checkbutton(
-            master=frame, text=f'{self.name}', variable=self.var, onvalue=1, offvalue=0, justify='left',bg='#9dc0d1',font=tkinter.font.Font(**self.errorFont))
+            master=frame, text=f'{self.name}', variable=self.var, onvalue=1, offvalue=0, justify='left', bg='#9dc0d1', font=tkinter.font.Font(**self.errorFont))
         self.button.pack(anchor='w')
 
     def insertIntoDatabase(self, table, database):
