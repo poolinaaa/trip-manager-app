@@ -1,19 +1,15 @@
 import tkinter as tk
 from tkcalendar import *
 import customtkinter
+import tkinter.font
 from PIL import ImageTk
-
-import tkinter as tk
-from tkinter import *
+import PIL.Image
+import webbrowser
 from sqlite3 import *
 import csv
+
 from geoFunc import GeographyData
-
-import PIL.Image
 from base import FrameBase
-import webbrowser
-
-import tkinter.font
 
 
 class Frame3(FrameBase):
@@ -92,12 +88,18 @@ class Frame3(FrameBase):
         self.pictureWidget.pack()
         self.frameCheckbutton.grid(column=2, row=3, pady=20, sticky='n')
 
+    # button - confirm departure country and unit of distance
     def confirmCountry(self, unit):
+
+        # replace image with information about landmarks
         for widget in self.frameCheckbutton.winfo_children():
             widget.destroy()
+
         baseCountry = self.departureCountry.get().capitalize()
         baseCountry = self.checkingCountry(baseCountry)
 
+        # searching landmarks near the capital of destination
+        # check longitude and latitude
         with open('worldcities.csv', encoding='utf8') as csvFile:
             csvRead = csv.reader(csvFile, delimiter=',')
             latBase = None
@@ -108,9 +110,9 @@ class Frame3(FrameBase):
                     lngBase = row[3]
                     break
 
-            destinationGeoInfo = GeographyData().searchInfoAboutDestination(self.countryName)
-            print(destinationGeoInfo)
+            destinationGeoInfo : dict= GeographyData().searchInfoAboutDestination(self.countryName)
 
+            # distance between capitals of departure and destination country
             distance = GeographyData().getDistanceBetweenPoints(
                 latBase, lngBase, destinationGeoInfo['lat'], destinationGeoInfo['lng'], unit)
 
@@ -118,8 +120,8 @@ class Frame3(FrameBase):
                 master=self.frameCheckbutton,
                 text=f'Distance between {baseCountry} and {self.countryName.get().capitalize()} is about \n{distance} {unit}',
                 font=tkinter.font.Font(**self.questionFont), bg=self.colorHighlight, fg='white', anchor="w")
-            distanceLabel.pack()
 
+            # checking attractions nearby
             attractions = GeographyData().searchAttractions(
                 destinationGeoInfo['lng'], destinationGeoInfo['lat'])
 
@@ -135,10 +137,14 @@ class Frame3(FrameBase):
                 listOfAttractions.append(landmark)
                 landmark.checkboxButton(self.frameCheckbutton)
 
-            buttonSave = customtkinter.CTkButton(master=self.frameCheckbutton, text='SAVE IN THE DATABASE', fg_color=self.colorDetails,
+            # saving chosen attractions in the db and opening pages in the webbrowser
+            buttonSave = customtkinter.CTkButton(master=self.frameCheckbutton, text='SAVE AND OPEN IN THE BROWSER', fg_color=self.colorDetails,
                                                  command=lambda: GeographyData().savingLandmarks(listOfAttractions))
+            # packing
+            distanceLabel.pack()
             buttonSave.pack(pady=10)
 
+    # checking if entered country is correct
     def checkingCountry(self, country):
         with open('countries.csv', encoding='utf8') as csvFile:
             csvRead = csv.reader(csvFile, delimiter=',')
@@ -153,6 +159,8 @@ class Frame3(FrameBase):
 
 
 class AttractionToSee:
+    '''class of landmarks found nearby capital of destination country'''
+
     AttractionToSeeId = 1
 
     def __init__(self, name, address, link=None):
@@ -163,12 +171,15 @@ class AttractionToSee:
         self.id = AttractionToSee.AttractionToSeeId
         AttractionToSee.AttractionToSeeId += 1
 
+    # creating checkbox with attraction
     def checkboxButton(self, frame):
         self.var = tk.IntVar()
         self.button = tk.Checkbutton(
-            master=frame, text=f'{self.name}', variable=self.var, onvalue=1, offvalue=0, justify='left', bg='#9dc0d1', font=tkinter.font.Font(**self.errorFont))
+            master=frame, text=f'{self.name}', variable=self.var, onvalue=1, offvalue=0,
+            justify='left', bg='#9dc0d1', font=tkinter.font.Font(**self.errorFont))
         self.button.pack(anchor='w')
 
+    # inserting attraction in the db
     def insertIntoDatabase(self, table, database):
         try:
             con = connect(f'{database}.db')
@@ -185,8 +196,6 @@ class AttractionToSee:
 
             cur.execute(insertAttraction, data)
             con.commit()
-            print("success")
-
             cur.close()
 
         except Error as error:
@@ -197,6 +206,7 @@ class AttractionToSee:
                 con.close()
                 print("connection is closed")
 
+    # searching chosen attraction in the webbrowser
     def openInTheBrowser(self):
         if self.name != None:
             url = "https://www.google.com.tr/search?q={}".format(self.name)
