@@ -1,18 +1,14 @@
 import tkinter as tk
-from funcPlots import PlotsCurrency
+import tkinter.font
 import customtkinter
 from PIL import ImageTk
-
-from tkinter import *
-from sqlite3 import *
 import PIL.Image
-from base import FrameBase
-import tkinter.font
 from datetime import datetime, timedelta
-
 import requests
 import json
 
+from funcPlots import PlotsCurrency
+from base import FrameBase
 
 class Frame2(FrameBase):
 
@@ -59,11 +55,11 @@ class Frame2(FrameBase):
                                    highlightbackground=self.colorOfBg, highlightcolor=self.colorOfBg)
 
         self.fake1 = customtkinter.CTkButton(
-            master=self.framePlots, width=20, state=DISABLED, text='SHOW PLOT 1', fg_color=self.colorDetails)
+            master=self.framePlots, width=20, state=tk.DISABLED, text='SHOW PLOT 1', fg_color=self.colorDetails)
         self.fake2 = customtkinter.CTkButton(
-            master=self.framePlots, width=20, state=DISABLED, text='SHOW PLOT 2', fg_color=self.colorDetails)
+            master=self.framePlots, width=20, state=tk.DISABLED, text='SHOW PLOT 2', fg_color=self.colorDetails)
         self.fake3 = customtkinter.CTkButton(
-            master=self.framePlots, width=20, state=DISABLED, text='SHOW PLOT 3', fg_color=self.colorDetails)
+            master=self.framePlots, width=20, state=tk.DISABLED, text='SHOW PLOT 3', fg_color=self.colorDetails)
 
         img = (PIL.Image.open("money.png"))
 

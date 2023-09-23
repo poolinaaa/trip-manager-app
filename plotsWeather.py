@@ -16,9 +16,12 @@ class WeatherData():
         self.countryName = countryName
         self.dateFlight = dateFlight
 
+    # check longitude and latitude of capital (of chosen destination)
     def searchCoordinates(self):
         country = self.countryName.get().capitalize()
         with open('worldcities.csv', encoding='utf8') as csvFile:
+            lat = None
+            lng = None
             csvRead = csv.reader(csvFile, delimiter=',')
             for row in csvRead:
                 if row[4] == country:
@@ -28,14 +31,15 @@ class WeatherData():
                         break
         return lat, lng
 
+    
     def getWeather(self):
         lat, lng = self.searchCoordinates()
         date = datetime.strptime(self.dateFlight, '%Y-%m-%d').date()
-        print(date)
+        
         yearAgo = date - timedelta(days=365)
-        print(yearAgo)
+        
         yearAgoPlusMonth = yearAgo + timedelta(days=29)
-        print(yearAgoPlusMonth)
+        
 
         paramsArchive = {'latitude': lat,
                          'longitude': lng,

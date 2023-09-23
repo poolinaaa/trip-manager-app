@@ -9,6 +9,7 @@ from PIL import ImageTk
 
 
 class Frame1(FrameBase):
+    '''class of main menu frame'''
 
     def __init__(self, masterWindow, colorOfBg, colorDetails, colorHighlight, countryName, baseCurrency, codeCurrency):
         super().__init__(masterWindow=masterWindow,
@@ -141,17 +142,14 @@ class Frame1(FrameBase):
         else:
             self.frameCurrency.title['text'] = f'Analyse changes in {self.codeCurrency}'
 
-            self.fake1.destroy()
-            self.fake2.destroy()
-            self.fake3.destroy()
-            self.buttonLoadFrame2.pack(side=tk.BOTTOM)
-
-            self.buttonLoadFrame3.pack(side=tk.BOTTOM)
-
-            self.buttonLoadFrame4.pack(side=tk.BOTTOM)
-            print(self.baseCurrName)
-            print(self.base)
-
+            for btn in (self.fake1,self.fake2,self.fake3):
+                btn.destroy()
+            
+            for btn in (self.buttonLoadFrame2,self.buttonLoadFrame3,self.buttonLoadFrame4):
+                btn.pack(side=tk.BOTTOM)
+                
+    
+            
             if self.baseCurrName == self.base or self.baseCurrName == 'EUR':
 
                 headers = {
@@ -259,7 +257,8 @@ class Frame1(FrameBase):
 
 
 class ThemeSection(tk.Frame):
-
+    '''class of sections: currency, geography and weather''' 
+    
     def __init__(self, masterFrame, colorDetails, colorHighlight, **kwargs):
         super().__init__(master=masterFrame, bg=colorHighlight,
                          **kwargs)
@@ -269,11 +268,13 @@ class ThemeSection(tk.Frame):
         self.colorHighlight = colorHighlight
 
     def addTitleLabel(self, title: str):
+        '''set the title of the section'''
         self.title = tk.Label(
             self, text=title, width=30, font=self.headingF, bg=self.colorDetails, fg='white')
         self.title.pack(pady=10)
 
     def addImage(self, nameOfFile):
+        '''adding image connected with theme of section'''
         self.pictureSection = ImageTk.PhotoImage(file=nameOfFile)
         self.pictureWidget = tk.Label(
             master=self, image=self.pictureSection, bg=self.colorDetails, width=100, height=100)
