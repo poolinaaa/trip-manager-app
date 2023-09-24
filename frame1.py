@@ -25,6 +25,7 @@ class Frame1(FrameBase):
         self.frame3 = frame3
         self.frame4 = frame4
 
+    # loading the frame
     def load(self):
         self.tkraise()
 
@@ -104,7 +105,7 @@ class Frame1(FrameBase):
         self.entryCountry.grid(column=1, row=0, pady=10, padx=5)
         self.labelBaseCurrency.grid(column=0, row=2, pady=10)
         self.entryCurrency.grid(column=1, row=2, pady=10, padx=5)
-        self.buttonCountrySearch.grid(column=0, row=3, columnspan=2, pady=10)
+        self.buttonCountrySearch.grid(column=0, row=4, columnspan=2, pady=10)
 
         # sections
         for nr, frame in enumerate([self.frameCurrency, self.frameGeography, self.frameWeather], start=0):
@@ -122,17 +123,19 @@ class Frame1(FrameBase):
             for btn in (self.buttonLoadFrame2, self.buttonLoadFrame3, self.buttonLoadFrame4):
                 btn.pack(side=tk.BOTTOM)
 
+        # button exiting the whole app
         self.exitButton.pack(pady=50)
 
+    # func which is called after clicking the search button
     def searchButton(self):
 
+        # get and format user input
         self.countryToFind = self.countryName.get().capitalize()
-
         self.base = self.baseCurrency.get().upper()
-
         self.codeCurrency = self.checkingCurrency().upper()
         self.baseCurrName = self.checkingBase()
 
+        # Display an error message if the entered country name is incorrect
         if self.codeCurrency == 'COUNTRY ERROR':
             countryError = 'You have entered wrong name of country. Please try again (check full name of country)'
             self.errorLabel = tk.Label(
@@ -140,21 +143,20 @@ class Frame1(FrameBase):
             self.errorLabel.grid(column=0, row=1, columnspan=2)
             self.frameQuestions.after(5000, self.errorLabel.destroy)
         else:
+            # update elements based on valid input
             self.frameCurrency.title['text'] = f'Analyse changes in {self.codeCurrency}'
 
-            for btn in (self.fake1,self.fake2,self.fake3):
+            # replacing fake buttons with real ones
+            for btn in (self.fake1, self.fake2, self.fake3):
                 btn.destroy()
-            
-            for btn in (self.buttonLoadFrame2,self.buttonLoadFrame3,self.buttonLoadFrame4):
-                btn.pack(side=tk.BOTTOM)
-                
-    
-            
-            if self.baseCurrName == self.base or self.baseCurrName == 'EUR':
 
-                headers = {
-                    "apikey": "uk5pSwPkDIdeHqRIJbOTBWjr9YT3T73E"
-                }
+            for btn in (self.buttonLoadFrame2, self.buttonLoadFrame3, self.buttonLoadFrame4):
+                btn.pack(side=tk.BOTTOM)
+
+            if self.baseCurrName == self.base or self.baseCurrName == 'EUR':
+                # retrieve current currency exchange rate data using an API
+
+                headers = {"apikey": "uk5pSwPkDIdeHqRIJbOTBWjr9YT3T73E"}
                 params = {'from': self.baseCurrName,
                           'amount': '1',
                           'to': self.codeCurrency}
@@ -165,14 +167,14 @@ class Frame1(FrameBase):
                 except json.JSONDecodeError:
                     print('Wrong format of data.')
                 else:
-                    print(data)
-                    self.currentRate = data["rates"][self.codeCurrency]
 
+                    self.currentRate = data["rates"][self.codeCurrency]
                     self.labelCurrentRate['text'] = f'Current rate: {self.currentRate} {self.baseCurrName}'
 
     def preparingLabelCities(self, frame):
+        # retrieve geographical information about the destination country (it will be used in the frame3 (geography section))
         self.destinationGeoInfo = self.searchInfoAboutDestination()
-        print(self.destinationGeoInfo)
+
         self.frame3.labelTitle[
             'text'] = f'Discover some geographical facts about {self.countryName.get().capitalize()}'
 
@@ -180,10 +182,8 @@ class Frame1(FrameBase):
         cities = [city for city in self.destinationGeoInfo['citiesPopulation']]
         population = [self.destinationGeoInfo['citiesPopulation'][city]
                       for city in self.destinationGeoInfo['citiesPopulation']]
-        print(cities)
-        print(capital)
-        print(population)
 
+        # create labels with geographical information (the biggest cities with population)
         self.labelCapital = tk.Label(
             frame, text=f'Capital: {capital}', font=tkinter.font.Font(**self.questionFont), bg=self.colorDetails, fg='white')
         if len(cities) >= 5 and len(population) >= 5:
@@ -202,20 +202,24 @@ class Frame1(FrameBase):
         self.labelCities.grid(column=0, row=1, pady=10, padx=30)
 
     def searchInfoAboutDestination(self):
+        # retrieve information about the destination country from a CSV file
+
         country = self.countryName.get().capitalize()
         self.fiveCitiesExamples = dict()
         cnt = 0
         self.dictInfo = dict()
-        print(country)
+
         with open('worldcities.csv', encoding='utf8') as csvFile:
             csvRead = csv.reader(csvFile, delimiter=',')
             for row in csvRead:
                 if row[4] == country:
                     self.dictInfo['iso'] = row[5]
+                    # saving 5 the biggest cities with population
                     if cnt < 5:
                         self.fiveCitiesExamples[row[1]] = row[9]
                         cnt += 1
                     if row[8] == 'primary':
+                        # saving latitude and longitude of the capital
                         self.dictInfo['capital'] = row[1]
                         self.dictInfo['lat'] = row[2]
                         self.dictInfo['lng'] = row[3]
@@ -223,18 +227,24 @@ class Frame1(FrameBase):
         return self.dictInfo
 
     def checkingCurrency(self):
+        # checking what currency is used in a given country
+
         with open('countryCurrency.csv') as csvFile:
+            currencyCode = 'code'
             csvRead = csv.reader(csvFile, delimiter=',')
             for row in csvRead:
                 if row[0] == self.countryToFind:
                     currencyCode = row[3]
             if 'currencyCode' not in locals():
-                labelErr = tk.Label(self.frameCurrency, text='')
+                # returning error (unavailable data or spelling error country)
                 return 'COUNTRY ERROR'
             else:
+                # returning currency code which is used in destination country
                 return currencyCode
 
     def checkingBase(self):
+        # checking if entered currency code is correct
+
         with open('countryCurrency.csv') as csvFile:
             csvRead = csv.reader(csvFile, delimiter=',')
             for row in csvRead:
@@ -243,13 +253,21 @@ class Frame1(FrameBase):
                     print(result)
                     print('evr ok')
                     return result
+
             if 'result' not in locals():
-                print(
-                    'BaseCurrencyError: correct base currency name, current base is set default (EUR)')
+                # notification about default base currency (EUR)
+
+                self.errorBaseLabel = tk.Label(
+                    master=self.frameQuestions, text='BaseCurrencyError: correct base currency name, current base is set default (EUR)',
+                    font=tkinter.font.Font(**self.errorFont), bg=self.colorOfBg, fg='white')
+                self.errorLabel.grid(column=0, row=3, columnspan=2)
+                self.frameQuestions.after(5000, self.errorBaseLabel.destroy)
+
                 return 'EUR'
 
     @staticmethod
     def counterFrame1():
+        # generator checking if fake or real buttons should be packed
         i = 1
         while True:
             yield i
@@ -257,8 +275,8 @@ class Frame1(FrameBase):
 
 
 class ThemeSection(tk.Frame):
-    '''class of sections: currency, geography and weather''' 
-    
+    '''class of sections: currency, geography and weather'''
+
     def __init__(self, masterFrame, colorDetails, colorHighlight, **kwargs):
         super().__init__(master=masterFrame, bg=colorHighlight,
                          **kwargs)
