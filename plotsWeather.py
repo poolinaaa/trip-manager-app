@@ -62,8 +62,7 @@ class WeatherData():
         try:
             current = reqCurrent.json()
             archive = reqArchive.json()
-            print(current)
-            print(archive)
+            
         except json.JSONDecodeError:
             print('error forecast')
         finally:

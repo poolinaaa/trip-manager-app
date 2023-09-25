@@ -13,6 +13,7 @@ from base import FrameBase
 
 
 class Frame3(FrameBase):
+    '''class of geography frame'''
 
     def __init__(self, masterWindow, colorOfBg, colorDetails, colorHighlight, frame1, countryName, baseCurrency):
         super().__init__(masterWindow=masterWindow,
@@ -22,6 +23,7 @@ class Frame3(FrameBase):
         self.colorOfBg = colorOfBg
         self.load()
 
+    # loading the frame
     def load(self):
         self.tkraise()
 
@@ -110,7 +112,8 @@ class Frame3(FrameBase):
                     lngBase = row[3]
                     break
 
-            destinationGeoInfo : dict= GeographyData().searchInfoAboutDestination(self.countryName)
+            destinationGeoInfo: dict = GeographyData(
+            ).searchInfoAboutDestination(self.countryName)
 
             # distance between capitals of departure and destination country
             distance = GeographyData().getDistanceBetweenPoints(
