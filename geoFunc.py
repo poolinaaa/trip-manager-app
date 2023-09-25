@@ -8,6 +8,9 @@ import sqlite3 as sql
 
 
 class GeographyData():
+    '''class for handling geographical data'''
+    
+    #save landmarks information to the database
     def savingLandmarks(self, listAttractions):
         self.createTable('attractionsDatabase', 'attractionsTable')
         for enum, landmark in enumerate(listAttractions):
@@ -19,6 +22,7 @@ class GeographyData():
             if landmark.var.get() == 1:
                 landmark.openInTheBrowser()
 
+    #create a database table (for saving landmarks from chosen country)
     def createTable(self, nameOfDb, nameOfTable):
         con = sql.connect(f'{nameOfDb}.db')
         cur = con.cursor()
@@ -31,27 +35,29 @@ class GeographyData():
         con.commit()
         cur.close()
 
+    #search information about a destination by country name
     def searchInfoAboutDestination(self, countryName) -> dict:
         country = countryName.get().capitalize()
-        self.fiveCitiesExamples = dict()
+        fiveCitiesExamples = dict()
         cnt = 0
-        self.dictInfo = dict()
-        print(country)
+        dictInfo = dict()
+        
+        #get 5 cities examples, their population, capital and its coordinates
         with open('worldcities.csv', encoding='utf8') as csvFile:
             csvRead = csv.reader(csvFile, delimiter=',')
             for row in csvRead:
                 if row[4] == country:
-                    self.dictInfo['iso'] = row[5]
                     if cnt < 5:
-                        self.fiveCitiesExamples[row[1]] = row[9]
+                        fiveCitiesExamples[row[1]] = row[9]
                         cnt += 1
                     if row[8] == 'primary':
-                        self.dictInfo['capital'] = row[1]
-                        self.dictInfo['lat'] = row[2]
-                        self.dictInfo['lng'] = row[3]
-            self.dictInfo['citiesPopulation'] = self.fiveCitiesExamples
-        return self.dictInfo
-
+                        dictInfo['capital'] = row[1]
+                        dictInfo['lat'] = row[2]
+                        dictInfo['lng'] = row[3]
+            dictInfo['citiesPopulation'] = fiveCitiesExamples
+        return dictInfo
+    
+    #calculate the distance between two geographical points
     def getDistanceBetweenPoints(self, latitude1, longitude1, latitude2, longitude2, unit='kilometers'):
 
         theta = float(longitude1) - float(longitude2)
@@ -69,14 +75,17 @@ class GeographyData():
         if unit == 'kilometers':
             return round(distance * 1.609344, 2)
 
+    #convert radians to degrees
     def rad2deg(self, radians):
         degrees = float(radians) * 180 / pi
         return degrees
-
+    
+    #convert degrees to radians
     def deg2rad(self, degrees):
         radians = float(degrees) * pi / 180
         return radians
-
+    
+    #search attractions based on coordinates
     def searchAttractions(self, lng, lat):
         url = 'https://api.geoapify.com/v2/places'
 
