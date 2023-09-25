@@ -260,7 +260,7 @@ class Frame1(FrameBase):
                 self.errorBaseLabel = tk.Label(
                     master=self.frameQuestions, text='BaseCurrencyError: correct base currency name, current base is set default (EUR)',
                     font=tkinter.font.Font(**self.errorFont), bg=self.colorOfBg, fg='white')
-                self.errorLabel.grid(column=0, row=3, columnspan=2)
+                self.errorBaseLabel.grid(column=0, row=3, columnspan=2)
                 self.frameQuestions.after(5000, self.errorBaseLabel.destroy)
 
                 return 'EUR'
