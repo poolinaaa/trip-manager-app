@@ -157,18 +157,20 @@ class Frame1(FrameBase):
                 # retrieve current currency exchange rate data using an API
 
                 headers = {"apikey": "uk5pSwPkDIdeHqRIJbOTBWjr9YT3T73E"}
-                params = {'from': self.baseCurrName,
-                          'amount': '1',
-                          'to': self.codeCurrency}
+                params = {'from': self.codeCurrency,
+                          'to' : self.baseCurrName,
+                          
+                          'base': self.codeCurrency}
                 r = requests.get(
                     'https://api.apilayer.com/fixer/latest', params=params, headers=headers)
                 try:
                     data = r.json()
+                    print(data)
                 except json.JSONDecodeError:
                     print('Wrong format of data.')
                 else:
 
-                    self.currentRate = data["rates"][self.codeCurrency]
+                    self.currentRate = data["rates"][self.baseCurrName]
                     self.labelCurrentRate['text'] = f'Current rate: {self.currentRate} {self.baseCurrName}'
 
     def preparingLabelCities(self, frame):

@@ -9,16 +9,21 @@ import matplotlib.dates as mdates
 
 
 class PlotsCurrency():
-
+    '''class for creating currency-related plots'''
+    
+    #create a plot comparing a specific period's rate with the current rate
     @staticmethod
     def createPlotButton(dates, rates, current, parent):
+        
+        #prepare data
         y = rates
         currRate = [current for _ in range(len(dates))]
 
         xFormatted = [dt.datetime.strptime(d, '%Y-%m-%d') for d in dates]
 
         fig, ax1 = plt.subplots(figsize=(6, 3.2))
-
+        
+        #set plot properties
         color = 'maroon'
         ax1.set_ylabel('Rate', fontsize=8)
         ax1.plot(xFormatted, y, color=color,
@@ -34,17 +39,21 @@ class PlotsCurrency():
 
         ax1.legend(loc='upper left', fontsize=7)
 
+        # date labels format
         plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
         plt.gca().xaxis.set_major_locator(mdates.AutoDateLocator())
 
+        # placing the graph
         fig.tight_layout()
-
         canvas = FigureCanvasTkAgg(fig, master=parent)
         canvas.draw()
         canvas.get_tk_widget().grid(column=0, row=2, columnspan=3, pady=10)
 
+    #create a plot comparing a currency with EUR, USD, PLN, and CNY
     @staticmethod
     def createPlotButtonAll(dates, parent, ratesChosenCountry, EUR, USD, PLN, CNY, codeCurrency):
+        
+        #prepare data
         y = ratesChosenCountry
         xFormatted = [dt.datetime.strptime(d, '%Y-%m-%d') for d in dates]
 
@@ -55,6 +64,7 @@ class PlotsCurrency():
 
         fig, ax1 = plt.subplots(figsize=(6, 3.2))
 
+        #set plot properties
         color = 'rebeccapurple'
         ax1.set_ylabel('Rate', fontsize=8)
         ax1.plot(xFormatted, y, color=color,
@@ -80,14 +90,17 @@ class PlotsCurrency():
 
         ax1.legend(loc='upper left', fontsize=7)
 
+        # date labels format
         plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
         plt.gca().xaxis.set_major_locator(mdates.AutoDateLocator())
 
+        # placing the graph
         fig.tight_layout()
         canvas = FigureCanvasTkAgg(fig, master=parent)
         canvas.draw()
         canvas.get_tk_widget().grid(column=0, row=2, columnspan=3, pady=10)
 
+    # create a plot for the last 30 days' rate changes
     @staticmethod
     def createPlotButtonLastMonth(baseCurrName, codeCurrency, parent):
 
