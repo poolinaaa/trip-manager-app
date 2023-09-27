@@ -14,7 +14,9 @@ class Window(tk.Tk):
         super().__init__()
         
         #setting parameters of the window (title, size, colors)
-        self.title('WanderWisely')
+        self.title('Wander Wisely')
+        self.photo = tk.PhotoImage(file = "map.png")
+        self.iconphoto(False, self.photo)
         self.geometry("918x700")
         self.minsize(918, 700)
         self.maxsize(918, 700)

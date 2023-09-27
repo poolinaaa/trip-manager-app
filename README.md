@@ -1,6 +1,6 @@
-# Trip manager app 
-## Purpose of creating trip manager
-Trip manager was created to help with the organization of a journey. Fields of currency, geography and weather are three sectors on which I focused the most. This is simple, modern desktop app.
+# Wander Wisely app (trip manager)
+## Purpose of creating Wander Wisely
+Wander Wisely app was created to help with the organization of a journey. Fields of currency, geography and weather are three sectors on which I focused the most. This is simple, modern desktop app.
 
 ## Used technologies
 1. Python (mainly: tkinter, sqlite3, matplotlib, requests, datetime, pillow)
@@ -8,12 +8,12 @@ Trip manager was created to help with the organization of a journey. Fields of c
 
 ### Main menu (frame 1)
 
-The main frame of the WanderLust application serves as the central hub for users to plan their travel adventures. It provides essential features for inputting travel destination information, selecting the primary currency, and accessing various travel-related analyses. 
+The main frame of the Wander Wisely application serves as the central hub for users to plan their travel adventures. It provides essential features for inputting travel destination information, selecting the primary currency, and accessing various travel-related analyses. 
 
 #### Components
 1. Destination and Primary Currency Input
 
-Upon launching the WanderLust app, users are greeted with a section to input their desired travel destination (country) and their everyday primary currency. This step is crucial as it helps the application tailor information and recommendations to the user's specific travel needs.
+Upon launching the Wander Wisely app, users are greeted with a section to input their desired travel destination (country) and their everyday primary currency. This step is crucial as it helps the application tailor information and recommendations to the user's specific travel needs.
 
 2. Travel Analysis Options
 
@@ -33,7 +33,7 @@ The application uses a mechanism to determine whether to display fake buttons or
     
 4. Exit Button
 
-Located at the bottom of the main frame, there is an exit button that allows users to gracefully exit the WanderLust app when they have finished planning or using its features.
+Located at the bottom of the main frame, there is an exit button that allows users to gracefully exit the Wander Wisely app when they have finished planning or using its features.
 
 #### Error Handling
 

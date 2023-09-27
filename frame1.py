@@ -33,7 +33,7 @@ class Frame1(FrameBase):
         self.nr = next(self.gen)
 
         # title
-        self.labelTitle = tk.Label(master=self, text="Let's prepare for your trip!",
+        self.labelTitle = tk.Label(master=self, text="Get ready for the journey!",
                                    font=tkinter.font.Font(**self.titleFont), bg=self.colorOfBg, fg='white')
 
         # fields to enter destination and base currency
