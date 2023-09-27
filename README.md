@@ -9,6 +9,7 @@ Wander Wisely app was created to help with the organization of a journey. Fields
 ### Main menu (frame 1)
 
 The main frame of the Wander Wisely application serves as the central hub for users to plan their travel adventures. It provides essential features for inputting travel destination information, selecting the primary currency, and accessing various travel-related analyses. 
+![obraz](https://github.com/poolinaaa/trip-manager-repo/assets/125304122/21de5d3a-7f62-4131-927f-c47c5745cc28)
 
 #### Components
 1. Destination and Primary Currency Input
