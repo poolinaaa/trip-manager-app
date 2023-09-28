@@ -22,7 +22,7 @@ After entering the destination and primary currency, users are presented with a 
 
 - Currency Analysis: Users can select this option to get insights into the currency exchange rates and conversion tools for their primary currency in the chosen destination. It provides real-time currency exchange rate information based on user input (displayed on the of the section).
 ![obraz](https://github.com/poolinaaa/trip-manager-repo/assets/125304122/d8663838-fb11-4610-9cb5-6aa3d41d2c70) | width=200
-
+<img src="https://github.com/poolinaaa/trip-manager-repo/assets/125304122/d8663838-fb11-4610-9cb5-6aa3d41d2c70" width=50% height=50%>
 - Geographical Information: This option allows users to explore the geographical location of their chosen destination. Users can access information about popular landmarks and attractions in their selected destination, helping them plan their itinerary.
 
 - Weather Forecast: This feature provides users with up-to-date weather information for their chosen travel destination, helping them prepare for varying weather conditions during their trip.
