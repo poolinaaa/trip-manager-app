@@ -82,6 +82,7 @@ Error label will appear if user enters incorrect dates.
 ![obraz](https://github.com/poolinaaa/trip-manager-repo/assets/125304122/97cd6f90-71c9-4e50-b8d2-f2f8e0b425ea)
 
 ![obraz](https://github.com/poolinaaa/trip-manager-repo/assets/125304122/2c28dd22-ac72-438d-9b3b-0bd5638dc28e)
+![obraz](https://github.com/poolinaaa/trip-manager-repo/assets/125304122/5810a32d-7688-4611-9ba8-95c2cfa0e285)
 
 ![obraz](https://github.com/poolinaaa/trip-manager-repo/assets/125304122/091972df-0ff5-4c33-b06f-31d80acad5ae)
 
