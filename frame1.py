@@ -211,7 +211,7 @@ class Frame1(FrameBase):
         cnt = 0
         self.dictInfo = dict()
 
-        with open('worldcities.csv', encoding='utf8') as csvFile:
+        with open(os.path.join(os.path.dirname(__file__), 'csvFiles', 'worldcities.csv'), encoding='utf8') as csvFile:
             csvRead = csv.reader(csvFile, delimiter=',')
             for row in csvRead:
                 if row[4] == country:
@@ -231,7 +231,7 @@ class Frame1(FrameBase):
     def checkingCurrency(self):
         # checking what currency is used in a given country
 
-        with open('countryCurrency.csv') as csvFile:
+        with open(os.path.join(os.path.dirname(__file__), 'csvFiles', 'countryCurrency.csv')) as csvFile:
             currencyCode = 'code'
             csvRead = csv.reader(csvFile, delimiter=',')
             for row in csvRead:
@@ -247,7 +247,7 @@ class Frame1(FrameBase):
     def checkingBase(self):
         # checking if entered currency code is correct
 
-        with open('countryCurrency.csv') as csvFile:
+        with open(os.path.join(os.path.dirname(__file__), 'csvFiles', 'countryCurrency.csv')) as csvFile:
             csvRead = csv.reader(csvFile, delimiter=',')
             for row in csvRead:
                 if row[3] == self.base:

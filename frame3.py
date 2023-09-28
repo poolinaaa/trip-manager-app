@@ -103,7 +103,7 @@ class Frame3(FrameBase):
 
         # searching landmarks near the capital of destination
         # check longitude and latitude
-        with open('worldcities.csv', encoding='utf8') as csvFile:
+        with open(os.path.join(os.path.dirname(__file__), 'csvFiles', 'worldcities.csv'), encoding='utf8') as csvFile:
             csvRead = csv.reader(csvFile, delimiter=',')
             latBase = None
             lngBase = None
@@ -150,7 +150,7 @@ class Frame3(FrameBase):
 
     # checking if entered country is correct
     def checkingCountry(self, country):
-        with open('countries.csv', encoding='utf8') as csvFile:
+        with open(os.path.join(os.path.dirname(__file__), 'csvFiles', 'countries.csv'), encoding='utf8') as csvFile:
             csvRead = csv.reader(csvFile, delimiter=',')
             for row in csvRead:
                 if row[2] == country:

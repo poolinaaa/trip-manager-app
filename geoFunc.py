@@ -5,7 +5,7 @@ from tkinter import *
 from sqlite3 import *
 import csv
 import sqlite3 as sql
-
+import os
 
 class GeographyData():
     '''class for handling geographical data'''
@@ -43,7 +43,7 @@ class GeographyData():
         dictInfo = dict()
         
         #get 5 cities examples, their population, capital and its coordinates
-        with open('worldcities.csv', encoding='utf8') as csvFile:
+        with open(os.path.join(os.path.dirname(__file__), 'csvFiles', 'worldcities.csv'), encoding='utf8') as csvFile:
             csvRead = csv.reader(csvFile, delimiter=',')
             for row in csvRead:
                 if row[4] == country:

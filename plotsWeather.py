@@ -8,7 +8,7 @@ import requests
 import json
 from datetime import timedelta, datetime
 import csv
-
+import os
 
 class WeatherData():
     '''class WeatherData for retrieving weather information'''
@@ -20,7 +20,7 @@ class WeatherData():
     # check longitude and latitude of capital (of chosen destination)
     def searchCoordinates(self):
         country = self.countryName.get().capitalize()
-        with open('worldcities.csv', encoding='utf8') as csvFile:
+        with open(os.path.join(os.path.dirname(__file__), 'csvFiles', 'worldcities.csv'), encoding='utf8') as csvFile:
             lat = None
             lng = None
             csvRead = csv.reader(csvFile, delimiter=',')
