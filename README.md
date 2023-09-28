@@ -79,7 +79,22 @@ Error label will appear if user enters incorrect dates.
 </p>
 
 ### Geographical section (frame 3)
+![obraz](https://github.com/poolinaaa/trip-manager-repo/assets/125304122/97cd6f90-71c9-4e50-b8d2-f2f8e0b425ea)
+
+![obraz](https://github.com/poolinaaa/trip-manager-repo/assets/125304122/2c28dd22-ac72-438d-9b3b-0bd5638dc28e)
+
+![obraz](https://github.com/poolinaaa/trip-manager-repo/assets/125304122/091972df-0ff5-4c33-b06f-31d80acad5ae)
 
 ### Weather section (frame 4)
+![obraz](https://github.com/poolinaaa/trip-manager-repo/assets/125304122/dcfab838-28dc-49e6-bdd4-b7bd5ff882f6)
+
+![obraz](https://github.com/poolinaaa/trip-manager-repo/assets/125304122/62a593b2-9876-432c-b597-bcae16cab234)
+
+![obraz](https://github.com/poolinaaa/trip-manager-repo/assets/125304122/a0989b09-e69b-4811-bec2-9e62f386ff8d)
+
+![obraz](https://github.com/poolinaaa/trip-manager-repo/assets/125304122/3e0e0886-9585-4786-8082-22f9ff5e27d5)
+
+
+
 
 
