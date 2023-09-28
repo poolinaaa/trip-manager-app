@@ -6,6 +6,7 @@ import PIL.Image
 from datetime import datetime, timedelta
 import requests
 import json
+import os
 
 from funcPlots import PlotsCurrency
 from base import FrameBase
@@ -68,7 +69,7 @@ class Frame2(FrameBase):
             master=self.framePlots, width=20, state=tk.DISABLED, text='SHOW PLOT 3', fg_color=self.colorDetails)
 
         # image of some cash
-        img = (PIL.Image.open("money.png"))
+        img = (PIL.Image.open(os.path.join(os.path.dirname(__file__), 'images', 'money.png')))
         resized_image = img.resize((400, 400))
         new_image = ImageTk.PhotoImage(resized_image)
         self.pictureWidget = tk.Label(

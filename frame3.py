@@ -7,6 +7,7 @@ import PIL.Image
 import webbrowser
 from sqlite3 import *
 import csv
+import os
 
 from geoFunc import GeographyData
 from base import FrameBase
@@ -64,7 +65,7 @@ class Frame3(FrameBase):
             master=self, bg='#9dc0d1', width=300, height=450)
 
         # globe picture
-        img = (PIL.Image.open("globe.png"))
+        img = (PIL.Image.open(os.path.join(os.path.dirname(__file__), 'images', 'globe.png')))
         resized_image = img.resize((300, 300))
         new_image = ImageTk.PhotoImage(resized_image)
         self.pictureWidget = tk.Label(

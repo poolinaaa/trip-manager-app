@@ -1,6 +1,6 @@
 import tkinter as tk
 from ctypes import windll
-
+import os
 from frame1 import Frame1
 from frame2 import Frame2
 from frame3 import Frame3
@@ -15,7 +15,8 @@ class Window(tk.Tk):
 
         # setting parameters of the window (title, size, colors)
         self.title('Wander Wisely')
-        self.photo = tk.PhotoImage(file="images\\map.png")
+        self.photo = tk.PhotoImage(file= os.path.join(os.path.dirname(__file__), 'images', 'map.png'))
+        
         self.iconphoto(False, self.photo)
         self.geometry("918x700")
         self.minsize(918, 700)

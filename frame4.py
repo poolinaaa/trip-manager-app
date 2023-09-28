@@ -4,6 +4,7 @@ from tkcalendar import *
 import customtkinter
 from PIL import ImageTk
 import PIL.Image
+import os
 
 from plotsWeather import PlotNextWeek, PlotYearAgo
 from base import FrameBase
@@ -50,7 +51,7 @@ class Frame4(FrameBase):
                                       highlightbackground=self.colorOfBg, highlightcolor=self.colorOfBg)
         
         #image
-        img = (PIL.Image.open("fog.png"))
+        img = (PIL.Image.open(os.path.join(os.path.dirname(__file__), 'images', 'fog.png')))
         resized_image = img.resize((300, 300))
         new_image = ImageTk.PhotoImage(resized_image)
         self.framePic = tk.Frame(master=self.frameForecast, bg=self.colorOfBg)

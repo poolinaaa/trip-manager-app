@@ -6,7 +6,7 @@ import csv
 import customtkinter
 from base import FrameBase
 from PIL import ImageTk
-
+import os
 
 class Frame1(FrameBase):
     '''class of main menu frame'''
@@ -62,7 +62,7 @@ class Frame1(FrameBase):
         self.frameCurrency = ThemeSection(
             self.frameSections, self.colorDetails, self.colorHighlight)
         self.frameCurrency.addTitleLabel(title='Changes in currency')
-        self.frameCurrency.addImage('cash.png')
+        self.frameCurrency.addImage(os.path.join(os.path.dirname(__file__), 'images', 'cash.png'))
 
         self.labelCurrentRate = tk.Label(
             master=self.frameCurrency, text='Current rate:', bg=self.colorHighlight, font=tkinter.font.Font(**self.errorFont), fg='white')
@@ -71,13 +71,13 @@ class Frame1(FrameBase):
         self.frameGeography = ThemeSection(
             self.frameSections, self.colorDetails, self.colorHighlight)
         self.frameGeography.addTitleLabel(title='Geographical details')
-        self.frameGeography.addImage('plane.png')
+        self.frameGeography.addImage(os.path.join(os.path.dirname(__file__), 'images', 'plane.png'))
 
         # frame weather: create, add title and image
         self.frameWeather = ThemeSection(
             self.frameSections, self.colorDetails, self.colorHighlight)
         self.frameWeather.addTitleLabel(title='Check the weather')
-        self.frameWeather.addImage('sun.png')
+        self.frameWeather.addImage(os.path.join(os.path.dirname(__file__), 'images', 'sun.png'))
 
         # fake buttons (entries to the frames because changing state of customtkinter buttons did not work)
         self.fake1 = customtkinter.CTkButton(master=self.frameCurrency, text='CURRENCY', fg_color=self.colorDetails,
@@ -237,7 +237,7 @@ class Frame1(FrameBase):
             for row in csvRead:
                 if row[0] == self.countryToFind:
                     currencyCode = row[3]
-            if 'currencyCode' not in locals():
+            if currencyCode == 'code':
                 # returning error (unavailable data or spelling error country)
                 return 'COUNTRY ERROR'
             else:
