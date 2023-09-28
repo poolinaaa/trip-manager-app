@@ -21,7 +21,7 @@ Upon launching the Wander Wisely app, users are greeted with a section to input 
 After entering the destination and primary currency, users are presented with a range of options to analyze and plan their trip effectively. These options include:
 
 - Currency Analysis: Users can select this option to get insights into the currency exchange rates and conversion tools for their primary currency in the chosen destination. It provides real-time currency exchange rate information based on user input (displayed on the of the section).
-![obraz](https://github.com/poolinaaa/trip-manager-repo/assets/125304122/d8663838-fb11-4610-9cb5-6aa3d41d2c70)
+![obraz](https://github.com/poolinaaa/trip-manager-repo/assets/125304122/d8663838-fb11-4610-9cb5-6aa3d41d2c70) | width=200
 
 - Geographical Information: This option allows users to explore the geographical location of their chosen destination. Users can access information about popular landmarks and attractions in their selected destination, helping them plan their itinerary.
 
