@@ -8,7 +8,10 @@ Wander Wisely app was created to help with the organization of a journey. Fields
 <p align = 'center'>
     <img src = 'https://github.com/poolinaaa/trip-manager-repo/assets/125304122/e2740ec6-9e7f-402d-81f7-0e688e128163' width = 50% height = 50%>
 </p>
-
+<p align = 'center'>
+    <img src = 'https://user-images.githubusercontent.com/poolinaaa/trip-manager-repo/assets/125304122/e2740ec6-9e7f-402d-81f7-0e688e128163' width = 50% height = 50%>
+</p>
+https://user-images.githubusercontent.com/.
 ## API Key Configuration
 
 To use certain features of this application, an API keys are required. 
