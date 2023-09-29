@@ -110,7 +110,7 @@ class PlotsCurrency():
 
         # API request headers and parameters
         headers = {
-            "apikey": "uk5pSwPkDIdeHqRIJbOTBWjr9YT3T73E"
+            "apikey": "YOUR API KEY"
         }
         params = {'start_date': monthAgo, 'end_date': today,
                   'base': baseCurrName, 'symbols': f'{codeCurrency},EUR,USD,PLN,CNY'}

@@ -156,7 +156,7 @@ class Frame1(FrameBase):
             if self.baseCurrName == self.base or self.baseCurrName == 'EUR':
                 # retrieve current currency exchange rate data using an API
 
-                headers = {"apikey": "uk5pSwPkDIdeHqRIJbOTBWjr9YT3T73E"}
+                headers = {"apikey": "YOUR API KEY"}
                 params = {'from': self.codeCurrency,
                           'to' : self.baseCurrName,
                           

@@ -90,7 +90,7 @@ class GeographyData():
         url = 'https://api.geoapify.com/v2/places'
 
         params = dict(categories='tourism.attraction',
-                      filter=f'circle:{lng},{lat},5000', limit=10, apiKey='f17cce1b808a4e39845aca4cf631bf04')
+                      filter=f'circle:{lng},{lat},5000', limit=10, apiKey='YOUR API KEY')
 
         resp = requests.get(url=url, params=params)
 

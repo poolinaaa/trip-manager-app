@@ -133,7 +133,7 @@ class Frame2(FrameBase):
         # get rates of currencies in chosen range of dates
         if (self.checkDate(start) and self.checkDate(end)):
 
-            headers = {"apikey": "uk5pSwPkDIdeHqRIJbOTBWjr9YT3T73E"}
+            headers = {"apikey": "YOUR API KEY"}
             params = {'start_date': start, 'end_date': end,
                       'base': self.base, 'symbols': f'{self.code},EUR,USD,PLN,CNY'}
             r = requests.get(

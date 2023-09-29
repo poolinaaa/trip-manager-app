@@ -99,55 +99,65 @@ class Frame3(FrameBase):
             widget.destroy()
 
         baseCountry = self.departureCountry.get().capitalize()
-        baseCountry = self.checkingCountry(baseCountry)
+        checkedBaseCountry = self.checkingCountry(baseCountry)
 
-        # searching landmarks near the capital of destination
-        # check longitude and latitude
-        with open(os.path.join(os.path.dirname(__file__), 'csvFiles', 'worldcities.csv'), encoding='utf8') as csvFile:
-            csvRead = csv.reader(csvFile, delimiter=',')
-            latBase = None
-            lngBase = None
-            for row in csvRead:
-                if row[4] == baseCountry:
-                    latBase = row[2]
-                    lngBase = row[3]
-                    break
+        if baseCountry == checkedBaseCountry:
+            # searching landmarks near the capital of destination
+            # check longitude and latitude
+            with open(os.path.join(os.path.dirname(__file__), 'csvFiles', 'worldcities.csv'), encoding='utf8') as csvFile:
+                csvRead = csv.reader(csvFile, delimiter=',')
+                latBase = None
+                lngBase = None
+                for row in csvRead:
+                    if row[4] == baseCountry:
+                        latBase = row[2]
+                        lngBase = row[3]
+                        break
 
-            destinationGeoInfo: dict = GeographyData(
-            ).searchInfoAboutDestination(self.countryName)
+                destinationGeoInfo: dict = GeographyData(
+                ).searchInfoAboutDestination(self.countryName)
 
-            # distance between capitals of departure and destination country
-            distance = GeographyData().getDistanceBetweenPoints(
-                latBase, lngBase, destinationGeoInfo['lat'], destinationGeoInfo['lng'], unit)
+                # distance between capitals of departure and destination country
+                distance = GeographyData().getDistanceBetweenPoints(
+                    latBase, lngBase, destinationGeoInfo['lat'], destinationGeoInfo['lng'], unit)
 
-            distanceLabel = tk.Label(
-                master=self.frameCheckbutton,
-                text=f'Distance between {baseCountry} and {self.countryName.get().capitalize()} is about \n{distance} {unit}',
-                font=tkinter.font.Font(**self.questionFont), bg=self.colorHighlight, fg='white', anchor="w")
+                distanceLabel = tk.Label(
+                    master=self.frameCheckbutton,
+                    text=f'Distance between {baseCountry} and {self.countryName.get().capitalize()} is about \n{distance} {unit}',
+                    font=tkinter.font.Font(**self.questionFont), bg=self.colorHighlight, fg='white', anchor="w")
 
-            # checking attractions nearby
-            attractions = GeographyData().searchAttractions(
-                destinationGeoInfo['lng'], destinationGeoInfo['lat'])
+                distanceLabel.pack()
+                
+                # checking attractions nearby
+                attractions = GeographyData().searchAttractions(
+                    destinationGeoInfo['lng'], destinationGeoInfo['lat'])
 
-            listOfAttractions = list()
+                listOfAttractions = list()
 
-            for attr in attractions['features']:
-                ds = attr['properties']['datasource']
-                raw = ds.get('raw', {})
-                image_url = raw.get('image', '')
-                landmark = AttractionToSee(attr['properties']['address_line1'],
-                                           attr['properties']['address_line2'],
-                                           image_url)
-                listOfAttractions.append(landmark)
-                landmark.checkboxButton(self.frameCheckbutton)
+                for attr in attractions['features']:
+                    ds = attr['properties']['datasource']
+                    raw = ds.get('raw', {})
+                    image_url = raw.get('image', '')
+                    landmark = AttractionToSee(attr['properties']['address_line1'],
+                                            attr['properties']['address_line2'],
+                                            image_url)
+                    listOfAttractions.append(landmark)
+                    landmark.checkboxButton(self.frameCheckbutton)
 
-            # saving chosen attractions in the db and opening pages in the webbrowser
-            buttonSave = customtkinter.CTkButton(master=self.frameCheckbutton, text='SAVE AND OPEN IN THE BROWSER', fg_color=self.colorDetails,
-                                                 command=lambda: GeographyData().savingLandmarks(listOfAttractions))
-            # packing
-            distanceLabel.pack()
-            buttonSave.pack(pady=10)
-
+                # saving chosen attractions in the db and opening pages in the webbrowser
+                buttonSave = customtkinter.CTkButton(master=self.frameCheckbutton, text='SAVE AND OPEN IN THE BROWSER', fg_color=self.colorDetails,
+                                                    command=lambda: GeographyData().savingLandmarks(listOfAttractions))
+                # packing
+                
+                buttonSave.pack(pady=10)
+        else:
+            countryError = 'You have entered wrong name of country. \nPlease try again (check full name of country)'
+            self.errorLabel = tk.Label(
+                master=self.frameCheckbutton, text=countryError, font=tkinter.font.Font(**self.questionFont), bg=self.colorHighlight, fg='white')
+            self.errorLabel.pack()
+            
+            
+            
     # checking if entered country is correct
     def checkingCountry(self, country):
         with open(os.path.join(os.path.dirname(__file__), 'csvFiles', 'countries.csv'), encoding='utf8') as csvFile:
