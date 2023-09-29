@@ -8,6 +8,7 @@ Wander Wisely app was created to help with the organization of a journey. Fields
 <p align = 'center'>
     <img src = 'https://github.com/poolinaaa/trip-manager-repo/assets/125304122/e2740ec6-9e7f-402d-81f7-0e688e128163' width = 50% height = 50%>
 </p>
+
 <p align = 'center'>
     <img src = 'https://user-images.githubusercontent.com/125304122/271661821-e2740ec6-9e7f-402d-81f7-0e688e128163.gif?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE2OTYwMTUwOTgsIm5iZiI6MTY5NjAxNDc5OCwicGF0aCI6Ii8xMjUzMDQxMjIvMjcxNjYxODIxLWUyNzQwZWM2LTllN2YtNDAyZC04MWY3LTBlNjg4ZTEyODE2My5naWY_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBSVdOSllBWDRDU1ZFSDUzQSUyRjIwMjMwOTI5JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDIzMDkyOVQxOTEzMThaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT04NzQxOGVmNDFlNTgxZDNmNmQ2MTljYmM1MGFkOTIxN2ZiNzg1MDc4ZWI1ODZkMmVmOGY2N2RkZjRhM2I1ZGFkJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZhY3Rvcl9pZD0wJmtleV9pZD0wJnJlcG9faWQ9MCJ9.5ce8JK2-JHgQNed4IW54sazOQfNpfvzN_AaXYJmBsTE' width = 50% height = 50%>
 </p>
