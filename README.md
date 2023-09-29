@@ -5,6 +5,11 @@ Wander Wisely app was created to help with the organization of a journey. Fields
 ## Used technologies
 1. Python (mainly: tkinter, sqlite3, matplotlib, requests, datetime, pillow)
 2. SQL, API, CSV
+<p align = 'center'>
+    <img src = 'https://github.com/poolinaaa/trip-manager-repo/assets/125304122/e2740ec6-9e7f-402d-81f7-0e688e128163' width = 50% height = 50%>
+</p>
+
+
 
 ### Main menu (frame 1)
 
