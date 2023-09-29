@@ -9,6 +9,38 @@ Wander Wisely app was created to help with the organization of a journey. Fields
     <img src = 'https://github.com/poolinaaa/trip-manager-repo/assets/125304122/e2740ec6-9e7f-402d-81f7-0e688e128163' width = 50% height = 50%>
 </p>
 
+## API Key Configuration
+
+To use certain features of this application, an API keys are required. 
+
+Go to the <a href='https://apilayer.com/marketplace/fixer-api?_gl=1*15f9c1p*_ga*MTE5OTkwMzQ3MC4xNjk1Mzg1NTQy*_ga_HGV43FGGVM*MTY5NTM4NTU0My4xLjEuMTY5NTM4NTU2NS4zOC4wLjA.#pricing'> Fixer API </a> and  <a href='https://www.geoapify.com/pricing'> Geoapify </a> - log in to your existing account or register a new account if you don't have one (there are free plans avialable).
+
+Below are the modules where you should provide the API keys:
+
+#### Fixer 
+
+1. frame1 Module:
+<p align = 'center'>
+    <img src = "https://github.com/poolinaaa/trip-manager-repo/assets/125304122/014f06e4-448e-458e-8d34-a82eb4c56277" width = 50% height = 50%>
+</p>
+
+2. frame2 Module:
+   <p align = 'center'>
+    <img src = "https://github.com/poolinaaa/trip-manager-repo/assets/125304122/aba708af-469c-47f4-9a15-b845a13573a7" width = 50% height = 50%>
+</p>
+
+3. funcPlots Module:
+   <p align = 'center'>
+    <img src = "https://github.com/poolinaaa/trip-manager-repo/assets/125304122/050abaab-8e20-49cc-9778-aeb9b4ddecf5" width = 50% height = 50%>
+</p>
+
+#### Geoapify
+
+4. geoFunc Module:
+   <p align = 'center'>
+    <img src = "https://github.com/poolinaaa/trip-manager-repo/assets/125304122/296b311f-b9c8-47e6-afa6-12c886a9232e" width = 50% height = 50%>
+</p>
+
 
 
 ### Main menu (frame 1)
