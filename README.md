@@ -79,12 +79,22 @@ Error label will appear if user enters incorrect dates.
 </p>
 
 ### Geographical section (frame 3)
-![obraz](https://github.com/poolinaaa/trip-manager-repo/assets/125304122/97cd6f90-71c9-4e50-b8d2-f2f8e0b425ea)
+<p align = 'center'>
+    <img src = 'https://github.com/poolinaaa/trip-manager-repo/assets/125304122/97cd6f90-71c9-4e50-b8d2-f2f8e0b425ea' width = 50% height = 50%>
+</p>
+<p align = 'center'>
+    <img src = 'https://github.com/poolinaaa/trip-manager-repo/assets/125304122/2c28dd22-ac72-438d-9b3b-0bd5638dc28e' width = 50% height = 50%>
+</p>
 
-![obraz](https://github.com/poolinaaa/trip-manager-repo/assets/125304122/2c28dd22-ac72-438d-9b3b-0bd5638dc28e)
-![obraz](https://github.com/poolinaaa/trip-manager-repo/assets/125304122/5810a32d-7688-4611-9ba8-95c2cfa0e285)
+<p align = 'center'>
+    <img src = 'https://github.com/poolinaaa/trip-manager-repo/assets/125304122/5810a32d-7688-4611-9ba8-95c2cfa0e285' width = 50% height = 50%>
+</p>
 
-![obraz](https://github.com/poolinaaa/trip-manager-repo/assets/125304122/091972df-0ff5-4c33-b06f-31d80acad5ae)
+<p align = 'center'>
+    <img src = 'https://github.com/poolinaaa/trip-manager-repo/assets/125304122/091972df-0ff5-4c33-b06f-31d80acad5ae' width = 50% height = 50%>
+</p>
+
+
 
 ### Weather section (frame 4)
 ![obraz](https://github.com/poolinaaa/trip-manager-repo/assets/125304122/dcfab838-28dc-49e6-bdd4-b7bd5ff882f6)
