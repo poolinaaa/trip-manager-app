@@ -48,16 +48,18 @@ Below are the modules where you should provide the API keys:
 
 The main frame of the Wander Wisely application serves as the central hub for users to plan their travel adventures. It provides essential features for inputting travel destination information, selecting the primary currency, and accessing various travel-related analyses. 
 <p align = 'center'>
-    <img src = "https://github.com/poolinaaa/trip-manager-repo/assets/125304122/21de5d3a-7f62-4131-927f-c47c5745cc28" width = 50% height = 50%>
+    <img src = "https://github.com/poolinaaa/trip-manager-app/assets/125304122/d31927f5-978e-4f1f-a58b-ab195c23ad21" width = 50% height = 50%>
 </p>
+
 
 #### Components
 1. Destination and Primary Currency Input
 
 Upon launching the Wander Wisely app, users are greeted with a section to input their desired travel destination (country) and their everyday primary currency. The application is protected against case errors.
 <p align = 'center'>
-    <img src = "https://github.com/poolinaaa/trip-manager-repo/assets/125304122/c67cb216-251f-4c18-8b9b-d1f35cc097e0" width = 50% height = 50%>
+    <img src = "https://github.com/poolinaaa/trip-manager-app/assets/125304122/6ed10939-fde4-4d8f-8ecf-db65660d0748" width = 50% height = 50%>
 </p>
+
 
 2. Travel Analysis Options
 
@@ -65,8 +67,9 @@ After entering the destination and primary currency, users are presented with a 
 
 - Currency Analysis: Users can select this option to get insights into the currency exchange rates and conversion tools for their primary currency in the chosen destination. It provides real-time currency exchange rate information based on user input (displayed on the of the section).
 <p align = 'center'>
-    <img src = 'https://github.com/poolinaaa/trip-manager-repo/assets/125304122/d8663838-fb11-4610-9cb5-6aa3d41d2c70' width = 30% height = 30%>
+    <img src = 'https://github.com/poolinaaa/trip-manager-app/assets/125304122/3d861833-bcfa-403d-894a-1fc9e104db43' width = 30% height = 30%>
 </p>
+
 
 - Geographical Information: This option allows users to explore the geographical location of their chosen destination. Users can access information about popular landmarks and attractions in their selected destination.
 
@@ -87,7 +90,7 @@ Located at the bottom of the main frame, there is an exit button that allows use
 The application includes error handling to notify users of incorrect inputs or data retrieval issues.
 Error messages are displayed as labels and automatically disappear after a set time.
 <p align = 'center'>
-    <img src = 'https://github.com/poolinaaa/trip-manager-repo/assets/125304122/5dad989c-3049-49d2-8ab4-03e13f85e81e' width = 50% height = 50%>
+    <img src = 'https://github.com/poolinaaa/trip-manager-app/assets/125304122/3911cbb1-859d-441d-b27c-0c611eebfe6e' width = 50% height = 50%>
 </p>
 
 
@@ -95,8 +98,9 @@ Error messages are displayed as labels and automatically disappear after a set t
 This section of the travel assistant application allows users to analyze changes in a selected currency. Users can choose a date range for currency analysis. After confirming the dates, users can select which type of chart they want to display.
 
 <p align = 'center'>
-    <img src = "https://github.com/poolinaaa/trip-manager-repo/assets/125304122/7f687c33-7f9e-4e44-8348-fa233b03b2fc" width = 50% height = 50%>
+    <img src = "https://github.com/poolinaaa/trip-manager-app/assets/125304122/d014bbc9-fbdb-4adf-b27e-32fa4faca522" width = 50% height = 50%>
 </p>
+
 
 Usage Instructions:
 
@@ -115,25 +119,29 @@ Usage Instructions:
 
 #### Plot 1
 <p align = 'center'>
-    <img src = "https://github.com/poolinaaa/trip-manager-repo/assets/125304122/4972e5d5-3cde-48fa-8c62-6ddd8417eb3a" width = 50% height = 50%>
+    <img src = "https://github.com/poolinaaa/trip-manager-app/assets/125304122/3044a7e8-9244-404c-b715-362e20dcf746" width = 50% height = 50%>
 </p>
+
 
 #### Plot 2
 <p align = 'center'>
-    <img src = "https://github.com/poolinaaa/trip-manager-repo/assets/125304122/a54cc0b7-c7bc-4322-bb5c-802e188d6773" width = 50% height = 50%>
+    <img src = "https://github.com/poolinaaa/trip-manager-app/assets/125304122/ab090c2f-f9ec-41d9-a549-dd6880482908" width = 50% height = 50%>
 </p>
+
 
 #### Plot 3
 <p align = 'center'>
-    <img src = "https://github.com/poolinaaa/trip-manager-repo/assets/125304122/4f0cc856-a5f9-4996-8244-4c5d23192237" width = 50% height = 50%>
+    <img src = "https://github.com/poolinaaa/trip-manager-app/assets/125304122/c50752ab-60dd-4085-bbc5-0f98e5dfece5" width = 50% height = 50%>
 </p>
+
 
 #### Error Handling
 If the user enters a date in the wrong format, a message will prompt them to correct it.
 
 <p align = 'center'>
-    <img src = 'https://github.com/poolinaaa/trip-manager-repo/assets/125304122/0b1f31b7-ecbf-49fb-bbe8-77d5c6691d2a' width = 50% height = 50%>
+    <img src = 'https://github.com/poolinaaa/trip-manager-app/assets/125304122/dae760c2-7627-4cf2-ab70-69f61b1b2bc2' width = 50% height = 50%>
 </p>
+
 
 ### Geographical section (frame 3)
 In the geographical part of the Wander Wisely, users can explore geographical facts related to their destination country. Users will have the opportunity to discover information about their departure country, calculate the distance between their departure and destination countries, and explore nearby attractions.
@@ -145,8 +153,9 @@ Upon opening the Geographic Exploration section, in the bottom left corner of th
 This geographic information provides users with a quick overview of key details about their destination country, including its capital and major cities.
 
 <p align = 'center'>
-    <img src = 'https://github.com/poolinaaa/trip-manager-repo/assets/125304122/97cd6f90-71c9-4e50-b8d2-f2f8e0b425ea' width = 50% height = 50%>
+    <img src = 'https://github.com/poolinaaa/trip-manager-app/assets/125304122/9ae8f054-c095-4b11-880d-08c9a37e0cd5' width = 50% height = 50%>
 </p>
+
 
 Usage Instructions:
 1. Enter Departure Country:
@@ -164,26 +173,30 @@ Usage Instructions:
     You'll also get a list of nearby attractions in the destination country's capital, with the option to open them in a web browser and save choices in the database.
 
 <p align = 'center'>
-    <img src = 'https://github.com/poolinaaa/trip-manager-repo/assets/125304122/2c28dd22-ac72-438d-9b3b-0bd5638dc28e' width = 50% height = 50%>
+    <img src = 'https://github.com/poolinaaa/trip-manager-app/assets/125304122/e6af2c04-d63c-4c4c-8eb6-c748203821bb' width = 50% height = 50%>
 </p>
 
+
 <p align = 'center'>
-    <img src = 'https://github.com/poolinaaa/trip-manager-repo/assets/125304122/091972df-0ff5-4c33-b06f-31d80acad5ae' width = 50% height = 50%>
+    <img src = 'https://github.com/poolinaaa/trip-manager-app/assets/125304122/11242589-d369-44fb-bde7-82129f03d610' width = 50% height = 50%>
 </p>
+
 
 #### Error Handling
 If you enter an invalid country name when specifying your departure country, the application will display an error message.
 
 <p align = 'center'>
-    <img src = 'https://github.com/poolinaaa/trip-manager-repo/assets/125304122/5810a32d-7688-4611-9ba8-95c2cfa0e285' width = 50% height = 50%>
+    <img src = 'https://github.com/poolinaaa/trip-manager-app/assets/125304122/0aa5dd98-cc78-4da2-b503-a8430b31e48e' width = 50% height = 50%>
 </p>
+
 
 ### Weather section (frame 4)
 In this section of the travel assistant application, users can check the weather forecast for their destination country. The Weather Forecast section provides users with the capability to view both historical weather data from a year ago and a weather forecast for the upcoming week.
 
 <p align = 'center'>
-    <img src = 'https://github.com/poolinaaa/trip-manager-repo/assets/125304122/dcfab838-28dc-49e6-bdd4-b7bd5ff882f6' width = 50% height = 50%>
+    <img src = 'https://github.com/poolinaaa/trip-manager-app/assets/125304122/3e56010e-99e4-4866-90cb-aeac446d9d8e' width = 50% height = 50%>
 </p>
+
 
 Usage Instructions:
 
@@ -203,18 +216,21 @@ Usage Instructions:
       This option provides a weather forecast for the upcoming week in your destination country.
 
 <p align = 'center'>
-    <img src = 'https://github.com/poolinaaa/trip-manager-repo/assets/125304122/62a593b2-9876-432c-b597-bcae16cab234' width = 50% height = 50%>
+    <img src = 'https://github.com/poolinaaa/trip-manager-app/assets/125304122/fd42e35e-2d17-4ed0-8ad3-cb39d8ab3e31' width = 50% height = 50%>
 </p>
+
 
 #### Plot 1
 <p align = 'center'>
-    <img src = 'https://github.com/poolinaaa/trip-manager-repo/assets/125304122/a0989b09-e69b-4811-bec2-9e62f386ff8d' width = 50% height = 50%>
+    <img src = 'https://github.com/poolinaaa/trip-manager-app/assets/125304122/55585a82-7869-4b77-bebe-e49c0afc240f' width = 50% height = 50%>
 </p>
+
 
 #### Plot 2
 <p align = 'center'>
-    <img src = 'https://github.com/poolinaaa/trip-manager-repo/assets/125304122/3e0e0886-9585-4786-8082-22f9ff5e27d5' width = 50% height = 50%>
+    <img src = 'https://github.com/poolinaaa/trip-manager-app/assets/125304122/2dbbd426-bff7-4189-9e3d-22c1ffd18beb' width = 50% height = 50%>
 </p>
+
 
 
 
