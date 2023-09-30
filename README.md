@@ -22,26 +22,26 @@ Below are the modules where you should provide the API keys:
 
 1. frame1 Module:
 <p align = 'center'>
-    <img src = "https://github.com/poolinaaa/trip-manager-repo/assets/125304122/014f06e4-448e-458e-8d34-a82eb4c56277" width = 50% height = 50%>
+    <img src = "https://github.com/poolinaaa/trip-manager-app/assets/125304122/76fdc3a2-0be5-4a2b-a37f-3c1327487e4e" width = 50% height = 50%>
 </p>
 
 2. frame2 Module:
    <p align = 'center'>
-    <img src = "https://github.com/poolinaaa/trip-manager-repo/assets/125304122/aba708af-469c-47f4-9a15-b845a13573a7" width = 50% height = 50%>
+    <img src = "https://github.com/poolinaaa/trip-manager-app/assets/125304122/99587d22-f34b-42d9-a6db-f025884166f6" width = 50% height = 50%>
 </p>
+
 
 3. funcPlots Module:
    <p align = 'center'>
-    <img src = "https://github.com/poolinaaa/trip-manager-repo/assets/125304122/050abaab-8e20-49cc-9778-aeb9b4ddecf5" width = 50% height = 50%>
+    <img src = "https://github.com/poolinaaa/trip-manager-app/assets/125304122/06e75be8-a458-4d5f-b94f-fe71dfb75934" width = 50% height = 50%>
 </p>
 
 #### Geoapify
 
 4. geoFunc Module:
    <p align = 'center'>
-    <img src = "https://github.com/poolinaaa/trip-manager-repo/assets/125304122/296b311f-b9c8-47e6-afa6-12c886a9232e" width = 50% height = 50%>
+    <img src = "https://github.com/poolinaaa/trip-manager-app/assets/125304122/32620b6b-1c32-4abd-a176-b02c6aee5165" width = 50% height = 50%>
 </p>
-
 
 
 ### Main menu (frame 1)
