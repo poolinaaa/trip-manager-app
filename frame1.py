@@ -175,6 +175,8 @@ class Frame1(FrameBase):
 
     def preparingLabelCities(self, frame):
         # retrieve geographical information about the destination country (it will be used in the frame3 (geography section))
+        self.clearView(frame)
+        
         self.destinationGeoInfo = self.searchInfoAboutDestination()
 
         self.frame3.labelTitle[

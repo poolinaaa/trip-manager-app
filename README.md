@@ -14,7 +14,7 @@ Wander Wisely app was created to help with the organization of a journey. Fields
 
 To use certain features of this application, an API keys are required. 
 
-Go to the <a href='https://apilayer.com/marketplace/fixer-api?_gl=1*15f9c1p*_ga*MTE5OTkwMzQ3MC4xNjk1Mzg1NTQy*_ga_HGV43FGGVM*MTY5NTM4NTU0My4xLjEuMTY5NTM4NTU2NS4zOC4wLjA.#pricing'> Fixer API </a> and  <a href='https://www.geoapify.com/pricing'> Geoapify </a> - log in to your existing account or register a new account if you don't have one (there are free plans avialable).
+Go to the <a href='https://apilayer.com/marketplace/fixer-api?_gl=1*15f9c1p*_ga*MTE5OTkwMzQ3MC4xNjk1Mzg1NTQy*_ga_HGV43FGGVM*MTY5NTM4NTU0My4xLjEuMTY5NTM4NTU2NS4zOC4wLjA.#pricing'> Fixer API </a> and  <a href='https://www.geoapify.com/pricing'> Geoapify </a> - log in to your existing account or register a new account if you don't have one (there are free plans available).
 
 Below are the modules where you should provide the API keys:
 
